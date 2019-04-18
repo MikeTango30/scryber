@@ -28,12 +28,13 @@ class TextEditorController extends AbstractController
 
     public function textSave()
     {
-        $showSavedText = $_POST['editor_content'];
+        $showSavedText = strip_tags($_POST['editor_content']);
 
         return $this->render("home/savedFroalaContent.html.twig", [
             "title" => "Saved Text",
-            "text" => $showSavedText
-
+            "info" => "Froal'oje parašytas tekstas perduodamas html formatu į BE 
+                          per POST masyvą, editor_content indekse:",
+            "text" => html_entity_decode($showSavedText)
         ]);
     }
 }
