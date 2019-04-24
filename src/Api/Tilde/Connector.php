@@ -18,7 +18,7 @@ use GuzzleHttp\Client;
 class Connector
 {
 
-    const SEND_FILE_URL = '/client/dynamic/recognize?system=';
+    const SEND_FILE_URL = '/client/dynamic/recognize';
 
     /**
      * Connector constructor.
