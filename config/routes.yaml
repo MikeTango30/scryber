@@ -1,3 +1,19 @@
-#index:
-#    path: /
-#    controller: App\Controller\DefaultController::index
+index:
+    path: /
+    controller: App\Controller\ConnectionController::showStaticFileUploadPage
+
+send_demo_file:
+    path: /send_demo_file
+    controller: App\Controller\ConnectionController::sendDemoFile
+
+check_scrybe_status:
+    path: /refresh_status/{jobId}
+    controller: App\Controller\ConnectionController::refreshStatus
+
+show_scrybed_results:
+    path: /show_results/{jobId}
+    controller: App\Controller\ConnectionController::showResults
+
+download_txt_file:
+    path: /download_txt_file/{jobId}
+    controller: App\Controller\ConnectionController::DownloadTxtFile

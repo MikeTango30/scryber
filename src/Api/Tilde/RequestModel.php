@@ -10,12 +10,19 @@ declare(strict_types=1);
 namespace App\Api\Tilde;
 
 
-class RequestObject
+class RequestModel
 {
-    /** @var string */
-    private $audioContent;
 
-    /** @var RequestMode */
+    const REQUEST_MODE_SKIP_SEGMENTATION_DIARIZATION = 'skip_diariz';
+    const REQUEST_MODE_SPEAKERS = 'speakers';
+    const REQUEST_MODE_CTM = 'ctm';
+    const REQUEST_MODE_FULL = 'full';
+    const REQUEST_MODE_SKIP_POSTPROCESS = 'skip_postprocess';
+
+    /** @var string */
+    private $audioFilePath;
+
+    /** @var string */
     private $mode;
 
     /** @var \DateTime */
@@ -36,35 +43,35 @@ class RequestObject
     /** @var string */
     private $appKey;
 
-    public function __construct(string $audioBlob)
+    public function __construct(string $audioFilePath)
     {
-        $this->timestamp = time();
-        $this->audioContent = $audioBlob;
-        $this->mode = RequestMode::CTM;
-        $this->appId = getenv('TILDE_APP_ID');
-        $this->appSecret = getenv('TILDE_APP_SECRET');
+        $this->timestamp = new \DateTime();
+        $this->audioFilePath = $audioFilePath;
+        $this->mode = self::REQUEST_MODE_CTM;
+        $this->appId = $_ENV['TILDE_APP_ID'];
+        $this->appSecret = $_ENV['TILDE_APP_SECRET'];
     }
 
     /**
      * @return string
      */
-    public function getAudioContent(): string
+    public function getAudioFilePath(): string
     {
-        return $this->audioContent;
+        return $this->audioFilePath;
     }
 
     /**
-     * @return RequestMode
+     * @return string
      */
-    public function getMode(): RequestMode
+    public function getMode(): string
     {
         return $this->mode;
     }
 
     /**
-     * @param RequestMode $mode
+     * @param string $mode
      */
-    public function setMode(RequestMode $mode): void
+    public function setMode(string $mode): void
     {
         $this->mode = $mode;
     }
@@ -133,7 +140,8 @@ class RequestObject
      */
     public function getAppKey(): string
     {
-        $this->appKey = sha1($this->timestamp.$this->appId.$this->appSecret);
+        $this->appKey = sha1($this->timestamp->getTimestamp().$this->appId.$this->appSecret);
+        return $this->appKey;
     }
 
 }
