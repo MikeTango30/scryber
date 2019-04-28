@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}File status page{% endblock %}
+
+{% block body %}
+    <div class="">Check uploaded file status</div>
+    <form method="post" action="/refresh_status/{{ job_id }}">
+        Check sent file `{{ job_id }}` scrybe status <input type="hidden" name="job_id" value="{{ job_id }}">. Current status is `<strong>{{ job_status }}</strong>` <button type="submit" name="refresh_status">Refresh</button>
+    </form>
+{% endblock %}

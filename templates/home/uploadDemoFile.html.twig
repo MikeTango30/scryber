@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}DEMO file uplaod form{% endblock %}
+
+{% block body %}
+    <div class="">Upload DEMO file for recognition</div>
+    <p style="color: red;">{{  message }}</p>
+    <form method="post" action="/send_demo_file">
+        Send DEMO file <input type="hidden" name="upload_demo_file" value="{{ soundFile }}"> <button type="submit" name="send_demo_file">Send</button>
+    </form>
+{% endblock %}

@@ -4,48 +4,62 @@ namespace App\Entity;
 
 class Transcription
 {
-    private $wordStart;
-    private $wordEnd;
+    /**
+     * @var float
+     */
+    private $beginTime;
+
+    /**
+     * @var float
+     */
+    private $endTime;
+
+    /**
+     * @var string
+     */
     private $wordId;
-    private $confidenceScore;
+
+    /**
+     * @var float
+     */
+    private $confidence;
+
+    /**
+     * @var string
+     */
     private $word;
 
     /**
      * Transcription constructor.
-     * @string $wordStart
-     * @string $wordEnd
-     * @string $wordId
-     * @string $confidenceScore
-     * @string $word
+     * @param $beginTime
+     * @param $endTime
+     * @param $wordId
+     * @param $confidence
+     * @param $word
      */
-    public function __construct(
-        string $wordStart,
-        string $wordEnd,
-        string $wordId,
-        string $confidenceScore,
-        string $word
-    ){
-        $this->wordStart = $wordStart;
-        $this->wordEnd = $wordEnd;
+    public function __construct($beginTime, $endTime, $wordId, $confidence, $word)
+    {
+        $this->beginTime = $beginTime;
+        $this->endTime = $endTime;
         $this->wordId = $wordId;
-        $this->confidenceScore = $confidenceScore;
+        $this->confidence = $confidence;
         $this->word = $word;
     }
 
     /**
-     * @return string
+     * @return float
      */
-    public function getWordStart(): string
+    public function getBeginTime(): float
     {
-        return $this->wordStart;
+        return $this->beginTime;
     }
 
     /**
-     * @return string
+     * @return float
      */
-    public function getWordEnd(): string
+    public function getEndTime(): float
     {
-        return $this->wordEnd;
+        return $this->endTime;
     }
 
     /**
@@ -57,11 +71,11 @@ class Transcription
     }
 
     /**
-     * @return string
+     * @return float
      */
-    public function getConfidenceScore(): string
+    public function getConfidence(): float
     {
-        return $this->confidenceScore;
+        return $this->confidence;
     }
 
     /**
@@ -71,5 +85,4 @@ class Transcription
     {
         return $this->word;
     }
-
 }

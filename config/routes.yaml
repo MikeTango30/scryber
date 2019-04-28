@@ -1,12 +1,31 @@
 index:
     path: /
-    controller: App\Controller\HomeController::index
+    controller: App\Controller\ConnectionController::showStaticFileUploadPage
 
-editor:
-    path: /editor
-    controller: App\Controller\TextEditorController::textEditor
+send_demo_file:
+    path: /send_demo_file
+    controller: App\Controller\ConnectionController::sendDemoFile
 
-save:
-  path: /save
-  controller: App\Controller\TextEditorController::textSave
+check_scrybe_status:
+    path: /refresh_status/{jobId}
+    controller: App\Controller\ConnectionController::refreshStatus
 
+show_scrybed_results:
+    path: /show_results/{jobId}
+    controller: App\Controller\ConnectionController::showResults
+
+download_txt_file:
+    path: /download_txt_file/{jobId}
+    controller: App\Controller\ConnectionController::DownloadTxtFile
+
+edit_scribed_text:
+      path: /edit_scribed_text/{job_id}
+      controller: App\Controller\TextEditorController::textEditor
+
+#download_transcribed_text:
+#  path: /download_transcribed_text
+#  controller: App\Controller\TextEditorController::downloadTranscribedText
+#
+#save_transcribed_text:
+#  path: /save_transcribed_text
+#  controller: App\Controller\TextEditorController::saveTranscribedText

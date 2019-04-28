@@ -1,53 +1,38 @@
 <?php
 
 namespace App\Repository;
+use App\Api\Tilde\Connector;
 use App\Entity\Transcription;
+use App\Api\Tilde\CtmLine;
 
 class TranscriptionAggregator
 {
     /**
      * @return Transcription []
      */
-    public function prepareData()
+    public function prepareData(string $jobId)
     {
-        /**
-         * create CTM file parts array
-         */
-        $transcribedCtm = file_get_contents(__DIR__."/../../assets/transcribed.ctm");
-        $transcribedCtm = explode("\n", $transcribedCtm);
+        $connector = new Connector();
+        $text = $connector->getScrybedTxt($jobId);
+        $ctm = $connector->getScrybedCtm($jobId)->getCtm();
 
-        $transcribedCtmParts = [];
-        foreach ($transcribedCtm as $part) {
-            $transcribedCtmParts [] = explode(" ", $part);
-        }
-
-        /**
-         * create TXT file parts array
-         */
-        $transcribedTxt = file_get_contents(__DIR__."/../../assets/transcribed.txt");
-        $transcribedTxt = trim(preg_replace('/\s+/', ' ', $transcribedTxt )); // get rid of new lines
-        $transcribedTxtParts = explode(" ", $transcribedTxt);
-
-
-        /**
-         * append parts from TXT to parts from CTM
-         */
-        for ($i = 0; $i < sizeof($transcribedCtmParts); $i++) {
-            array_push($transcribedCtmParts[$i], $transcribedTxtParts[$i]);
-        }
+        $text = trim(preg_replace('/\s+/', ' ', $text )); // get rid of new lines
+        $textParts = explode(" ", $text);
 
         /**
          * create obj array
          */
+        $i=0;
         $transcription = [];
-        foreach ($transcribedCtmParts as $transcribedCtmPart) {
+        foreach ($ctm as $ctmLine) {
             $transcription [] = new Transcription(
-                $transcribedCtmPart[2], //word start
-                $transcribedCtmPart[3], //word end
-                $transcribedCtmPart[4], //word id
-                $transcribedCtmPart[5], //confidence rating
-                $transcribedCtmPart[6]  //word
+                $ctmLine->getBeginTime(),
+                $ctmLine->getBeginTime() + $ctmLine->getDuration(),
+                $ctmLine->getWordId(),
+                $ctmLine->getConfidence(),
+                $textParts[$i]
             );
+            $i++;
         }
 
         return $transcription;
