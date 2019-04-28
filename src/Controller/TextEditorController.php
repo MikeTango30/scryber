@@ -9,9 +9,9 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class TextEditorController extends AbstractController
 {
-    /**
-     * @Route("/editor", name="editor")
-     */
+//    /**
+//     * @Route("/editor", name="editor")
+//     */
 
     public function textEditor()
     {
@@ -32,15 +32,15 @@ class TextEditorController extends AbstractController
 //     * @Route("/save", name="save")
 //     */
 
-//    public function textSave()
-//    {
-//        $showSavedText = strip_tags($_POST['editor_content']);
-//
-//        return $this->render("home/savedFroalaContent.html.twig", [
-//            "title" => "Saved Text",
-//            "info" => "Froal'oje parašytas tekstas perduodamas html formatu į BE
-//                          per POST masyvą, editor_content indekse:",
-//            "text" => html_entity_decode($showSavedText)
-//        ]);
-//    }
+    public function textSave()
+    {
+
+        $savedText = strip_tags(html_entity_decode($_POST['editor']));
+        file_put_contents(__DIR__."/../../assets/edited.txt", $savedText);
+
+        return $this->render("home/saved.html.twig", [
+            "title" => "Saved Text",
+            "text" => $savedText
+        ]);
+    }
 }

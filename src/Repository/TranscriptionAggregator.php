@@ -42,11 +42,11 @@ class TranscriptionAggregator
         $transcription = [];
         foreach ($transcribedCtmParts as $transcribedCtmPart) {
             $transcription [] = new Transcription(
-                $transcribedCtmPart[2],
-                $transcribedCtmPart[3],
-                $transcribedCtmPart[4],
-                $transcribedCtmPart[5],
-                $transcribedCtmPart[6]
+                $transcribedCtmPart[2], //word start
+                $transcribedCtmPart[3], //word end
+                $transcribedCtmPart[4], //word id
+                $transcribedCtmPart[5], //confidence rating
+                $transcribedCtmPart[6]  //word
             );
         }
 

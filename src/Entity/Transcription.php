@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Entity;
-
 
 class Transcription
 {
@@ -20,8 +18,13 @@ class Transcription
      * @string $confidenceScore
      * @string $word
      */
-    public function __construct(string $wordStart, string $wordEnd, string $wordId, string $confidenceScore, string $word)
-    {
+    public function __construct(
+        string $wordStart,
+        string $wordEnd,
+        string $wordId,
+        string $confidenceScore,
+        string $word
+    ){
         $this->wordStart = $wordStart;
         $this->wordEnd = $wordEnd;
         $this->wordId = $wordId;

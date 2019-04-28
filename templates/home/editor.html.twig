@@ -3,9 +3,24 @@
 {% block title %}{{ title }}{% endblock %}
 
 {% block body %}
-        <div contenteditable="true">
-            {% for word in words %}
-                {{ word|raw }}
-            {% endfor %}
+        <div style="
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          width: 50vw;
+          height: 50vw;
+          padding: 5px;
+          font-size: 18px;
+          line-height: 22px;
+          margin: 10px 0;
+          border: 2px solid deeppink;
+          border-radius: 5px;" class="wrapper">
+            <div contenteditable="true" class="editor">
+                {% for word in words %}
+                    {{ word|raw }}
+                {% endfor %}
+            </div>
         </div>
+    </div>
 {% endblock %}

@@ -2,11 +2,14 @@
 
 
 namespace App\Repository;
-use App\Entity\Transcription;
-use App\Repository\TranscriptionAggregator;
 
 class TextGenerator
 {
+    /**
+     * @param array $transcription
+     * @return array html parts
+     */
+    //reikia generuoti ne spanu string masyva, o span objektu masyva su symfony komponentu
 
     public function generateHtml(array $transcription)
     {
@@ -50,7 +53,7 @@ HTML;
         }
 
         /**
-         * combine arrays values of generated html blocks
+         * append $htmlWord to htmlSpanDataAttribute
          */
         $htmlTranscriptionWordBlocks = [];
         foreach ($htmlSpanDataAttributes as $key => $htmlSpanDataAttribute) {

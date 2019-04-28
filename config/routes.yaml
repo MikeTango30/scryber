@@ -1,3 +1,12 @@
-#index:
-#    path: /
-#    controller: App\Controller\DefaultController::index
+index:
+    path: /
+    controller: App\Controller\HomeController::index
+
+editor:
+    path: /editor
+    controller: App\Controller\TextEditorController::textEditor
+
+save:
+  path: /save
+  controller: App\Controller\TextEditorController::textSave
+
