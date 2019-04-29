@@ -33,7 +33,7 @@ class SummaryModel
     {
         $json_decoded = json_decode($jsonString);
 
-        $this->date = new \DateTime($json_decoded->date);
+        $this->date = \DateTime::createFromFormat('U', $json_decoded->date);
         $this->confidence = $json_decoded->confidence;
         $this->words = $json_decoded->words;
         $this->speakers = $json_decoded->speakers;
