@@ -7,6 +7,7 @@ use App\Api\FileOperator\FileOperator;
 use App\Api\Tilde\Connector;
 use App\Api\Tilde\RequestModel;
 use App\Api\Tilde\ResponseModel;
+use App\Repository\WordBlockGenerator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\HeaderUtils;
 use Symfony\Component\HttpFoundation\Request;

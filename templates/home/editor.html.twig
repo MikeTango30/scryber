@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h2>Mini Text Editor</h2>
+    </div>
+    <div>
+        Job Id: `{{ job_id }}`. Confidence ratio: {{ summary.confidence }}, words count: {{ summary.words }}.
+    </div>
+    <div style="
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          width: 50vw;
+          height: auto;
+          padding: 5px;
+          font-size: 18px;
+          line-height: 22px;
+          margin: 10px 0;
+          border: 2px solid deeppink;
+          border-radius: 5px;" class="wrapper" aria-label="Text Editor">
+        <div contenteditable="true" class="editor" id="editor">
+            {% for word in words %}
+                <div style="display: inline-block">
+                {{ word|raw }}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div><button id="downloadButton">Download</button></div>
+    {% block javascripts %}
+        {{ parent() }}
+        {{ encore_entry_script_tags('downloadEditedText') }}
+    {% endblock %}
+{% endblock %}

@@ -17,3 +17,15 @@ show_scrybed_results:
 download_txt_file:
     path: /download_txt_file/{jobId}
     controller: App\Controller\ConnectionController::DownloadTxtFile
+
+edit_scribed_text:
+      path: /edit_scribed_text/{job_id}
+      controller: App\Controller\TextEditorController::textEditor
+
+#download_transcribed_text:
+#  path: /download_transcribed_text
+#  controller: App\Controller\TextEditorController::downloadTranscribedText
+#
+#save_transcribed_text:
+#  path: /save_transcribed_text
+#  controller: App\Controller\TextEditorController::saveTranscribedText
