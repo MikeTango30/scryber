@@ -31,6 +31,10 @@ register:
     path: /register
     controller: App\Controller\SecurityController::login
 
+app_logout:
+    path: /logout
+    methods: GET
+
 #download_transcribed_text:
 #  path: /download_transcribed_text
 #  controller: App\Controller\TextEditorController::downloadTranscribedText
