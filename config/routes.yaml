@@ -22,6 +22,15 @@ edit_scribed_text:
       path: /edit_scribed_text/{job_id}
       controller: App\Controller\TextEditorController::textEditor
 
+secure_login:
+    path: /login
+    controller: App\Controller\SecurityController::login
+    methods: GET|POST
+
+register:
+    path: /register
+    controller: App\Controller\SecurityController::login
+
 #download_transcribed_text:
 #  path: /download_transcribed_text
 #  controller: App\Controller\TextEditorController::downloadTranscribedText
