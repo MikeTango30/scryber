@@ -1,0 +1,67 @@
+// Text visual adjustments
+.disabled { color: $color__text-muted }
+.muted { color: $color__text-muted }
+.emphasized { color: $color__text-emphasized }
+.hidden { display: none }
+
+// Text position adjustments
+.text-left { text-align: left; }
+.text-right { text-align: right; }
+.text-centered { text-align: center; }
+
+// Block adjustments
+.block-centered {
+    margin: 0 auto;
+}
+
+// Spacing helpers
+$amount: 0;
+$maxAmount: 100;
+$sides: (top, bottom, left, right);
+
+@while $amount <= $maxAmount {
+    @each $side in $sides {
+        .m#{str-slice($side, 0, 1)}-#{$amount} {
+            margin-#{$side}: #{$amount}px !important;
+        }
+
+        .p#{str-slice($side, 0, 1)}-#{$amount} {
+            padding-#{$side}: #{$amount}px !important;
+        }
+    }
+
+    .mv-#{$amount} {
+        margin-top: #{$amount}px !important;
+        margin-bottom: #{$amount}px !important;
+    }
+
+    .mh-#{$amount} {
+        margin-left: #{$amount}px !important;
+        margin-right: #{$amount}px !important;
+    }
+
+    .pv-#{$amount} {
+        padding-top: #{$amount}px !important;
+        padding-bottom: #{$amount}px !important;
+    }
+
+    .ph-#{$amount} {
+        padding-left: #{$amount}px !important;
+        padding-right: #{$amount}px !important;
+    }
+
+    $amount: $amount + 5;
+}
+
+.m-0 {
+    margin: 0 !important;
+}
+
+.p-0 {
+    padding: 0 !important;
+}
+
+.mh-auto {
+    margin-left: auto !important;
+    margin-right: auto !important;
+}

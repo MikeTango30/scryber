@@ -1,0 +1,26 @@
+html { font-size: $font-size__html; }
+
+body {
+    font-family: $font-family__body;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-size: $font-size__body;
+    color: $color__text-body;
+}
+
+h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
+    margin-bottom: $margin__headings;
+    font-family: $font-family__headings;
+    font-weight: $font-weight__headings;
+    line-height: $line-height__headings;
+    color: $color__text-headings;
+}
+
+h1, .h1 { font-size: $font-size__h1; }
+h2, .h2 { font-size: $font-size__h2; }
+h3, .h3 { font-size: $font-size__h3; }
+h4, .h4 { font-size: $font-size__h4; }
+h5, .h5 { font-size: $font-size__h5; }
+h6, .h6 { font-size: $font-size__h6; }
+
+p { margin-bottom: $margin__headings; }

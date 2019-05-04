@@ -1,0 +1,42 @@
+// Font sizes
+// based on https://www.sitepoint.com/understanding-and-using-rem-units-in-css/
+
+//$font-family__body:     'Avenir', 'Segoe UI', Helvetica, Arial, sans-serif;
+//$font-family__headings: 'Avenir', 'Segoe UI', Helvetica, Arial, sans-serif;
+
+$font-family__body:     system, -apple-system, ".SFNSText-Regular",
+                        "San Francisco", "Roboto", "Segoe UI",
+                        "Helvetica Neue", "Lucida Grande", sans-serif; // ND
+$font-family__headings: system, -apple-system, ".SFNSText-Regular",
+                        "San Francisco", "Roboto", "Segoe UI",
+                        "Helvetica Neue", "Lucida Grande", sans-serif; // ND
+$font-family__icons:    'Font Awesome 5 Free' !default;
+
+$font-size__html: 62.5%;
+$font-size__body: 1.4rem;
+$font-size__h1:   2.4rem;
+$font-size__h2:   2rem;
+$font-size__h3:   1.8rem;
+$font-size__h4:   1.6rem;
+$font-size__h5:   1.4rem;
+$font-size__h6:   1.3rem;
+
+$font-size__small: 1.2rem;
+
+// Line heights
+$line-height__body:     1.5em;
+$line-height__headings: 1.4em;
+
+// Font weights
+$font-weight__body:     400;
+$font-weight__headings: 600;
+
+// Colors
+$color__text-body:       $color__tyre;
+$color__text-headings:   $color__jellybean-red;
+$color__text-muted:      $color__taupe-grey;
+$color__text-emphasized: $color__black-russian;
+
+// Margins
+$margin__body:     0;
+$margin__headings: 10px;

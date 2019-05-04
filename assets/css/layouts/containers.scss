@@ -1,0 +1,46 @@
+.page-wrapper {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    min-height: 100vh;
+}
+
+.page-header {
+    flex: 0 0 auto;
+}
+
+.page-footer {
+    flex: 0 0 auto;
+}
+
+.page-content {
+    display: flex;
+    flex-direction: column;
+    flex: 1 0 auto;
+
+    @include breakpoint-up(lg) {
+        flex-direction: row;
+    }
+
+    .aside {
+        order: 2;
+
+        @include breakpoint-up(lg) {
+            flex: 0 0 300px;
+        }
+    }
+
+    .main {
+        flex-grow: 1;
+        order: 1;
+    }
+}
+
+.container {
+    margin: 0 auto;
+    @include make-container-max-widths();
+    
+    .content-wrapper {
+        padding: $size__gutter;
+    }
+}

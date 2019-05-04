@@ -1,11 +1,23 @@
-{% extends 'base.html.twig' %}
+{% extends 'layout.html.twig' %}
 
-{% block title %}DEMO file uplaod form{% endblock %}
+{% block header %}DEMO file upload form{% endblock %}
 
-{% block body %}
+{% block aside %}
     <div class="">Upload DEMO file for recognition</div>
     <p style="color: red;">{{  message }}</p>
     <form method="post" action="/send_demo_file">
         Send DEMO file <input type="hidden" name="upload_demo_file" value="{{ soundFile }}"> <button type="submit" name="send_demo_file">Send</button>
     </form>
+{% endblock %}
+{% block main %}
+    <p>search results</p>
+    <h1>Mano transkripcijos</h1>
+    <h2>Mano transkripcijos</h2>
+    <h3>Mano transkripcijos</h3>
+    <h4>Mano transkripcijos</h4>
+    <h5>Mano transkripcijos</h5>
+    <h6>Mano transkripcijos</h6>
+    <p><a class="link" href="#" aria-label="Read more about Lorem ipsum meaning">Lorem ipsum dolor sit amet</a>, consectetur adipiscing <a class="link" href="#" aria-label="Read more about this topic">elit</a>, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+    <p><span class="muted">This text is muted</span> / <span class="emphasized">This text is emphasized</span> / and here text is normal again</p>
+
 {% endblock %}

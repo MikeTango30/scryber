@@ -1,0 +1,46 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block header %}
+    {{ app.user.getEmail }}
+    <a href="{{ path('app_logout') }}">Logout</a>
+{% endblock %}
+
+{% block main %}
+    <h1>Mano Transkripcijos</h1>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Data</th>
+            <th scope="col">Failas</th>
+            <th scope="col">Trukmė</th>
+            <th scope="col">Paskutinį kartą redaguota</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <th scope="row">1</th>
+            <td>2019-05-05</td>
+            <td>Paskaita</td>
+            <td>01:30:00</td>
+            <td>2019-05-08</td>
+        </tr>
+        <tr>
+            <th scope="row">2</th>
+            <td>2018-06-02</td>
+            <td>Interviu su A.A.</td>
+            <td>00:15:47</td>
+            <td>2019-03-29</td>
+        </tr>
+        <tr>
+            <th scope="row">3</th>
+            <td>2018-06-06</td>
+            <td>Z.Z. disertacijos gynimas</td>
+            <td>01:05:00</td>
+            <td>2018-07-26</td>
+        </tr>
+        </tbody>
+    </table>
+{% endblock %}

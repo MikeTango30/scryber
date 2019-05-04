@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{% block title %}Scriber{% endblock %}</title>
+    {% block stylesheets %}
+        {{ encore_entry_link_tags('app') }}
+    {% endblock %}
+</head>
+<body>
+{% block body %}
+<div id="app" class="page-wrapper">
+    <header class="page-header">
+        <div class="container">
+            <div class="content-wrapper">
+                <div class="app-title">
+                    <h1>Scriber</h1>
+                </div>
+                {% block header %}{% endblock %}
+            </div>
+        </div>
+    </header>
+    <div class="page-content container">
+        <main class="main">
+            <div class="container">
+                <div class="content-wrapper">
+                    {% block main %}{% endblock %}
+                </div>
+            </div>
+        </main>
+        <aside class="aside">
+            <div class="container">
+                <div class="content-wrapper">
+                    {% block aside %}aside{% endblock %}
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <footer class="page-footer">
+        <div class="container">
+            <div class="content-wrapper">
+                {% block footer %}footer{% endblock %}
+            </div>
+        </div>
+    </footer>
+</div>
+{% endblock %}
+{% block javascripts %}
+    {{ encore_entry_script_tags('app') }}
+{% endblock %}
+</body>
+</html>

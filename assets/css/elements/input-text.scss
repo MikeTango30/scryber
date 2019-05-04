@@ -1,0 +1,46 @@
+.input {
+    padding: $padding__input;
+    height: $size__inputs-buttons;
+    width: 100%;
+    max-width: 100%;
+    font-weight: bold;
+    color: $color__text-body;
+    @include input-border();
+    @include focusable();
+    
+    &::placeholder {
+        color: lighten($color__text-muted, 10%);
+    }
+
+    &:focus {
+        @include focusable-active();
+    }
+}
+
+.field {
+
+    &.disabled .input {
+        background-color: darken($color__white, 10%);
+        @include input-border(disabled);
+        cursor: not-allowed;
+    }
+}
+
+.control {
+    // Arrangement for having icons in input field
+    
+    $icon-sides: left, right;
+    @each $side in $icon-sides {
+        &--has-icon-#{$side} {
+            .input {
+                padding-#{$side}: 3rem;
+            }
+        }
+    }
+
+    &__icon {
+        position: absolute;
+        padding: .8rem;
+        color: $color__text-muted;
+    }
+}

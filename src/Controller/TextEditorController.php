@@ -7,13 +7,9 @@ use App\Repository\TextGenerator;
 use App\Repository\TranscriptionAggregator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
 
 class TextEditorController extends AbstractController
 {
-//    /**
-//     * @Route("/editor", name="editor")
-//     */
     public function textEditor(Request $request)
     {
         $jobId = $request->attributes->get('job_id');
@@ -34,10 +30,6 @@ class TextEditorController extends AbstractController
             "job_id" => $jobId
         ]);
     }
-
-//    /**
-//     * @Route("/save", name="save")
-//     */
 //    public function saveTranscribedText()
 //    {
 //

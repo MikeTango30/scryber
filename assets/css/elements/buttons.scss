@@ -1,0 +1,59 @@
+.button {
+    //namų darbas
+    // Arrangement for having icons in a button
+
+    $icon-sides: left, right;
+    @each $side in $icon-sides {
+        &--has-icon-#{$side} {
+            .button {
+                padding-#{$side}: 2.5rem;
+            }
+        }
+    }
+
+    &__icon {
+        position: absolute;
+        padding: .8rem;
+        color: $color__white;
+    }
+
+    @include button-base();
+    color: $color__white;
+    background: $background__button;
+    @include input-border();
+    @include focusable();
+    
+    &:hover {
+        background: darken($background__button, 10%);
+    }
+
+    &:focus {
+        background: darken($background__button, 20%);
+        @include focusable-active();
+    }
+
+    &:active {
+        color: darken($color__white, 20%);
+    }
+}
+
+.button-link {
+    @include button-base();
+    color: $color__link;
+    background-color: transparent;
+    border: 1px solid transparent;
+    @include focusable();
+
+    &:hover {
+        background: darken($color__white, 10%);
+    }
+
+    &:focus {
+        color: darken($color__link, 10%);
+        @include focusable-active();
+    }
+
+    &:active {
+        color: darken($color__link, 30%);
+    }
+}

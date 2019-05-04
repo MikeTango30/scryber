@@ -1,0 +1,41 @@
+.field {
+    margin-bottom: $margin__form-field;
+
+    // ND
+    &.search-container {
+        max-width: 320px;
+        display: block;
+        margin: 0 auto;
+    }
+
+    &.max-width-600 {
+        max-width: 600px;
+    }
+}
+
+.label {
+    margin-left: 2px;
+    margin-bottom: $margin__form-label;
+    font-weight: bold;
+    line-height: $line-height__input-normal;
+}
+
+.control {
+    display: flex;
+    align-items: center;
+    text-align: left;
+}
+
+.help {
+    margin-top: 2px;
+    font-size: $font-size__small;
+}
+
+// ND
+.app-title {
+    display: block;
+    margin-bottom: $margin__headings;
+    font-weight: bold;
+    line-height: $line-height__headings;
+
+}

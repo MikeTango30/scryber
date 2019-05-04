@@ -29,11 +29,15 @@ secure_login:
 
 register:
     path: /register
-    controller: App\Controller\SecurityController::login
+    controller: App\Controller\RegistrationController::register
 
 app_logout:
     path: /logout
     methods: GET
+
+user_dashboard:
+    path: /user_dashboard
+    controller: App\Controller\UserDashboardController::showTranscriptions
 
 #download_transcribed_text:
 #  path: /download_transcribed_text

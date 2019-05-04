@@ -23,6 +23,7 @@ security:
                 login_path: secure_login
                 check_path: secure_login
                 csrf_parameter: _csrf_security_token
+                default_target_path: user_dashboard
             guard:
                 authenticators:
                     - App\Security\LoginFormAuthenticator

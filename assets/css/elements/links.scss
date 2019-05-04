@@ -1,0 +1,18 @@
+.link {
+    color: $color__link;
+    text-decoration: underline;
+    @include focusable();
+
+    &:hover {
+        color: $color__link;
+    }
+
+    &:focus, 
+    &:active {
+        color: darken($color__link, 30%);
+    }
+
+    &:focus {
+        @include focusable-active();
+    }
+}

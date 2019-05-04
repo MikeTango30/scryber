@@ -1,0 +1,24 @@
+@mixin focusable {
+    outline: 0 !important;  // overiding reboot
+}
+
+@mixin focusable-active {
+    box-shadow: 0 0 0 2px rgba($color__input-border, .4);
+}
+
+@mixin input-border ($state: normal) {
+    border: 1px solid $color__input-border;
+    border-radius: 2px; // ND
+    @if $state == 'disabled' {
+        border-color: lighten($color__text-muted, 30%);
+    }
+}
+
+@mixin button-base {
+    display: inline-block;
+    padding: $padding__button;
+    height: $size__inputs-buttons;
+    font-weight: bold;
+    line-height: $line-height__button;
+    letter-spacing: .5px;
+}

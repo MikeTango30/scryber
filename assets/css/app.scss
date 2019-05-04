@@ -3,6 +3,7 @@ $primary: darken(#428bca, 20%);
 
 // the ~ allows you to reference things in node_modules
 @import "~bootstrap/scss/bootstrap";
+@import "styles";
 
 .nfq-academy {
   margin: 20px auto;
@@ -11,6 +12,3 @@ $primary: darken(#428bca, 20%);
   font-weight: 100;
   font-family: 'Lato', serif;
 }
-//div {
-//  display: inline;
-//}

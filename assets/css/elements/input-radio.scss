@@ -1,0 +1,22 @@
+// ND
+
+.control--radio {
+    @extend .control--choice;
+    .label {
+        &::before,
+        &::after {
+            width: $size__radio;
+            height: $size__radio;
+            border-radius: 50% !important; //override @mixin input-border property;
+        }
+        .disabled &::before,
+        .disabled &::before {
+            border-radius: 50% !important; //override @mixin input-border property;
+        }
+    }
+
+    .radio {
+        @extend .choice;
+    }
+}
+

@@ -1,0 +1,86 @@
+// ND Refactored input-checkbox.scss
+
+// https://github.com/flatlogic/awesome-bootstrap-checkbox
+
+.control--choice {
+    margin-bottom: 0;
+    padding-left: .8rem;
+
+    .label {
+        position: relative;
+        display: inline-block;
+        vertical-align: middle;
+        margin-bottom: 0;
+        padding-left: .5rem;
+        line-height: $line-height__input-normal;
+
+        &::before {
+            content: "";
+            display: inline-block;
+            position: absolute;
+            left: 0;
+            margin-left: -2rem;
+            @include input-border();
+        }
+
+        .disabled &::before {
+            @include input-border(disabled);
+        }
+
+        &::after {
+            display: inline-block;
+            position: absolute;
+            left: 0;
+            top: 0;
+            margin-left: -2rem;
+            padding-left: 1px;
+            font-size: 1rem;
+            line-height: $line-height__input-normal - .1rem;    // fine tune
+            color: $color__check;
+            @include input-border();
+        }
+
+        .disabled &::after {
+            @include input-border(disabled);
+        }
+    }
+
+    .choice {
+        opacity: 0;
+        z-index: 1;
+        cursor: pointer;
+
+        &:checked + .label::after {
+            content: $icon__check;
+            font-family: $font-family__icons;
+            background-color: $background__check;
+        }
+
+        &:disabled {
+            cursor: not-allowed;
+        }
+
+        &:disabled + .label {
+            color: $color__text-muted;
+
+            &::before {
+                background-color: darken($color__white, 10%);
+                cursor: not-allowed;
+            }
+
+            &::after {
+                color: $color__text-muted;
+                background-color: darken($color__white, 10%);
+                cursor: not-allowed;
+            }
+        }
+
+        &:focus + .label::before {
+            @include focusable-active();
+        }
+
+        &:checked:focus + .label::after {
+            background-color: darken($background__check, 20%);
+        }
+    }
+}

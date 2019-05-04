@@ -1,0 +1,17 @@
+// ND
+
+.control--checkbox {
+    @extend .control--choice;
+    .label {
+        &::before,
+        &::after {
+            width: $size__checkbox;
+            height: $size__checkbox;
+        }
+    }
+
+    .checkbox {
+        @extend .choice;
+    }
+}
+

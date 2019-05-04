@@ -1,8 +1,8 @@
-{% extends 'base.html.twig' %}
+{% extends 'layout.html.twig' %}
 
 {% block title %}File status page{% endblock %}
 
-{% block body %}
+{% block main %}
     <div class="">Check uploaded file status</div>
         Job `{{ job_id }}` was finished. Duration: {{ summary.lengthRounded }}s, confidence ratio: {{ summary.confidence }}, words count: {{ summary.words }}.
     <br>
@@ -10,9 +10,10 @@
     <div style="background-color: lightgrey">
         {{ text }}
     </div>
-    <br>
+{% endblock %}
+{% block aside %}
     <div><a class="button" href="/download_txt_file/{{ job_id }}" target="_blank">Download TXT file</a></div>
     <div><a class="button" href="/edit_scribed_text/{{ job_id }}" target="_blank">Edit Text</a></div>
-
 {% endblock %}
+
 

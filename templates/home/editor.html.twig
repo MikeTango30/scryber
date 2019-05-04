@@ -1,14 +1,17 @@
-{% extends 'base.html.twig' %}
+{% extends 'layout.html.twig' %}
 
 {% block title %}{{ title }}{% endblock %}
+{% block header %}
 
-{% block body %}
+{% endblock %}
+
+{% block main %}
     <div class="container">
-        <h2>Mini Text Editor</h2>
+        <h1>Mano Transkripcija</h1>
     </div>
-    <div>
-        Job Id: `{{ job_id }}`. Confidence ratio: {{ summary.confidence }}, words count: {{ summary.words }}.
-    </div>
+{#    <div>#}
+{#        Job Id: `{{ job_id }}`. Confidence ratio: {{ summary.confidence }}, words count: {{ summary.words }}.#}
+{#    </div>#}
     <div style="
           display: flex;
           flex-direction: column;
