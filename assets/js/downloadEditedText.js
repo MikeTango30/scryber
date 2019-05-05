@@ -2,8 +2,8 @@ $(document).ready(function() {
 
     var text = [];
     $('#downloadButton').click(function() {
-        $('#editor').find('div').each(function(){
-            text.push($(this).text().trim())
+        $('#editor').find('span').each(function(){
+            text.push($(this).text())
         });
         text = text.join(' ');
         if ($('#editor').text() !== '')

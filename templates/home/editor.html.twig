@@ -2,37 +2,28 @@
 
 {% block title %}{{ title }}{% endblock %}
 {% block header %}
-
+ <button class="button" id="downloadButton">Export</button>
 {% endblock %}
 
 {% block main %}
     <div class="container">
-        <h1>Mano Transkripcija</h1>
-    </div>
-{#    <div>#}
-{#        Job Id: `{{ job_id }}`. Confidence ratio: {{ summary.confidence }}, words count: {{ summary.words }}.#}
-{#    </div>#}
-    <div style="
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          width: 50vw;
-          height: auto;
-          padding: 5px;
-          font-size: 18px;
-          line-height: 22px;
-          margin: 10px 0;
-          border: 2px solid deeppink;
-          border-radius: 5px;" class="wrapper" aria-label="Text Editor">
-        <div contenteditable="true" class="editor" id="editor">
-            {% for word in words %}
-                {{ word|raw }}
-            {% endfor %}
+        <div class="content-wrapper" aria-label="Text Editor">
+            <div class="editor" id="editor" contenteditable="true">
+                <h1>Mano Transkripcija</h1>
+                {% for word in words %}
+                    {{ word|raw }}
+                {% endfor %}
+            </div>
         </div>
     </div>
-    <div><button id="downloadButton">Download</button></div>
-    {% block javascripts %}
-        {{ parent() }}
-        {{ encore_entry_script_tags('downloadEditedText') }}
-    {% endblock %}
+{% endblock %}
+
+{% block aside %}
+    <h2>Liko minučių: 48</h2>
+    <h4><a class="button" href="#">Pirkti daugiau minučių</a> </h4>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('downloadEditedText') }}
 {% endblock %}

@@ -11,11 +11,14 @@ class UserDashboardController extends AbstractController
     public function showTranscriptions()
     {
         $transcriptions = [];
+        $remainingTime = [];
         //TODO query DB for transcriptions
+        //TODO query DB for remaining Time
 
         return $this->render('userDashboard.html.twig', [
             "title" => "Mano Transkripcijos",
-            "transcriptions" => $transcriptions
+            "transcriptions" => $transcriptions,
+            "remainingTime" => $remainingTime
         ]);
     }
 

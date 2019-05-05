@@ -3,17 +3,22 @@
 {% block title %}File status page{% endblock %}
 
 {% block main %}
-    <div class="">Check uploaded file status</div>
-        Job `{{ job_id }}` was finished. Duration: {{ summary.lengthRounded }}s, confidence ratio: {{ summary.confidence }}, words count: {{ summary.words }}.
-    <br>
-    <div>Text:</div>
-    <div style="background-color: lightgrey">
-        {{ text }}
+    <div class="container">
+        <div class="content-wrapper">
+            <div class="">Check uploaded file status</div>
+                Job `{{ job_id }}` was finished. Duration: {{ summary.lengthRounded }}s, confidence ratio: {{ summary.confidence }}, words count: {{ summary.words }}.
+            <br>
+            <div>Text:</div>
+        </div>
+        <div class="content-wrapper" style="background-color: lightgrey">
+            {{ text }}
+        </div>
+        <span><a class="button" href="/download_txt_file/{{ job_id }}" target="_blank">Download TXT file</a></span>
+        <span><a class="button" href="/edit_scribed_text/{{ job_id }}" target="_blank">Edit Text</a></span>
     </div>
 {% endblock %}
 {% block aside %}
-    <div><a class="button" href="/download_txt_file/{{ job_id }}" target="_blank">Download TXT file</a></div>
-    <div><a class="button" href="/edit_scribed_text/{{ job_id }}" target="_blank">Edit Text</a></div>
+   aside
 {% endblock %}
 
 
