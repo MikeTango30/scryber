@@ -13,14 +13,11 @@
 {% block body %}
 <div id="app" class="page-wrapper">
     <header class="page-header">
-        <div class="container">
-            <div class="content-wrapper">
-                <div class="app-title">
-                    <h1>Scriber</h1>
-                </div>
-            </div>
-        </div>
         {% block header %}{% endblock %}
+        <div class="header-content-right">
+                {{ app.user.getEmail }}
+                <a class="button" href="{{ path('app_logout') }}">Logout</a>
+        </div>
     </header>
     <div class="page-content container">
         <main class="main">
