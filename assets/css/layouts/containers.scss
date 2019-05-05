@@ -6,8 +6,20 @@
 }
 
 .page-header {
+    display: flex;
+    flex-direction: row;
+    min-width: 60px;
+    justify-content: space-between;
     flex: 0 0 auto;
 }
+
+    .header-content-left {
+        margin: 1em;
+    }
+
+    .header-content-right {
+        margin: 1em;
+    }
 
 .page-footer {
     flex: 0 0 auto;
