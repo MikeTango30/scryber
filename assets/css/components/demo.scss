@@ -1,27 +1,23 @@
 // Colorings for draft purposes
 #app {
-    background: $color__eggshell-white;
+    background: $color__type-paper;
 }
 
-.page-header {
-    background: $color__dark-vanilla;
+.page-header, .page-footer {
+    background: $color__aluminum;
 
 }
 
 .aside {
 
     .container {
-        background: $color__jellybean-pink;
+        background: $color__paper;
     }
 }
 
 .main {
 
     .container {
-        background: $color__eggshell-white;
+        background: $color__paper;
     }
-}
-
-.page-footer {
-    background: $color__dark-vanilla;
 }

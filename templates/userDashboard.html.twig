@@ -3,12 +3,13 @@
 {% block title %}{{ title }}{% endblock %}
 
 {% block header %}
+    <a class="button" href="{{ path('app_logout') }}">Logout</a>
     {{ app.user.getEmail }}
-    <a href="{{ path('app_logout') }}">Logout</a>
 {% endblock %}
 
 {% block main %}
     <h1>Mano Transkripcijos</h1>
+{#    hardcoded #}
     <table class="table table-striped">
         <thead>
         <tr>

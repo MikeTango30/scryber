@@ -16,6 +16,8 @@
 .page-content {
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
+    min-height: auto;
     flex: 1 0 auto;
 
     @include breakpoint-up(lg) {
@@ -23,6 +25,8 @@
     }
 
     .aside {
+        display: flex;
+        margin: 0.5em;
         order: 2;
 
         @include breakpoint-up(lg) {
@@ -31,6 +35,8 @@
     }
 
     .main {
+        display: flex;
+        margin: 0.5em;
         flex-grow: 1;
         order: 1;
     }
