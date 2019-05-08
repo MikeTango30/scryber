@@ -1,6 +1,6 @@
 index:
     path: /
-    controller: App\Controller\ConnectionController::showStaticFileUploadPage
+    controller: App\Controller\HomeController::index
 
 send_demo_file:
     path: /send_demo_file

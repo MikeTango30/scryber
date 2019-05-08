@@ -16,9 +16,9 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ConnectionController extends AbstractController
 {
-    /**
-     * @Route("/", name="connection")
-     */
+//    /**
+//     * @Route("/", name="connection")
+//     */
     public function showStaticFileUploadPage()
     {
         $message = '';

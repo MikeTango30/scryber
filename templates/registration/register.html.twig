@@ -1,15 +1,26 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Register{% endblock %}
+{% block title %}Registracija{% endblock %}
+{% block headerRight %} {% endblock %}
 
-{% block body %}
-    <h1>Register</h1>
+{% block content %}
+<div class="page-content container">
+    <div class="container">
+        <div class="content-wrapper">
+    <h1>Registracija</h1>
 
     {{ form_start(registrationForm) }}
         {{ form_row(registrationForm.firstname) }}
         {{ form_row(registrationForm.email) }}
         {{ form_row(registrationForm.plainPassword) }}
 
-        <button class="btn">Register</button>
+        <button class="button">Registruotis</button>
     {{ form_end(registrationForm) }}
+        <div class="content-wrapper">
+            Turite paskyrą?
+            <a href="{{ path('secure_login') }}">Prisijunkite</a>
+        </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

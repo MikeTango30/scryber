@@ -1,18 +1,79 @@
 <!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width,initial-scale=1.0">
-        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
-        <title>{% block title %}Scriber{% endblock %}</title>
-        {% block stylesheets %}
-            {{ encore_entry_link_tags('app') }}
+<html lang="en/lt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{% block title %}Scriber{% endblock %}</title>
+    {% block stylesheets %}
+        {{ encore_entry_link_tags('app') }}
+    {% endblock %}
+</head>
+<body>
+{% block body %}
+    <div id="app" class="page-wrapper">
+        <header class="page-header">
+            <div class="header-content-left">
+                <div class="content-wrapper">
+                    <div class="app-title">
+                        <h1><a class="link logo" href="{{ path('index') }}">Scriber</a></h1>
+                    </div>
+                </div>
+            </div>
+            {% block navbar %}
+                <nav class="navbar navbar-expand-lg navbar-light" style="background-color: transparent;">
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                        <div class="navbar-nav">
+                            <a class="nav-item nav-link active" href="#">Apie <span class="sr-only">(current)</span></a>
+                            <a class="nav-item nav-link" href="#">Kaina</a>
+                            <a class="nav-item nav-link" href="#">Redaktorius</a>
+                            <a class="nav-item nav-link" href="#">D.U.K.</a>
+                            {% if app.user %}
+                            <a class="nav-item nav-link" href="{{ path("user_dashboard") }}">Transkripcijos</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </nav>
+            {% endblock %}
+            {% block headerRight %}
+                <div class="header-content-right">
+                    {{ app.user.getEmail }}
+                    <a class="button" href="{{ path('app_logout') }}">Logout</a>
+                </div>
+            {% endblock %}
+        </header>
+        {% block content %}
+            <div class="page-content container">
+                <main class="main">
+                    <div class="container">
+                        <div class="content-wrapper">
+                            {% block main %}{% endblock %}
+                        </div>
+                    </div>
+                </main>
+                <aside class="aside">
+                    <div class="container">
+                        <div class="content-wrapper">
+                            {% block aside %}aside{% endblock %}
+                        </div>
+                    </div>
+                </aside>
+            </div>
         {% endblock %}
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-        {% block javascripts %}
-            {{ encore_entry_script_tags('app') }}
-        {% endblock %}
-    </body>
+        <footer class="page-footer">
+            <div class="container">
+                <div class="content-wrapper">
+                    {% block footer %}footer{% endblock %}
+                </div>
+            </div>
+        </footer>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{ encore_entry_script_tags('app') }}
+{% endblock %}
+</body>
 </html>

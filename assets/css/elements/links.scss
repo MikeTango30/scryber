@@ -15,4 +15,9 @@
     &:focus {
         @include focusable-active();
     }
+
+    &.logo {
+        color:  $color__text-headings !important;
+        text-decoration: none !important;
+    }
 }

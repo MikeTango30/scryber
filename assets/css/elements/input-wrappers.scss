@@ -1,7 +1,6 @@
 .field {
     margin-bottom: $margin__form-field;
 
-    // ND
     &.search-container {
         max-width: 320px;
         display: block;
@@ -10,6 +9,10 @@
 
     &.max-width-600 {
         max-width: 600px;
+    }
+
+    &.max-width-320 {
+        max-width: 320px;
     }
 }
 
@@ -31,7 +34,6 @@
     font-size: $font-size__small;
 }
 
-// ND
 .app-title {
     display: block;
     margin-bottom: $margin__headings;

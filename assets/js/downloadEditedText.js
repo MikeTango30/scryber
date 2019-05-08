@@ -7,7 +7,7 @@ $(document).ready(function() {
         });
         text = text.join(' ');
         if ($('#editor').text() !== '')
-            saveFile(text);
+            saveFile($('#editor').text());
         else
             alert('You know nothing!');
     });
