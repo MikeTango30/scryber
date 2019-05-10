@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block main %}
+    <form method="POST" action="#" enctype="multipart/form-data">
+        <div>
+            <label for="file-upload" class="button">
+                Pasirinkti failą
+            </label>
+            <input id="file-upload" class="button" type="file" name="uploadedFile" />
+        </div>
+
+        <input class="button" type="submit" name="uploadBtn" value="Įkelti" />
+    </form>
+{% endblock %}

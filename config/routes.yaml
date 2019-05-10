@@ -39,6 +39,23 @@ user_dashboard:
     path: /user_dashboard
     controller: App\Controller\UserDashboardController::showTranscriptions
 
+about:
+    path: /about
+    controller: App\Controller\HomeController::about
+    methods: GET
+
+pricing:
+    path: /pricing
+    controller: App\Controller\HomeController::pricing
+
+editor:
+    path: /editor
+    controller: App\Controller\HomeController::editor
+
+upload:
+    path: /upload
+    controller: App\Controller\HomeController::upload
+
 #download_transcribed_text:
 #  path: /download_transcribed_text
 #  controller: App\Controller\TextEditorController::downloadTranscribedText

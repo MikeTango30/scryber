@@ -2,18 +2,16 @@
 
 {% block title %}{{ title }}{% endblock %}
 
-{% block header %}
-
-{% endblock %}
-
 {% block aside %}
+<div class="content-wrapper">
+
+</div>
 <h2>Liko minučių: 48</h2>
-<h4><a class="button" href="#">Pirkti daugiau minučių</a> </h4>
+<h4><a class="button" href="{{ path('pricing') }}">Pirkti daugiau minučių</a> </h4>
 {% endblock %}
 
 {% block main %}
     <h1>Mano Transkripcijos</h1>
-{#    hardcoded #}
     <table class="table table-striped table-hover">
         <thead>
         <tr>
