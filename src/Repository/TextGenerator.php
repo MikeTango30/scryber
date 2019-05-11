@@ -3,7 +3,7 @@
 
 namespace App\Repository;
 
-use App\Entity\SpanBlock;
+use App\Model\SpanBlock;
 
 class TextGenerator
 {

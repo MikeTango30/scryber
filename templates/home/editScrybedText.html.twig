@@ -1,17 +1,12 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}{{ title }}{% endblock %}
-{#{% block header %}#}
-{#        <div class="content-wrapper">#}
-{#            <button class="button" id="downloadButton">Export</button>#}
-{#        </div>#}
-{#{% endblock %}#}
 
 {% block main %}
     <div class="container">
         <div class="content-wrapper" aria-label="Text Editor">
+            <div><h1>Mano Transkripcija</h1></div>
             <div class="editor" id="editor" contenteditable="true">
-                <h1>Mano Transkripcija</h1>
                 {% for word in words %}
                     {{ word|raw }}
                 {% endfor %}
@@ -21,8 +16,13 @@
 {% endblock %}
 
 {% block aside %}
-    <h2>Liko minučių: 48</h2>
-    <h4><a class="button" href="#">Pirkti daugiau minučių</a> </h4>
+    <div class="content-wrapper">
+        <button class="button" id="downloadButton">Eksportuoti transkripciją</button>
+    </div>
+    <div class="content-wrapper">
+        <h2>Liko minučių: 48</h2>
+        <h4><a class="button" href="#">Pirkti daugiau minučių</a> </h4>
+    </div>
 {% endblock %}
 
 {% block javascripts %}

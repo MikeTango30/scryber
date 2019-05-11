@@ -2,8 +2,7 @@
 
 namespace App\Repository;
 use App\Api\Tilde\Connector;
-use App\Entity\Transcription;
-use App\Api\Tilde\CtmLine;
+use App\Model\Transcription;
 
 class TranscriptionAggregator
 {

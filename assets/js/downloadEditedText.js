@@ -1,27 +1,24 @@
 $(document).ready(function() {
 
-    var text = [];
+    var text;
     $('#downloadButton').click(function() {
         $('#editor').find('span').each(function(){
-            text.push($(this).text())
+            text = $('#editor').text().replace(/ /g,'');
+            text = text.replace(/\n/g, ' ').trim();
         });
-        text = text.join(' ');
         if ($('#editor').text() !== '')
-            saveFile($('#editor').text());
+            saveFile(text);
         else
-            alert('You know nothing!');
+            alert('Redaktoriuje nėra teksto');
     });
 });
 
-
-// USING BLOB (BINARY LARGE OBJECT) TO SAVE THE TEXT.
-
 function saveFile(Value) {
 
-    // CONVERT THE TEXT TO A BLOB.
+    // convert text to a BLOB.
 
     var textToBLOB = new Blob([Value], { type: 'text/xml' });
-    var sFileName = 'myTranscription.txt';       // THE FILE IN WHICH THE CONTENTS WILL BE SAVED.
+    var sFileName = 'manoTranskripcija.txt';
 
     var newLink = document.createElement("a");
     newLink.download = sFileName;
