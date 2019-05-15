@@ -17,16 +17,22 @@
 
 {% block aside %}
     <div class="content-wrapper">
+        <iframe id="player" type="text/html"
+                src="http://www.youtube.com/embed/M7lc1UVf-VE?enablejsapi=1&origin=http://example.com"
+                frameborder="0"></iframe>
+    </div>
+    <div class="content-wrapper">
         <button class="button" id="downloadButton">Eksportuoti transkripciją</button>
     </div>
-    <div class="field">
-        <div class="control control--checkbox">
-            <input class="checkbox" type="checkbox" id="highlights">
-            <label class="label" for="highlights">Sunkūs žodžiai</label>
+    <div class="content-wrapper">
+        <div class="field">
+            <div class="control control--checkbox">
+                <input class="checkbox" type="checkbox" id="highlights">
+                <label class="label" for="highlights">Sunkūs žodžiai</label>
+            </div>
+            <p class="help error">nuspalvinti algoritmui sunkius žodžius</p>
         </div>
-        <p class="help error">nuspalvinti algoritmui sunkius žodžius</p>
     </div>
-
     <div class="content-wrapper">
         <h2>Liko minučių: 48</h2>
         <h4><a class="button" href="#">Pirkti daugiau minučių</a> </h4>

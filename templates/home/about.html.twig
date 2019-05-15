@@ -1,2 +1,19 @@
 {% extends 'base.html.twig' %}
+{% block title %}{{ title }}{% endblock %}
+{% block content %}
+    <div class="page-content container">
+        <div class="content-wrapper">
+            <p>Scriber yra <em>automatinis</em> audio ir video transkribavimo įrankis,
+                kuris naudoja VU mokslininkų sukurtą šnekos atpažinimo variklį.
 
+                Scriber naudotis yra paprasta:
+                <ol>
+                    <li>Įkelkite audio ar video failą, kurį norite transkribuoti į Scriber sistemą</li>
+                    <li>Scriber transkribuoja failą</li>
+                    <li>Nadodamiesi Scriber teksto redaktoriumi, koreguokite transkribuotą tekstą</li>
+                    <li>Atsisiųskite transkribuotą failą</li>
+                </ol>
+            </p>
+        </div>
+    </div>
+{% endblock %}

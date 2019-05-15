@@ -23,6 +23,7 @@ class TextEditorController extends AbstractController
         $connector = new Connector();
         $summary = $connector->getJobSummary($jobId);
 
+
         return $this->render("home/editScrybedText.html.twig", [
             "title" => "Scriber Editor",
             "summary" => $summary,

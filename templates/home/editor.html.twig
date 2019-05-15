@@ -1,1 +1,25 @@
 {% extends 'base.html.twig' %}
+{% block title %}{{ title }}{% endblock %}
+{% block content %}
+    <div class="page-content container">
+        <div class="content-wrapper">
+            <p>
+                Automatinio audio ir video transkribavimo kokybė priklauso nuo keleto dalykų:
+                <ul>
+                    <li>nuo triukšmo lygio fone</li>
+                    <li>kalbėtojų šnekos raiškumo</li>
+                    <li>ar pakankamai arti mikrofono yra kalbėtojai</li>
+                </ul>
+                Kadangi kartais pateikti tobulą audio ar video įrašą yra iššūkis, Scriber turi teksto redaktorių, skirtą
+                koreguoti transkripcijas.
+                <br>
+                Scriber teksto redaktoriuje jūs galite:
+                <ul>
+                    <li>sekti sinchronizuotą su audio ar video įrašu tekstą</li>
+                    <li>identifikuoti galimai klaidingai transkribuotus žodžius</li>
+                    <li>eksportuoti redaguotą tekstą reikiamu formatu</li>
+                </ul>
+            </p>
+        </div>
+    </div>
+{% endblock %}
