@@ -22,6 +22,10 @@ edit_scribed_text:
       path: /edit_scribed_text/{job_id}
       controller: App\Controller\TextEditorController::textEditor
 
+#media_player:
+#    path: /media_player
+#    controller: App\Controller\TextEditorController::mediaPlayer
+
 secure_login:
     path: /login
     controller: App\Controller\SecurityController::login

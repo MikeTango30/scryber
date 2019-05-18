@@ -17,6 +17,14 @@
 
 {% block aside %}
     <div class="content-wrapper">
+        <audio controls>
+            <source src="../../public/audio_files/demo/demo_record.mp3" type="audio/mpeg">
+        </audio>
+{#       <pre>#}
+{#            {{ dump() }}#}
+{#       </pre>#}
+    </div>
+    <div class="content-wrapper">
         <button class="button" id="downloadButton">Eksportuoti transkripciją</button>
     </div>
     <div class="field">
@@ -25,11 +33,6 @@
             <label class="label" for="highlights">Sunkūs žodžiai</label>
         </div>
         <p class="help error">nuspalvinti algoritmui sunkius žodžius</p>
-    </div>
-
-    <div class="content-wrapper">
-        <h2>Liko minučių: 48</h2>
-        <h4><a class="button" href="#">Pirkti daugiau minučių</a> </h4>
     </div>
 {% endblock %}
 

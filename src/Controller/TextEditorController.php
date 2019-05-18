@@ -23,13 +23,27 @@ class TextEditorController extends AbstractController
         $connector = new Connector();
         $summary = $connector->getJobSummary($jobId);
 
+//        $media = file_get_contents($_ENV['AUDIO_FILES_DEMO_DIR'].'demo_record.mp3');
+
         return $this->render("home/editScrybedText.html.twig", [
             "title" => "Scriber Editor",
             "summary" => $summary,
             "words" => $spanTags,
             "job_id" => $jobId
+//            "media" => $media
         ]);
     }
+
+//    public function mediaPlayer()
+//    {
+//        $media = file_get_contents($_ENV['AUDIO_FILES_DEMO_DIR'].'demo_record.mp3');
+//
+//        return $this->render('home/editScrybedText.html.twig', [
+//            "title" => "Scriber Editor",
+//            "media" => $media
+//    ]);
+//    }
+
 //    public function saveTranscribedText()
 //    {
 //
