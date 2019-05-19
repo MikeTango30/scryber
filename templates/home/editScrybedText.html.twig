@@ -17,9 +17,9 @@
 
 {% block aside %}
     <div class="content-wrapper">
-        <iframe id="player" type="text/html"
-                src="http://www.youtube.com/embed/M7lc1UVf-VE?enablejsapi=1&origin=http://example.com"
-                frameborder="0"></iframe>
+        <audio controls>
+            <source src="../../public/audio_files/demo/demo_record.mp3" type="audio/mpeg">
+        </audio>
     </div>
     <div class="content-wrapper">
         <button class="button" id="downloadButton">Eksportuoti transkripciją</button>
@@ -32,10 +32,6 @@
             </div>
             <p class="help error">nuspalvinti algoritmui sunkius žodžius</p>
         </div>
-    </div>
-    <div class="content-wrapper">
-        <h2>Liko minučių: 48</h2>
-        <h4><a class="button" href="#">Pirkti daugiau minučių</a> </h4>
     </div>
 {% endblock %}
 
