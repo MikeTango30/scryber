@@ -6,6 +6,7 @@ use App\Api\Tilde\Connector;
 use App\Repository\TextGenerator;
 use App\Repository\TranscriptionAggregator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 class TextEditorController extends AbstractController
@@ -23,42 +24,26 @@ class TextEditorController extends AbstractController
         $connector = new Connector();
         $summary = $connector->getJobSummary($jobId);
 
-//        $media = file_get_contents($_ENV['AUDIO_FILES_DEMO_DIR'].'demo_record.mp3');
-
         return $this->render("home/editScrybedText.html.twig", [
             "title" => "Scriber Editor",
             "summary" => $summary,
             "words" => $spanTags,
             "job_id" => $jobId
-//            "media" => $media
         ]);
     }
 
-//    public function mediaPlayer()
-//    {
-//        $media = file_get_contents($_ENV['AUDIO_FILES_DEMO_DIR'].'demo_record.mp3');
-//
-//        return $this->render('home/editScrybedText.html.twig', [
-//            "title" => "Scriber Editor",
-//            "media" => $media
-//    ]);
-//    }
+    public function mediaPlayer()
+    {
+        $filename = "demo_record.mp3";
+        $filePath = getcwd().DIRECTORY_SEPARATOR.$_ENV['AUDIO_FILES_DEMO_DIR'].$filename;
 
-//    public function saveTranscribedText()
-//    {
-//
-//        $savedText = strip_tags(html_entity_decode($_POST['editorText']));
-//        file_put_contents(__DIR__."/../../assets/edited.txt", $savedText);
-//
-//        return $this->render("home/saved.html.twig", [
-//            "title" => "Saved Text",
-//            "text" => $savedText
-//        ]);
-//    }
-//
-//
-//    public function downloadTranscribedText()
-//    {
-//
-//    }
+        $response = new BinaryFileResponse($filePath);
+        return $response;
+    }
+
+    public function saveTranscribedText()
+    {
+        //TODO
+    }
+
 }

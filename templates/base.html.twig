@@ -17,7 +17,10 @@
             <div class="header-content-left">
                 <div class="content-wrapper">
                     <div class="app-title">
-                        <h1><a class="link logo" href="{{ path('index') }}">Scriber</a></h1>
+                        <h1>
+                            <a class="link logo" href="{{ path('index') }}">Scriber</a>
+                            <img src="{{ asset('build/images/quill.svg') }}" alt="quill-logo">
+                        </h1>
                     </div>
                 </div>
             </div>
@@ -28,11 +31,11 @@
                     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                         <div class="navbar-nav">
                             <a class="nav-item nav-link active" href="{{ path('about') }}">Apie <span class="sr-only">(current)</span></a>
-                            <a class="nav-item nav-link" href="{{ path('pricing') }}">Kaina</a>
-                            <a class="nav-item nav-link" href="{{ path('editor') }}">Redaktorius</a>
+                            <a class="nav-item nav-link active" href="{{ path('pricing') }}">Kaina</a>
+                            <a class="nav-item nav-link active" href="{{ path('editor') }}">Redaktorius</a>
                             {% if app.user %}
-                            <a class="nav-item nav-link" href="{{ path("user_dashboard") }}">Transkripcijos</a>
-                            <a class="nav-item nav-link" href="{{ path("upload") }}">Įkelti failą</a>
+                            <a class="nav-item nav-link active" href="{{ path("user_dashboard") }}">Transkripcijos</a>
+                            <a class="nav-item nav-link active" href="{{ path("upload") }}">Įkelti failą</a>
                             {% endif %}
                         </div>
                     </div>
@@ -56,15 +59,13 @@
                 <main class="main">
                     <div class="container">
                         <div class="content-wrapper">
-                            {% block main %}main{% endblock %}
+                            {% block main %}{% endblock %}
                         </div>
                     </div>
                 </main>
                 <aside class="aside">
                     <div class="container">
-                        <div class="content-wrapper">
-                            {% block aside %}aside{% endblock %}
-                        </div>
+                            {% block aside %}{% endblock %}
                     </div>
                 </aside>
             </div>
@@ -72,7 +73,7 @@
         <footer class="page-footer">
             <div class="container">
                 <div class="content-wrapper">
-                    {% block footer %}footer{% endblock %}
+                    {% block footer %}{% endblock %}
                 </div>
             </div>
         </footer>
