@@ -17,6 +17,11 @@ class SpanBlock
     protected $dataWordEnd;
 
     /**
+     * @var string
+     */
+    protected $dataWord;
+
+    /**
      * @var float
      */
     protected $dataWordConfidence;
@@ -38,13 +43,15 @@ class SpanBlock
         $this->dataWordStart = "data-word-start"."='".$dataWordStart."'";
         $this->dataWordEnd = "data-word-end"."='".$dataWordEnd."'";
         $this->dataWordConfidence = "data-word-conf"."='" .$dataWordConfidence."'";
+        $this->dataWord = "data-word-content"."='" .$word."'";
         $this->word = $word;
     }
 
     public function glueSpan()
     {
         $spanBlock =
-            "<span"." ".
+            "<span class='word' contenteditable='true'"." ".
+            $this->dataWord." ".
             $this->dataWordStart." ".
             $this->dataWordEnd." ".
             $this->dataWordConfidence.
