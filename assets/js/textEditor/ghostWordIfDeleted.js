@@ -1,11 +1,8 @@
-(function() {
-    let originalWord = '';
-    $('#editor').bind('keypress', function (e) {
-        originalWord = window.getSelection().anchorNode.textContent;
-        if (window.getSelection().anchorNode.textContent === '')
-            window.getSelection().anchorNode.textContent = originalWord;
-        // if (this.length === 0)
-        //     console.log('zero');
-
+(function () {
+    $('#hints').change(function () {
+        if (!this.checked) {
+            $('.word').removeClass('word').addClass('no-word');
+        } else if (this.checked)
+            $('.no-word').removeClass('no-word').addClass('word');
     })
 }());
