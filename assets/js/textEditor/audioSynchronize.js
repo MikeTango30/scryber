@@ -1,7 +1,7 @@
-(function() {
-    let audioPlayer = $('#player');
-    let editor = $('#editor');
+let audioPlayer = $('#player');
+let editor = $('#editor');
 
+(function() {
     audioPlayer.bind("timeupdate", function (e) {
         editor.find('span').each(function () {
             if (audioPlayer[0].currentTime >= $(this).attr('data-word-start')
@@ -10,8 +10,10 @@
             else $(this).css('background','none');
         });
     });
+}());
 
+(function() {
     editor.children().bind('click', function (e) {
-        audioPlayer[0].currentTime = $(this).attr('data-word-start');
-    })
+    audioPlayer[0].currentTime = $(this).attr('data-word-start');
+    });
 }());

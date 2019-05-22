@@ -7,6 +7,7 @@ require('../css/app.scss');
 require('./textEditor/audioSynchronize');
 require('./textEditor/downloadEditedText');
 require('./textEditor/highlightHardWords');
+require('./textEditor/ghostWordIfDeleted');
 
 // or you can include specific pieces
 // require('bootstrap/js/dist/tooltip');
