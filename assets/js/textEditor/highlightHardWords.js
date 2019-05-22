@@ -1,18 +1,18 @@
-$('#highlights').change(function () {
-    if (this.checked) {
-        $('#editor').find('span').each(function() {
-            if ($(this).prev('span').attr('data-word-conf') <= 0.65) {
-                $(this).highlight($(this).text());
-            }
-        })
-    } else if (!this.checked) {
-    $('#editor').unhighlight()
-    }
-});
+(function () {
+    $('#highlights').change(function () {
+        if (this.checked) {
+            $('#editor').find('span').each(function() {
+                if ($(this).prev('span').attr('data-word-conf') <= 0.65) {
+                    $(this).highlight($(this).text());
+                }
+            })
+        } else if (!this.checked) {
+            $('#editor').unhighlight()
+        }
+    });
+} ());
 
 /*
- * mantas note: wrapping words to highlight in mark tags, not as originally in span tags
- *
  * jQuery Highlight plugin
  *
  * Based on highlight v3 by Johann Burkard
