@@ -7,11 +7,11 @@ send_demo_file:
     controller: App\Controller\ConnectionController::sendDemoFile
 
 check_scrybe_status:
-    path: /refresh_status/{jobId}
+    path: /refresh_status/{userfileId}
     controller: App\Controller\ConnectionController::refreshStatus
 
 show_scrybed_results:
-    path: /show_results/{jobId}
+    path: /show_results/{userfileId}
     controller: App\Controller\ConnectionController::showResults
 
 download_txt_file:
@@ -55,6 +55,10 @@ editor:
 upload:
     path: /upload
     controller: App\Controller\HomeController::upload
+
+send_with_api:
+    path: /process_scrybe/{userfileId}
+    controller: App\Controller\ConnectionController::processScrybeFile
 
 #download_transcribed_text:
 #  path: /download_transcribed_text

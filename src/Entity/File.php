@@ -58,6 +58,11 @@ class File
      */
     private $userFiles;
 
+    /**
+     * @ORM\Column(type="string", length=55)
+     */
+    private $fileTitle;
+
     public function __construct()
     {
         $this->userFiles = new ArrayCollection();
@@ -179,6 +184,18 @@ class File
                 $userFile->setUserfileFileId(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getFileTitle(): ?string
+    {
+        return $this->fileTitle;
+    }
+
+    public function setFileTitle(string $fileTitle): self
+    {
+        $this->fileTitle = $fileTitle;
 
         return $this;
     }

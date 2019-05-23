@@ -5,6 +5,9 @@
 {% block main %}
     <form method="POST" action="#" enctype="multipart/form-data">
         <div>
+            {% if text %}
+                <div class="alert-danger">{{ text }}</div>
+            {% endif %}
             <label for="file-upload" class="button">
                 Pasirinkti failą
             </label>

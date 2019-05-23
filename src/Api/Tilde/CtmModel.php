@@ -13,6 +13,9 @@ class CtmModel
     /** @var array */
     private $ctm;
 
+    /** @var string */
+    private $rawCtm;
+
     public function __construct(string $ctmRawContents)
     {
         $ctmArray = [];
@@ -27,6 +30,7 @@ class CtmModel
         }
 
         $this->ctm = $ctmArray;
+        $this->rawCtm = $ctmRawContents;
     }
 
     /**
@@ -35,5 +39,13 @@ class CtmModel
     public function getCtm(): array
     {
         return $this->ctm;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRawCtm(): string
+    {
+        return $this->rawCtm;
     }
 }
