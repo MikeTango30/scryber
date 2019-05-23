@@ -58,11 +58,6 @@
         }
 }
 
-span.word:empty::before {
-    content: '['attr(data-word-content)']';
-    color: $color__text-muted;
-}
-
 .container {
     margin: 0 auto;
     @include make-container-max-widths();
