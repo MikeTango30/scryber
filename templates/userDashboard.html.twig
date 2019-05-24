@@ -20,9 +20,26 @@
             <th scope="col">Failas</th>
             <th scope="col">Trukmė</th>
             <th scope="col">Paskutinį kartą redaguota</th>
+            <th scope="col">Veiksmai</th>
         </tr>
         </thead>
         <tbody>
+        {% for scrybe in transcriptions %}
+            <tr>
+                <th scope="row">{{ scrybe.no }}</th>
+                <td>{{ scrybe.date }}</td>
+                <td>{{ scrybe.title }}</td>
+                <td>{{ scrybe.length }}</td>
+                <td>{{ scrybe.updated }}</td>
+                <td>
+                    {% if scrybe.isScrybed %}
+                        <a href="{{ path('edit_scribed_text', {'job_id': scrybe.id} ) }}">Redaguoti</a>
+                    {% else %}
+                        <a href="{{ path('send_with_api', {'userfileId': scrybe.id} ) }}">Transkribuoti</a>
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
         <tr>
             <th scope="row">1</th>
             <td>2019-05-05</td>
