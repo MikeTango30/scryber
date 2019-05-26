@@ -6,8 +6,9 @@ let editor = $('#editor');
         editor.find('span').each(function () {
             if (audioPlayer[0].currentTime >= $(this).attr('data-word-start')
                 && audioPlayer[0].currentTime <= $(this).attr('data-word-end'))
-                $(this).css('background','#DBCF96');
-            else $(this).css('background','none');
+                $(this).addClass('sync');
+            else
+                $(this).removeClass('sync')
         });
     });
 }());

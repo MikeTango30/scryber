@@ -50,7 +50,7 @@ class SpanBlock
     public function glueSpan()
     {
         $spanBlock =
-            "<span class='word' contenteditable='true'"." ".
+            "<span class='word' ".
             $this->dataWord." ".
             $this->dataWordStart." ".
             $this->dataWordEnd." ".

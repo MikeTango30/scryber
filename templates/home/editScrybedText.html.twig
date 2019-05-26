@@ -6,7 +6,7 @@
     <div class="container">
         <div class="content-wrapper" aria-label="Text Editor">
             <div><h1>Mano Transkripcija</h1></div>
-            <div class="editor" id="editor">
+            <div class="editor" id="editor" contenteditable="true">
                 {% for word in words %}
                     {{ word|raw }}
                 {% endfor %}
