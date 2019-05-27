@@ -11,22 +11,30 @@ targetNodes.each ( function () {
 function mutationHandler (mutations) {
     mutations.forEach ( function (mutation) {
         if (typeof mutation.removedNodes === "object") {
-            var jq = $(mutation.removedNodes);
+            var removedNode = $(mutation.removedNodes);
+            removedNode.text('');
+            removedNode.addClass('empty');
             var htmlSpan = null;
-            if (jq.is('span.word'))
-                htmlSpan = jq[0];
-            console.log(htmlSpan);
 
+            if (removedNode.is('span.word'))
+                htmlSpan = removedNode[0];
+            var previousSibling = $(mutation.previousSibling);
+                if (htmlSpan)
+                    if (previousSibling[0] === undefined)
+                        $(mutation.nextSibling.nextSibling).before(htmlSpan);
+                    else
+                        previousSibling.after(htmlSpan)
         }
     } );
 }
 
+(function() {
+    $(document).on('click', '.empty', function (e) {
+        $(this).text($(this).attr('data-word-content')).focus().removeClass('empty');
+    })
+}());
 
 (function () {
-    $('.word').change(function () {
-        if (this.length <= 1)
-            console.log('here');
-        });
     $('#hints').change(function () {
         if (!this.checked) {
             $('.word').removeClass('word').addClass('no-word');
