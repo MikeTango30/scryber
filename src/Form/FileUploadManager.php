@@ -60,10 +60,10 @@ class FileUploadManager
             $uploadedFile = new SymFile($this->basePath.$_ENV['AUDIO_FILES_UPLOAD_DIR'].$newFileDir.$newFileName);
         }
         if (!$fileExistsInDb) {
-            $fileExistsInDb = $this->saveFileEntry($uploadedFile, $newFileDir, $file->getClientOriginalName());
+            $fileExistsInDb = $this->saveFileEntry($uploadedFile, $newFileDir);
         }
 
-        $userFile = $this->saveUserFileReference($fileExistsInDb, $this->user);
+        $userFile = $this->saveUserFileReference($fileExistsInDb, $file->getClientOriginalName(), $this->user);
 
         return $userFile;
     }
@@ -152,8 +152,7 @@ class FileUploadManager
         $fileEntry->setFileCreated(new \DateTime());
         $fileEntry->setFileDir($dir);
         $fileEntry->setFileMd5($this->generateFileHash($file->getPath()));
-        $fileEntry->setFileName($file->getFilename());
-        $fileEntry->setFileTitle($oldFilename);
+        $fileEntry->setFileName();
         $fileEntry->setFileLength(9); //TODO reikia plugino iraso ilgiui skaiciuoti. Arba pries taidar net konvertuoti
 
         $this->entityManager->persist($fileEntry);
@@ -162,7 +161,7 @@ class FileUploadManager
         return $fileEntry;
     }
 
-    private function saveUserFileReference(File $file, User $user) {
+    private function saveUserFileReference(File $file, string $fileTitle, User $user) {
 
         $userFile = new UserFile();
         $userFile->setUserfileCreated(new \DateTime());
@@ -172,6 +171,7 @@ class FileUploadManager
         $userFile->setUserfileUpdated(new \DateTime());
         $userFile->setUserfileUserId($user);
         $userFile->setUserfileCtm('');
+        $userFile->setUserfileTitle($fileTitle);
 
         $this->entityManager->persist($userFile);
         $this->entityManager->flush();

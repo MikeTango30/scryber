@@ -59,9 +59,19 @@ class File
     private $userFiles;
 
     /**
-     * @ORM\Column(type="string", length=55)
+     * @ORM\Column(type="text", nullable=true)
      */
-    private $fileTitle;
+    private $fileTxt;
+
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $fileConfidence;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $fileWords;
 
     public function __construct()
     {
@@ -188,14 +198,38 @@ class File
         return $this;
     }
 
-    public function getFileTitle(): ?string
+    public function getFileTxt(): ?string
     {
-        return $this->fileTitle;
+        return $this->fileTxt;
     }
 
-    public function setFileTitle(string $fileTitle): self
+    public function setFileTxt(?string $fileTxt): self
     {
-        $this->fileTitle = $fileTitle;
+        $this->fileTxt = $fileTxt;
+
+        return $this;
+    }
+
+    public function getFileConfidence(): ?float
+    {
+        return $this->fileConfidence;
+    }
+
+    public function setFileConfidence(?float $fileConfidence): self
+    {
+        $this->fileConfidence = $fileConfidence;
+
+        return $this;
+    }
+
+    public function getFileWords(): ?int
+    {
+        return $this->fileWords;
+    }
+
+    public function setFileWords(?int $fileWords): self
+    {
+        $this->fileWords = $fileWords;
 
         return $this;
     }

@@ -27,11 +27,13 @@ class UserDashboardController extends AbstractController
         foreach ($transcription_container as $transcript_container) {
             /** @var UserFile $transcription_container */
             $temp['no'] = count($transcriptions)+1;
-            $temp['id'] = $transcript_container->getId();
+            /** @var File $originalFile */
+            $originalFile = $transcript_container->getUserfileFileId();
+            $temp['id'] = $originalFile->getFileJobId();
             $temp['date'] = $transcript_container->getUserfileCreated()->format("Y-m-d");
             /** @var File $temp_file */
             $temp_file = $entityManager->getRepository(File::class)->find($transcript_container->getUserfileFileId());
-            $temp['title'] = $temp_file->getFileTitle();
+            $temp['title'] = $transcript_container->getUserfileTitle();
             $temp_length = new \DateInterval(sprintf("PT%dS", $temp_file->getFileLength()));
             $temp['length'] = sprintf("%02d:%02d:%02d", $temp_length->h, $temp_length->i, $temp_length->s);
             $temp['isScrybed'] = $transcript_container->getUserfileIsScrybed();

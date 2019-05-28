@@ -115,13 +115,6 @@ class ConnectionController extends AbstractController
             $summary = $connector->getJobSummary($originalFile->getFileJobId());
             $text = $connector->getScrybedTxt($originalFile->getFileJobId());
             $ctm = $connector->getScrybedCtm($originalFile->getFileJobId());
-        } else {
-            $summary = $connector->getJobSummary($originalFile->getFileJobId());
-            $text = $connector->getScrybedTxt($originalFile->getFileJobId());
-            $ctm = $connector->getScrybedCtm($originalFile->getFileJobId());
-        }
-
-        if ($summary) {
             if (empty($originalFile->getFileDefaultCtm())) {
                 $originalFile->setFileDefaultCtm($ctm->getRawCtm());
                 $entityManager->persist($originalFile);
@@ -134,16 +127,20 @@ class ConnectionController extends AbstractController
             $entityManager->flush();
 
             $this->saveCreditLog($originalFile->getFileLength(), true, $userFile);
-
-
-
-            return $this->render('home/showScrybedText.html.twig', [
-                'userfileId' => $userfileId,
-                'summary' => $summary,
-                'text' => $text,
-                'ctm' => $ctm,
-            ]);
         }
+        else {
+            $summary = $connector->getJobSummary($originalFile->getFileJobId());
+            $text = $connector->getScrybedTxt($originalFile->getFileJobId());
+            $ctm = $connector->getScrybedCtm($originalFile->getFileJobId());
+        }
+
+
+        return $this->render('home/showScrybedText.html.twig', [
+            'userfileId' => $userfileId,
+            'summary' => $summary,
+            'text' => $text,
+            'ctm' => $ctm,
+        ]);
 
     }
 
