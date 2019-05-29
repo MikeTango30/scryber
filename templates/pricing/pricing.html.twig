@@ -13,42 +13,20 @@
       </div>
     </div>
     <div class="page-content container">
+      {% for pricingPlan in pricingPlans %}
       <div class="pricing container">
         <div class="content-wrapper">
-          <div class="pricing-heading">{{ pricingPlans.0.pricingPlanHours }} valanda</div>
+          <div class="pricing-heading">{{ pricingPlan.pricingPlanHours }} val.</div>
           <br><br><br>
-          <div class="price-rate">{{ pricingPlans.0.pricingPlanRate }} &euro;</div>
+          <div class="price-rate">{{ pricingPlan.pricingPlanRate }} &euro;</div>
           <h4>
-            {{ (pricingPlans.0.pricingPlanRate / (pricingPlans.0.pricingPlanHours * 60)) | number_format(2, '.', ',') }} eur/min
+            {{ (pricingPlan.pricingPlanRate / (pricingPlan.pricingPlanHours * 60)) | number_format(2, '.', ',') }} eur/min
           </h4>
           <br><br><br>
-          <a class="button container" href="{{ path('buy', {'hours': pricingPlans.0.pricingPlanHours}) }}">Pirkti!</a>
+          <a class="button container" href="{{ path('buy', {'hours': pricingPlan.pricingPlanHours}) }}">Pirkti!</a>
         </div>
       </div>
-      <div class="pricing container">
-        <div class="content-wrapper">
-          <div class="pricing-heading">{{ pricingPlans.1.pricingPlanHours }} valandos</div>
-          <br><br><br>
-          <div class="price-rate">{{ pricingPlans.1.pricingPlanRate }} &euro;</div>
-          <h4>
-            {{ (pricingPlans.1.pricingPlanRate / (pricingPlans.1.pricingPlanHours * 60)) | number_format(2, '.', ',') }} eur/min
-          </h4>
-          <br><br><br>
-          <a class="button container" href="{{ path('buy', {'hours': pricingPlans.1.pricingPlanHours}) }}">Pirkti!</a>
-        </div>
-      </div>
-      <div class="pricing container">
-        <div class="content-wrapper">
-          <div class="pricing-heading">{{ pricingPlans.2.pricingPlanHours }} valandos</div>
-          <br><br><br>
-          <div class="price-rate">{{ pricingPlans.2.pricingPlanRate }} &euro;</div>
-          <h4>
-            {{ (pricingPlans.2.pricingPlanRate / (pricingPlans.2.pricingPlanHours * 60)) | number_format(2, '.', ',') }} eur/min
-          </h4>
-          <br><br><br>
-          <a class="button container" href="{{ path('buy', {'hours': pricingPlans.2.pricingPlanHours}) }}">Pirkti!</a>
-        </div>
-      </div>
+      {% endfor %}
     </div>
     {% if not app.user %}
       <div class="page-content container">
