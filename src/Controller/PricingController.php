@@ -13,8 +13,6 @@ class PricingController extends AbstractController
     public function pricing(PricingPlanRepository $pricingPlanRepository)
     {
         $pricingPlans = $pricingPlanRepository->selectAllPlans();
-        var_dump($pricingPlans);
-        $plans = [];
 
         return $this->render('pricing/pricing.html.twig', [
             'title' => 'Kaina',
