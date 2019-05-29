@@ -46,6 +46,6 @@ security:
     access_control:
         - { path: ^/login$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/user_dashboard$, roles: ROLE_USER }
-        - { path: ^/edit_transcribed_text$, roles: ROLE_USER }
+        - { path: ^/edit_transcribed_text, roles: ROLE_USER }
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }

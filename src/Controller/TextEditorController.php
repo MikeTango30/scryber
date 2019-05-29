@@ -13,6 +13,7 @@ class TextEditorController extends AbstractController
 {
     public function textEditor(Request $request)
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
         $jobId = $request->attributes->get('job_id');
 
         $transcriptionAggregator = new TranscriptionAggregator();
