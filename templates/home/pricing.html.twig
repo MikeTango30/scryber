@@ -3,9 +3,48 @@
 {% block title %}{{ title }}{% endblock %}
 
 {% block content %}
-    <div class="page-content container">
-        <div class="content-wrapper">
-
+    <section class="pricing-page">
+        <div class="page-content container">
+            <div class="content-wrapper text-white">
+                <h1 class="text-white">Pasiūlymų paketai</h1>
+                <p>
+                    Pasirinkite Jums tinkamą pasiūlymą ir gaukite nurodytą valandų kiekį transkribavimui.
+                </p>
+            </div>
         </div>
-    </div>
+        <div class="page-content container">
+            <div class="pricing container">
+                <div class="content-wrapper">
+                    <div class="pricing-heading">1 valanda</div>
+                    <br>
+                    <div class="price-rate">15 EUR</div>
+                    <h4>0.25eur/min</h4>
+                    <button class="button">Pirkti!</button>
+                </div>
+            </div>
+            <div class="pricing container">
+                <div class="content-wrapper">
+                    <div class="pricing-heading">3 valandos</div>
+                    <br>
+                    <div class="price-rate">36 EUR</div>
+                    <h4>0.20eur/min</h4>
+
+                    <button class="button">Pirkti!</button>
+                </div>
+            </div>
+            <div class="pricing container">
+                <div class="content-wrapper">
+                    <div class="pricing-heading">6 valandos</div>
+                    <br>
+                    <div class="price-rate">54 EUR</div>
+                    <h4>0.15eur/min</h4>
+
+                    <button class="button">Pirkti!</button>
+                </div>
+            </div>
+        </div>
+    </section>
 {% endblock %}
+{#{% block javascripts %}#}
+{#    {{ encore_entry_script_tags('pricing') }}#}
+{#{% endblock %}#}

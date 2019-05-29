@@ -22,7 +22,14 @@
     }
 
 .page-footer {
-    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .content-wrapper {
+        padding: $size__gutter;
+    }
+
 }
 
 .page-content {
@@ -34,6 +41,20 @@
 
     @include breakpoint-up(lg) {
         flex-direction: row;
+    }
+
+    .pricing {
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+        height: 450px;
+        max-width: 300px;
+        margin: auto auto 20px auto;
+        border-width: 1px;
+        box-shadow: 3px 5px 18px $color__grey-skull;
+        background-color: $color__baby-powder;
+        border-style: solid;
+        border-radius: 6px;
     }
 
     .aside {
@@ -66,3 +87,13 @@
         padding: $size__gutter;
     }
 }
+
+@media (min-width: 992px) {
+    .pricing:hover {
+        margin-top: -.25rem;
+        margin-bottom: .25rem;
+        box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.3);
+    }
+}
+
+

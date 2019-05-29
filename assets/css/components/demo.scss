@@ -13,22 +13,13 @@
     border-top: 1px solid $color__grey-skull;
 }
 
-.aside {
-
-    .container {
-        background: $color__paper;
-    }
-}
-
-.main {
-
-    .container {
-        background: $color__paper;
-    }
-}
-
 .landing-page-title, .landing-page-content {
     animation: appear 300ms ease-out 0s;
+}
+
+.pricing-page {
+    background-color: $color__royal-blue;
+    background: linear-gradient(to right, $color__grad-blue-dark, $color__grad-blue-light);
 }
 
     /* Animations */
@@ -43,8 +34,3 @@
             transform: scale(1);
         }
     }
-
-//#landing-page {
-//    background-image: url("../../paper_background.jpeg");
-//    background-size: cover;
-//}

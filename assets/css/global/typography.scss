@@ -22,13 +22,15 @@ h3, .h3 { font-size: $font-size__h3; }
 h4, .h4 { font-size: $font-size__h4; }
 h5, .h5 { font-size: $font-size__h5; }
 h6, .h6 { font-size: $font-size__h6; }
-.landing-page-title     { font-size: $font-size__mega; }
-.landing-page-heading   { font-size: $font-size__large; }
-.landing-page-content   { font-size: $font-size__h1; }
+
+.landing-page-title                       { font-size: $font-size__mega; }
+.landing-page-heading, .pricing-heading   { font-size: $font-size__large; }
+.landing-page-content                     { font-size: $font-size__h1; }
+.price-rate                               { font-size: $font-size__price-rate; }
 
 p { margin-bottom: $margin__headings; }
 
-.landing-page-title, .landing-page-heading {
+.landing-page-title, .landing-page-heading, .pricing-heading, .price-rate {
     margin-bottom: $margin__headings;
     font-family: $font-family__headings;
     font-weight: $font-weight__headings;
@@ -43,4 +45,5 @@ p { margin-bottom: $margin__headings; }
     line-height: $line-height__body;
     color: $color__ink;
 }
+
 
