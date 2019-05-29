@@ -55,6 +55,16 @@ class UserFile
      */
     private $userCreditLogs;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $userfileTitle;
+
+    /**
+     * @ORM\Column(type="json", nullable=true)
+     */
+    private $userfileText = [];
+
     public function __construct()
     {
         $this->userCreditLogs = new ArrayCollection();
@@ -164,6 +174,30 @@ class UserFile
                 $userCreditLog->setUclUserfileId(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getUserfileTitle(): ?string
+    {
+        return $this->userfileTitle;
+    }
+
+    public function setUserfileTitle(string $userfileTitle): self
+    {
+        $this->userfileTitle = $userfileTitle;
+
+        return $this;
+    }
+
+    public function getUserfileText(): ?array
+    {
+        return $this->userfileText;
+    }
+
+    public function setUserfileText(?array $userfileText): self
+    {
+        $this->userfileText = $userfileText;
 
         return $this;
     }
