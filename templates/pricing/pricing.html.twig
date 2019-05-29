@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+  <section class="pricing-page">
+    <div class="page-content container">
+      <div class="content-wrapper text-white text-center">
+        <h1 class="text-white">Pasiūlymų paketai</h1>
+        <p>
+          Pasirinkite Jums tinkamą pasiūlymą ir gaukite nurodytą valandų kiekį transkribavimui.
+        </p>
+      </div>
+    </div>
+    <div class="page-content container">
+      <div class="pricing container">
+        <div class="content-wrapper">
+          <div class="pricing-heading">{{ content.planOne }} valanda</div>
+          <br><br><br>
+          <div class="price-rate">{{ content.priceRateForOneHour }} &euro;</div>
+          <h4>
+            {{ (content.priceRateForOneHour / (content.planOne * 60)) | number_format(2, '.', ',') }} eur/min
+          </h4>
+          <br><br><br>
+          <a class="button container" href="{{ path('buy', {'hours': content.planOne}) }}">Pirkti!</a>
+        </div>
+      </div>
+      <div class="pricing container">
+        <div class="content-wrapper">
+          <div class="pricing-heading">{{ content.planTwo }} valandos</div>
+          <br><br><br>
+          <div class="price-rate">{{ content.priceRateForThreeHours }} &euro;</div>
+          <h4>
+            {{ (content.priceRateForThreeHours / (content.planTwo * 60)) | number_format(2, '.', ',') }} eur/min
+          </h4>
+          <br><br><br>
+          <a class="button container" href="{{ path('buy', {'hours': content.planTwo}) }}">Pirkti!</a>
+        </div>
+      </div>
+      <div class="pricing container">
+        <div class="content-wrapper">
+          <div class="pricing-heading">{{ content.planThree }} valandos</div>
+          <br><br><br>
+          <div class="price-rate">{{ content.priceRateForSixHours }} &euro;</div>
+          <h4>
+            {{ (content.priceRateForSixHours / (content.planThree * 60)) | number_format(2, '.', ',') }} eur/min
+          </h4>
+          <br><br><br>
+          <a class="button container" href="{{ path('buy', {'hours': content.planThree}) }}">Pirkti!</a>
+        </div>
+      </div>
+    </div>
+    {% if not app.user %}
+      <div class="page-content container">
+        <div class="content-wrapper">
+          <h1 class="text-white">
+            Arba<a class="button-link" href="{{ path('register') }}">Išbandykite nemokamai</a>
+          </h1>
+        </div>
+      </div>
+    {% endif %}
+  </section>
+{% endblock %}
+{#{% block javascripts %}#}
+{#    {{ encore_entry_script_tags('pricing') }}#}
+{#{% endblock %}#}

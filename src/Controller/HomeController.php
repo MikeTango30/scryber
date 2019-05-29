@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Routing\Annotation\Route;
 
 class HomeController extends AbstractController
 {
@@ -18,13 +17,6 @@ class HomeController extends AbstractController
     {
         return $this->render('home/about.html.twig', [
             'title' => 'Apie mus'
-        ]);
-    }
-
-    public function pricing()
-    {
-        return $this->render('home/pricing.html.twig', [
-            'title' => 'Kaina'
         ]);
     }
 
