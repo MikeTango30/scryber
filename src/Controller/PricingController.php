@@ -4,25 +4,21 @@
 namespace App\Controller;
 
 
+use App\Repository\PricingPlanRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 
 class PricingController extends AbstractController
 {
-    public function pricing()
+    public function pricing(PricingPlanRepository $pricingPlanRepository)
     {
-        $content = [
-            'planOne' => 1,
-            'planTwo' => 3,
-            'planThree' => 6,
-            'priceRateForOneHour' => 15,
-            'priceRateForThreeHours' => 36,
-            'priceRateForSixHours' => 54
-        ];
+        $pricingPlans = $pricingPlanRepository->selectAllPlans();
+        var_dump($pricingPlans);
+        $plans = [];
 
         return $this->render('pricing/pricing.html.twig', [
             'title' => 'Kaina',
-            'content' => $content
+            'pricingPlans' => $pricingPlans
         ]);
     }
 
@@ -36,7 +32,13 @@ class PricingController extends AbstractController
 
         return $this->render('pricing/bought.html.twig', [
             'title' => 'Pirkimas',
-            'errors' => $errors
+            'errors' => $errors,
+            'hours' => $hours
         ]);
+    }
+
+    public function confirmBuy()
+    {
+
     }
 }

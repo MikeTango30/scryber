@@ -21,7 +21,8 @@
         "symfony/translation": "4.2.*",
         "symfony/validator": "4.2.*",
         "symfony/webpack-encore-bundle": "^1.4",
-        "symfony/yaml": "4.2.*"
+        "symfony/yaml": "4.2.*",
+      "ext-json": "*"
     },
     "config": {
         "preferred-install": {

@@ -15,38 +15,38 @@
     <div class="page-content container">
       <div class="pricing container">
         <div class="content-wrapper">
-          <div class="pricing-heading">{{ content.planOne }} valanda</div>
+          <div class="pricing-heading">{{ pricingPlans.0.pricingPlanHours }} valanda</div>
           <br><br><br>
-          <div class="price-rate">{{ content.priceRateForOneHour }} &euro;</div>
+          <div class="price-rate">{{ pricingPlans.0.pricingPlanRate }} &euro;</div>
           <h4>
-            {{ (content.priceRateForOneHour / (content.planOne * 60)) | number_format(2, '.', ',') }} eur/min
+            {{ (pricingPlans.0.pricingPlanRate / (pricingPlans.0.pricingPlanHours * 60)) | number_format(2, '.', ',') }} eur/min
           </h4>
           <br><br><br>
-          <a class="button container" href="{{ path('buy', {'hours': content.planOne}) }}">Pirkti!</a>
+          <a class="button container" href="{{ path('buy', {'hours': pricingPlans.0.pricingPlanHours}) }}">Pirkti!</a>
         </div>
       </div>
       <div class="pricing container">
         <div class="content-wrapper">
-          <div class="pricing-heading">{{ content.planTwo }} valandos</div>
+          <div class="pricing-heading">{{ pricingPlans.1.pricingPlanHours }} valandos</div>
           <br><br><br>
-          <div class="price-rate">{{ content.priceRateForThreeHours }} &euro;</div>
+          <div class="price-rate">{{ pricingPlans.1.pricingPlanRate }} &euro;</div>
           <h4>
-            {{ (content.priceRateForThreeHours / (content.planTwo * 60)) | number_format(2, '.', ',') }} eur/min
+            {{ (pricingPlans.1.pricingPlanRate / (pricingPlans.1.pricingPlanHours * 60)) | number_format(2, '.', ',') }} eur/min
           </h4>
           <br><br><br>
-          <a class="button container" href="{{ path('buy', {'hours': content.planTwo}) }}">Pirkti!</a>
+          <a class="button container" href="{{ path('buy', {'hours': pricingPlans.1.pricingPlanHours}) }}">Pirkti!</a>
         </div>
       </div>
       <div class="pricing container">
         <div class="content-wrapper">
-          <div class="pricing-heading">{{ content.planThree }} valandos</div>
+          <div class="pricing-heading">{{ pricingPlans.2.pricingPlanHours }} valandos</div>
           <br><br><br>
-          <div class="price-rate">{{ content.priceRateForSixHours }} &euro;</div>
+          <div class="price-rate">{{ pricingPlans.2.pricingPlanRate }} &euro;</div>
           <h4>
-            {{ (content.priceRateForSixHours / (content.planThree * 60)) | number_format(2, '.', ',') }} eur/min
+            {{ (pricingPlans.2.pricingPlanRate / (pricingPlans.2.pricingPlanHours * 60)) | number_format(2, '.', ',') }} eur/min
           </h4>
           <br><br><br>
-          <a class="button container" href="{{ path('buy', {'hours': content.planThree}) }}">Pirkti!</a>
+          <a class="button container" href="{{ path('buy', {'hours': pricingPlans.2.pricingPlanHours}) }}">Pirkti!</a>
         </div>
       </div>
     </div>
@@ -61,6 +61,3 @@
     {% endif %}
   </section>
 {% endblock %}
-{#{% block javascripts %}#}
-{#    {{ encore_entry_script_tags('pricing') }}#}
-{#{% endblock %}#}
