@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+  <div class="page-content container">
+  {% if errors %}
+    <div class="errors">
+      <div class="content-wrapper">
+        <h1>Klaida!</h1>
+        <br>
+        {{ errors }}
+        <br>
+        <a class='button-link' href="{{ path('pricing') }}">Grižti į kainoraštį</a>
+      </div>
+    </div>
+  {% endif %}
+    {% if not errors %}
+    <div class="checkout">
+      <div class="content-wrapper">
+        <h1>Puikus pasirinkimas!</h1>
+        <div class="content-wrapper">
+
+        </div>
+      </div>
+    </div>
+  {% endif %}
+  </div>
+{% endblock %}

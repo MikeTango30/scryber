@@ -28,7 +28,7 @@ class PricingController extends AbstractController
             $errors = ('Atsiprašome, šiuo metu galime pasiūlyti pirkti transkribavimui vieną, tris arba šešias valandas');
         }
 
-        return $this->render('pricing/bought.html.twig', [
+        return $this->render('pricing/checkout.html.twig', [
             'title' => 'Pirkimas',
             'errors' => $errors,
             'hours' => $hours
