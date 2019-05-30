@@ -20,7 +20,7 @@ function mutationHandler (mutations) {
                 htmlSpan = removedNode[0];
             var previousSibling = $(mutation.previousSibling);
                 if (htmlSpan)
-                    if (previousSibling[0] === undefined)
+                    if (!previousSibling[0])
                         $(mutation.nextSibling.nextSibling).before(htmlSpan);
                     else
                         previousSibling.after(htmlSpan)
