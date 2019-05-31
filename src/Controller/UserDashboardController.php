@@ -29,7 +29,7 @@ class UserDashboardController extends AbstractController
             $temp['no'] = count($transcriptions)+1;
             /** @var File $originalFile */
             $originalFile = $transcript_container->getUserfileFileId();
-            $temp['id'] = $originalFile->getFileJobId();
+            $temp['id'] = $transcript_container->getId();
             $temp['date'] = $transcript_container->getUserfileCreated()->format("Y-m-d");
             /** @var File $temp_file */
             $temp_file = $entityManager->getRepository(File::class)->find($transcript_container->getUserfileFileId());
