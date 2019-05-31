@@ -74,50 +74,32 @@
     }
 
     .pricing {
-        display: flex;
-        flex-direction: column;
-        text-align: center;
-        flex-grow: 1;
+        @extend .box;
         height: 450px;
         max-width: 300px;
-        margin: auto auto 20px auto;
-        border-width: 1px;
-        box-shadow: 3px 5px 18px $color__grey-skull;
-        background-color: $color__baby-powder;
-        border-style: solid;
-        border-radius: 6px;
+        margin: auto auto 20px auto !important;;
     }
 
     .errors {
-        display: flex;
-        flex-direction: column;
+        @extend .box;
         text-align: center;
-        justify-content: space-around;
-        flex-grow: 1;
         height: 300px;
         max-width: 600px;
-        margin: auto;
-        border-width: 2px;
         border-color: $color__jellybean-red;
-        box-shadow: 3px 5px 18px $color__grey-skull;
-        background-color: $color__baby-powder;
-        border-style: solid;
     }
 
     .checkout {
-        display: flex;
-        flex-direction: column;
+        @extend .box;
         text-align: center;
-        justify-content: space-around;
-        flex-grow: 1;
-        height: 400px;
-        max-width: 500px;
-        margin: auto;
-        border-width: 1px;
-        border-color: $color__ink;
-        box-shadow: 3px 5px 18px $color__grey-skull;
-        background-color: $color__baby-powder;
-        border-style: solid;
+        height: 300px;
+        max-width: 400px;
+    }
+
+    .login {
+        @extend .box;
+        text-align: left !important;
+        height: 350px;
+        max-width: 380px;
     }
 
     .list {

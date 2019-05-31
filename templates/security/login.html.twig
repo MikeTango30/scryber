@@ -1,51 +1,52 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Log in!{% endblock %}
+{% block title %}Prisijungimas{% endblock %}
 
 {% block content %}
-<div id="app" class="page-wrapper">
-    <div class="container">
-        <div class="content-wrapper">
-            <form class="log-in" method="post">
-            {% if error %}
-                <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-            {% endif %}
-
-            <h1 class="h3 mb-3 font-weight-normal">Prisijunkite</h1>
-            <div class="field max-width-320">
-                <label for="inputEmail" class="sr-only">Email</label>
-                <div class="control">
-                    <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" placeholder="El. paštas" required autofocus>
-                </div>
+  <div class="page-wrapper blue-gradient-page">
+    <div class="page-content container">
+      <div class="content-wrapper login">
+        <form class="log-in" method="post">
+          {% if error %}
+            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+          {% endif %}
+          <h1 class="text-center">Prisijunkite</h1>
+          <div class="field">
+            <label class="label" for="field-email">El. paštas</label>
+            <div class="control">
+              <input class="input"
+                     type="email"
+                     value="{{ last_username }}"
+                     name="email"
+                     id="field-email"
+                     placeholder="El. paštas"
+                     required autofocus
+              >
             </div>
-            <div class="field max-width-320">
-                <label for="inputPassword" class="sr-only">Password</label>
-                <div class="control">
-                    <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Slaptažodis" required>
-                </div>
+          </div>
+          <div class="field">
+            <label class="label" for="field-password">Slaptažodis</label>
+            <div class="control">
+              <input class="input"
+                     type="password"
+                     name="password"
+                     id="field-password"
+                     placeholder="Slaptažodis"
+                     required
+              >
             </div>
-            <input type="hidden" name="_csrf_token"
-                   value="{{ csrf_token('authenticate') }}"
-            >
-
-            {#
-                Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
-                See https://symfony.com/doc/current/security/remember_me.html
-             #}
-                <div class="checkbox mb-3">
-                    <label>
-                        <input type="checkbox" name="_remember_me"> Atsiminti duomenis
-                    </label>
-                    <button class="button" type="submit">
-                        Prisijungti
-                    </button>
-                </div>
-            </form>
-        <div class="content-wrapper">
-            Neturite paskyros?
-            <a href="{{ path('register') }}">Registruokitės</a>
+          </div>
+          <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+          <div class="field control control--checkbox justify-content-center">
+            <input class="checkbox" type="checkbox" name="_remember_me" id="field-checkbox-remember-me">
+            <label class="label" for="field-checkbox-remember-me">Atsiminti mane </label>
+            <button class="button" type="submit">Prisijungti</button>
+          </div>
+        </form>
+        <div class="content-wrapper text-center">
+          Neturite paskyros? <a href="{{ path('register') }}">Registruokitės</a>
         </div>
-        </div>
+      </div>
     </div>
-</div>
+  </div>
 {% endblock %}
