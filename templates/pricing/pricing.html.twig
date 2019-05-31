@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+  <section class="pricing-page">
+    <div class="page-content container">
+      <div class="content-wrapper text-white text-center">
+        <h1 class="text-white">Pasiūlymų paketai</h1>
+        <p>
+          Pasirinkite Jums tinkamą pasiūlymą ir gaukite nurodytą valandų kiekį transkribavimui.
+        </p>
+      </div>
+    </div>
+    <div class="page-content container">
+      {% for pricingPlan in pricingPlans %}
+      <div class="pricing container">
+        <div class="content-wrapper">
+          <div class="pricing-heading">{{ pricingPlan.pricingPlanHours }} val.</div>
+          <br><br><br>
+          <div class="price-rate">{{ pricingPlan.pricingPlanRate }} &euro;</div>
+          <h4>
+            {{ (pricingPlan.pricingPlanRate / (pricingPlan.pricingPlanHours * 60)) | number_format(2, '.', ',') }} eur/min
+          </h4>
+          <br><br><br>
+          <a class="button container" href="{{ path('buy', {'hours': pricingPlan.pricingPlanHours}) }}">Pasirinkti!</a>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% if not app.user %}
+      <div class="page-content container">
+        <div class="content-wrapper">
+          <h1 class="text-white">
+            Arba<a class="button-link" href="{{ path('register') }}">Išbandykite nemokamai</a>
+          </h1>
+        </div>
+      </div>
+    {% endif %}
+  </section>
+{% endblock %}

@@ -26,13 +26,6 @@ class HomeController extends AbstractController
         ]);
     }
 
-    public function pricing()
-    {
-        return $this->render('home/pricing.html.twig', [
-            'title' => 'Kaina'
-        ]);
-    }
-
     public function editor()
     {
         return $this->render('home/editor.html.twig', [
