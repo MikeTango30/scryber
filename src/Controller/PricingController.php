@@ -38,7 +38,7 @@ class PricingController extends AbstractController
         ]);
     }
 
-    public function updateCredits($hours, PricingPlanRepository $pricingPlanRepository, \Swift_Mailer $mailer)
+    public function updateCredits($hours, PricingPlanRepository $pricingPlanRepository, \Swift_Mailer $mailer, ConnectionController $connectionController)
     {
         $pricingPlanRate = $pricingPlanRepository->findPricingPlanRate($hours);
 
@@ -46,8 +46,10 @@ class PricingController extends AbstractController
             return $this->redirectToRoute('buy', ['hours' => $hours]);
         }
 
-        //TODO update DB
-               $this->sendEmail($mailer, $hours, $pricingPlanRate);
+        // $userFile ir $logAction yra null, todel error'as
+        //TODO $connectionController->saveCreditLog($hours * 3600, false);
+
+        $this->sendEmail($mailer, $hours, $pricingPlanRate);
 
         return $this->redirectToRoute('user_dashboard');
 
