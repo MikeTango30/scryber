@@ -2,7 +2,12 @@
 
 namespace App\Controller;
 
+use App\Api\FileOperator\FileOperator;
+use App\Entity\User;
+use App\Form\FileUploadManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 class HomeController extends AbstractController
@@ -35,10 +40,30 @@ class HomeController extends AbstractController
         ]);
     }
 
-    public function upload()
+    public function upload(Request $request)
     {
+        $uploadError = false;
+        $entityManager = $this->getDoctrine()->getManager();
+
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $user = $this->getUser();
+
+        if (!$user || $request->files->has('uploadedFile')) {
+            $fileOperator = new FileUploadManager($user, $entityManager);
+            /** @var UploadedFile $uploadedFile */
+            $uploadedFile = $request->files->get('uploadedFile');
+            if ($uploadedFile->getError() === 0) {
+                if($fileOperator->processUploadFile($uploadedFile)) {
+                    //upload sekmingas, keliaujame i dashboard
+                    return $this->redirectToRoute('user_dashboard');
+                }
+            } else {
+                $uploadError = $uploadedFile->getErrorMessage();
+            }
+        }
         return $this->render('home/upload.html.twig', [
-            'title' => 'Įkelti failą'
+            'title' => 'Įkelti failą',
+            'text' => !$user ? 'Please login first' : $uploadError
         ]);
     }
 }

@@ -12,8 +12,14 @@ class TranscriptionAggregator
     public function prepareData(string $jobId)
     {
         $connector = new Connector();
-        $text = $connector->getScrybedTxt($jobId);
-        $ctm = $connector->getScrybedCtm($jobId)->getCtm();
+        if ($jobId) {
+            $text = $connector->getScrybedTxt($jobId);
+            $ctm = $connector->getScrybedCtm($jobId)->getCtm();
+        }
+        else {
+            $text = '';
+            $ctm = [];
+        }
 
         $text = trim(preg_replace('/\s+/', ' ', $text )); // get rid of new lines
         $textParts = explode(" ", $text);

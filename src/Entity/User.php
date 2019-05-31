@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -39,6 +41,27 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=255)
      */
     private $firstname;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $credits;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\UserFile", mappedBy="userfileUserId", orphanRemoval=true)
+     */
+    private $userFiles;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\UserCreditLog", mappedBy="uclUserId")
+     */
+    private $userCreditLogs;
+
+    public function __construct()
+    {
+        $this->userFiles = new ArrayCollection();
+        $this->userCreditLogs = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -126,6 +149,80 @@ class User implements UserInterface
     public function setFirstname(string $firstname): self
     {
         $this->firstname = $firstname;
+
+        return $this;
+    }
+
+    public function getCredits(): ?int
+    {
+        return $this->credits;
+    }
+
+    public function setCredits(int $credits): self
+    {
+        $this->credits = $credits;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|UserFile[]
+     */
+    public function getUserFiles(): Collection
+    {
+        return $this->userFiles;
+    }
+
+    public function addUserFile(UserFile $userFile): self
+    {
+        if (!$this->userFiles->contains($userFile)) {
+            $this->userFiles[] = $userFile;
+            $userFile->setUserfileUserId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserFile(UserFile $userFile): self
+    {
+        if ($this->userFiles->contains($userFile)) {
+            $this->userFiles->removeElement($userFile);
+            // set the owning side to null (unless already changed)
+            if ($userFile->getUserfileUserId() === $this) {
+                $userFile->setUserfileUserId(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|UserCreditLog[]
+     */
+    public function getUserCreditLogs(): Collection
+    {
+        return $this->userCreditLogs;
+    }
+
+    public function addUserCreditLog(UserCreditLog $userCreditLog): self
+    {
+        if (!$this->userCreditLogs->contains($userCreditLog)) {
+            $this->userCreditLogs[] = $userCreditLog;
+            $userCreditLog->setUclUserId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserCreditLog(UserCreditLog $userCreditLog): self
+    {
+        if ($this->userCreditLogs->contains($userCreditLog)) {
+            $this->userCreditLogs->removeElement($userCreditLog);
+            // set the owning side to null (unless already changed)
+            if ($userCreditLog->getUclUserId() === $this) {
+                $userCreditLog->setUclUserId(null);
+            }
+        }
 
         return $this;
     }
