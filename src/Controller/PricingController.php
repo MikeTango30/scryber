@@ -38,7 +38,7 @@ class PricingController extends AbstractController
         ]);
     }
 
-    public function updateCredits($hours, PricingPlanRepository $pricingPlanRepository)
+    public function updateCredits($hours, PricingPlanRepository $pricingPlanRepository, \Swift_Mailer $mailer)
     {
         $pricingPlanRate = $pricingPlanRepository->findPricingPlanRate($hours);
 
@@ -47,8 +47,30 @@ class PricingController extends AbstractController
         }
 
         //TODO update DB
+               $this->sendEmail($mailer, $hours, $pricingPlanRate);
 
         return $this->redirectToRoute('user_dashboard');
+
+    }
+
+    public function sendEmail(\Swift_Mailer $mailer, $hours, $pricingPlanRate)
+    {
+        $user = $this->getUser();
+        $userName = $user->getFirstname();
+        $userEmail = $user->getEmail();
+
+        $message = (new \Swift_Message('Scriber'))
+            ->setFrom('scriber.assistant@gmail.com')
+            ->setTo($userEmail)
+            ->setBody($this->renderView('emails/timeBought.html.twig', [
+                    'name' => $userName,
+                    'pricingPlanHours' => $hours,
+                    'pricingPlanRate' => $pricingPlanRate
+                ]
+            ),
+                'text/html'
+            );
+        $mailer->send($message);
 
     }
 }
