@@ -1,25 +1,37 @@
 {% extends 'base.html.twig' %}
 {% block title %}{{ title }}{% endblock %}
 {% block content %}
-    <div class="page-content container">
-        <div class="content-wrapper">
-            <p>
-                Automatinio audio ir video transkribavimo kokybė priklauso nuo keleto dalykų:
-                <ul>
-                    <li>nuo triukšmo lygio fone</li>
-                    <li>kalbėtojų šnekos raiškumo</li>
-                    <li>ar pakankamai arti mikrofono yra kalbėtojai</li>
-                </ul>
-                Kadangi kartais pateikti tobulą audio ar video įrašą yra iššūkis, Scriber turi teksto redaktorių, skirtą
-                koreguoti transkripcijas.
-                <br>
-                Scriber teksto redaktoriuje jūs galite:
-                <ul>
-                    <li>sekti sinchronizuotą su audio ar video įrašu tekstą</li>
-                    <li>identifikuoti galimai klaidingai transkribuotus žodžius</li>
-                    <li>eksportuoti redaguotą tekstą reikiamu formatu</li>
-                </ul>
-            </p>
-        </div>
+  <div class="page-content container">
+    <div class="content-wrapper">
+      <h1>
+        Transkribavimo kokybė
+      </h1>
+      <h5>
+        <em>
+          Automatinio audio ir video transkribavimo kokybė priklauso nuo keleto dalykų:
+        </em>
+      </h5>
+      <ul class="list list-group list-group-flush">
+        <li class="list-group-item">&bull; nuo triukšmo lygio fone</li>
+        <li class="list-group-item">&bull; kalbėtojų šnekos raiškumo</li>
+        <li class="list-group-item">&bull; ar pakankamai arti mikrofono yra kalbėtojai</li>
+      </ul>
+      <br><br>
+      <h1>
+        Teksto redaktorius
+      </h1>
+      <h5>
+        <em>
+          Pateikti tobulą audio ar video nevisada paprasta, todėl Scriber turi teksto redaktorių, skirtą
+          koreguoti transkripcijas,kuriame jūs galite:
+        </em>
+      </h5>
+      <ul class="list list-group list-group-flush">
+        <li class="list-group-item">&bull; sekti sinchronizuotą su audio ar video įrašu tekstą</li>
+        <li class="list-group-item">&bull; identifikuoti galimai klaidingai transkribuotus žodžius</li>
+        <li class="list-group-item">&bull; keisti žodžius</li>
+        <li class="list-group-item">&bull; eksportuoti redaguotą tekstą reikiamu formatu</li>
+      </ul>
     </div>
+  </div>
 {% endblock %}
