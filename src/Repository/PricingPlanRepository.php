@@ -8,7 +8,7 @@ use App\Model\PricingPlan;
 
 class PricingPlanRepository
 {
-    public function selectAllPlans()
+    public function selectAllPlans(): array
     {
         $result = [];
         $pricingPlans = json_decode(
@@ -24,5 +24,23 @@ class PricingPlanRepository
         }
 
         return $result;
+    }
+
+    /**
+     * @param int $hours
+     * @return int
+     */
+    public function findPricingPlanRate(int $hours): ?int
+    {
+        $pricingPlans = $this->selectAllPlans();
+        $pricingPlanRate = null;
+
+        foreach ($pricingPlans as $pricingPlan) {
+            if ($pricingPlan->getPricingPlanHours() === $hours) {
+                $pricingPlanRate = $pricingPlan->getPricingPlanRate();
+            }
+        }
+
+        return $pricingPlanRate;
     }
 }

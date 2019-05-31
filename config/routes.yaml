@@ -61,6 +61,11 @@ buy:
     controller: App\Controller\PricingController::buyHours
     methods: GET
 
+bought:
+    path: /bought/{hours}
+    controller: App\Controller\PricingController::updateCredits
+    methods: GET
+
 editor:
     path: /editor
     controller: App\Controller\HomeController::editor

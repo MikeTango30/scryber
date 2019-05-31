@@ -20,23 +20,35 @@ class PricingController extends AbstractController
         ]);
     }
 
-    public function buyHours($hours)
+    public function buyHours($hours, PricingPlanRepository $pricingPlanRepository)
     {
         $errors = '';
-        $validHours = [1, 3, 6];
-        if (!in_array($hours, $validHours)) {
-            $errors = ('Atsiprašome, šiuo metu galime pasiūlyti pirkti transkribavimui vieną, tris arba šešias valandas');
+
+        $pricingPlanRate = $pricingPlanRepository->findPricingPlanRate($hours);
+
+        if ($pricingPlanRate === null){
+            $errors = 'Atsiprašome, šiuo metu galime pasiūlyti pirkti transkribavimui vieną, tris arba šešias valandas';
         }
 
         return $this->render('pricing/checkout.html.twig', [
             'title' => 'Pirkimas',
             'errors' => $errors,
-            'hours' => $hours
+            'pricingPlanHours' => $hours,
+            'pricingPlanRate' => $pricingPlanRate
         ]);
     }
 
-    public function confirmBuy()
+    public function updateCredits($hours, PricingPlanRepository $pricingPlanRepository)
     {
+        $pricingPlanRate = $pricingPlanRepository->findPricingPlanRate($hours);
+
+        if ($pricingPlanRate === null){
+            return $this->redirectToRoute('buy', ['hours' => $hours]);
+        }
+
+        //TODO update DB
+
+        return $this->redirectToRoute('user_dashboard');
 
     }
 }

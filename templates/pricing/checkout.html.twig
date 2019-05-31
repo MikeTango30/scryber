@@ -19,9 +19,10 @@
     <div class="checkout">
       <div class="content-wrapper">
         <h1>Puikus pasirinkimas!</h1>
-        <div class="content-wrapper">
-
+        <div class="content-wrapper pricing-heading">
+            {{ pricingPlanHours }} val. už {{ pricingPlanRate }} &euro;
         </div>
+        <a class="button" href="{{ path('bought', {'hours': pricingPlanHours}) }}">Patvirtinti užsakymą!</a>
       </div>
     </div>
   {% endif %}
