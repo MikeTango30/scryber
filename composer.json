@@ -5,6 +5,7 @@
         "php": "^7.1.3",
         "ext-ctype": "*",
         "ext-iconv": "*",
+        "char0n/ffmpeg-php": "^3.0",
         "guzzlehttp/guzzle": "^6.3",
         "symfony/asset": "4.2.*",
         "symfony/console": "4.2.*",
@@ -17,11 +18,12 @@
         "symfony/orm-pack": "^1.0",
         "symfony/profiler-pack": "^1.0",
         "symfony/security-bundle": "4.2.*",
-        "symfony/twig-bundle": "4.2.*",
         "symfony/translation": "4.2.*",
+        "symfony/twig-bundle": "4.2.*",
         "symfony/validator": "4.2.*",
         "symfony/webpack-encore-bundle": "^1.4",
-        "symfony/yaml": "4.2.*"
+        "symfony/yaml": "4.2.*",
+        "xemle/html5-video-php": "dev-master"
     },
     "config": {
         "preferred-install": {

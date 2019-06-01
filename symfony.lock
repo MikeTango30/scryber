@@ -1,4 +1,7 @@
 {
+    "char0n/ffmpeg-php": {
+        "version": "3.0.0"
+    },
     "doctrine/annotations": {
         "version": "1.0",
         "recipe": {
@@ -393,6 +396,9 @@
     },
     "twig/twig": {
         "version": "v2.7.4"
+    },
+    "xemle/html5-video-php": {
+        "version": "dev-master"
     },
     "zendframework/zend-code": {
         "version": "3.3.1"

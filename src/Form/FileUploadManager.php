@@ -3,6 +3,7 @@
 
 namespace App\Form;
 
+use App\Api\FileConverter;
 use App\Api\FileOperator\FileOperator;
 use App\Entity\File;
 use App\Entity\User;
@@ -44,7 +45,7 @@ class FileUploadManager
     {
         $fileMd5 = $this->generateFileHash($file->getPath());
         $newFileDir = '';
-        $newFileName = $fileMd5.$file->getExtension();
+        $newFileName = $fileMd5.'.mp4';//$file->getExtension();
 
         $fileExistsInDb = $this->searchFileByHash($fileMd5);
         $fileExistsInFileSystem = file_exists($this->basePath.$_ENV['AUDIO_FILES_UPLOAD_DIR']
@@ -114,6 +115,8 @@ class FileUploadManager
     {
         $result = false;
         if ($file) {
+            $fileConverter = new FileConverter();
+            $fileConverter->ConvertFile($file->getPathname(), $newDir.$newName);
             $result = $file->move($newDir, $newName);//) {
 //                $uploadedFile = new SymFile($this->basePath.$newDir.$newName);
 //                return $uploadedFile;
@@ -145,14 +148,14 @@ class FileUploadManager
         return $fileSearch;
     }
 
-    private function saveFileEntry(SymFile $file, string $dir, string $oldFilename)
+    private function saveFileEntry(SymFile $file, string $dir)
     {
 
         $fileEntry = new File();
         $fileEntry->setFileCreated(new \DateTime());
         $fileEntry->setFileDir($dir);
         $fileEntry->setFileMd5($this->generateFileHash($file->getPath()));
-        $fileEntry->setFileName();
+        $fileEntry->setFileName($file->getFilename());
         $fileEntry->setFileLength(9); //TODO reikia plugino iraso ilgiui skaiciuoti. Arba pries taidar net konvertuoti
 
         $this->entityManager->persist($fileEntry);
