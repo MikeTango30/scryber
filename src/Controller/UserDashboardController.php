@@ -41,7 +41,8 @@ class UserDashboardController extends AbstractController
             $transcriptions[] = $temp;
         }
 
-        //TODO query DB for remaining Time
+
+        $remainingTime['minutes'] = date('i', $user_data->getCredits());
 
         return $this->render('userDashboard.html.twig', [
             "title" => "Mano Transkripcijos",

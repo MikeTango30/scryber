@@ -7,7 +7,7 @@
         color: $color__link;
     }
 
-    &:focus, 
+    &:focus,
     &:active {
         color: darken($color__link, 30%);
     }
@@ -17,7 +17,13 @@
     }
 
     &.logo {
-        color:  $color__logo !important;
+        color: $color__logo !important;
         text-decoration: none !important;
     }
+}
+
+.table-link {
+    @extend .link;
+    color: $color__royal-blue;
+    text-decoration: none !important;
 }
