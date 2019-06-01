@@ -102,6 +102,13 @@
         max-width: 380px;
     }
 
+    .register {
+        @extend .box;
+        text-align: left !important;
+        height: 400px;
+        max-width: 380px;
+    }
+
     .list {
         display: flex;
         flex-direction: column;

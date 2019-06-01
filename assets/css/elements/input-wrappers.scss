@@ -30,6 +30,11 @@
     text-align: left;
 }
 
+.center-button {
+    display: flex;
+    justify-content: center;
+}
+
 .help {
     margin-top: 2px;
     font-size: $font-size__small;
