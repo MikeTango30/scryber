@@ -1,4 +1,4 @@
-// Colorings for draft purposes
+// Colorings
 #app {
     background: $color__baby-powder;
 }
@@ -17,6 +17,11 @@
     animation: appear 300ms ease-out 0s;
 }
 
+.blue-gradient-page {
+    background-color: $color__royal-blue;
+    background: linear-gradient(to right, $color__grad-blue-dark, $color__grad-blue-light);
+}
+
     /* Animations */
 
     @keyframes appear {
@@ -29,8 +34,3 @@
             transform: scale(1);
         }
     }
-
-//#landing-page {
-//    background-image: url("../../paper_background.jpeg");
-//    background-size: cover;
-//}

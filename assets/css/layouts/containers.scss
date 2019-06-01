@@ -22,13 +22,20 @@
     }
 
 .page-footer {
-    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .content-wrapper {
+        padding: $size__gutter;
+    }
+
 }
 
 .page-content {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: center;
     min-height: auto;
     flex: 1 0 auto;
 
@@ -61,8 +68,65 @@
 .container {
     margin: 0 auto;
     @include make-container-max-widths();
-    
+
     .content-wrapper {
         padding: $size__gutter;
     }
+
+    .pricing {
+        @extend .box;
+        height: 450px;
+        max-width: 300px;
+        margin: auto auto 20px auto !important;;
+    }
+
+    .errors {
+        @extend .box;
+        text-align: center;
+        height: 300px;
+        max-width: 600px;
+        border-color: $color__jellybean-red;
+    }
+
+    .checkout {
+        @extend .box;
+        text-align: center;
+        height: 300px;
+        max-width: 400px;
+    }
+
+    .login {
+        @extend .box;
+        text-align: left !important;
+        height: 350px;
+        max-width: 380px;
+    }
+
+    .register {
+        @extend .box;
+        text-align: left !important;
+        height: 400px;
+        max-width: 380px;
+    }
+
+    .list {
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+        max-width: 600px;
+    }
+
+    .list-group-item {
+        background-color: $color__baby-powder !important; //override Bootstrap
+    }
 }
+
+@media (min-width: 992px) {
+    .pricing:hover {
+        margin-top: -.25rem;
+        margin-bottom: .25rem;
+        box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.3);
+    }
+}
+
+

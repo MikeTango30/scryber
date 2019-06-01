@@ -14,7 +14,7 @@ use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
 
 class RegistrationController extends AbstractController
 {
-    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder, GuardAuthenticatorHandler $guardHandler, LoginFormAuthenticator $authenticator): Response
+    public function register(\Swift_Mailer $mailer, Request $request, UserPasswordEncoderInterface $passwordEncoder, GuardAuthenticatorHandler $guardHandler, LoginFormAuthenticator $authenticator): Response
     {
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
@@ -33,7 +33,19 @@ class RegistrationController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
-            // do anything else you need here, like send an email
+            $userName = $user->getFirstname();
+            $userEmail = $user->getEmail();
+
+            $message = (new \Swift_Message('Scriber'))
+                ->setFrom('scriber.assistant@gmail.com')
+                ->setTo($userEmail)
+                ->setBody($this->renderView('emails/registered.html.twig', [
+                        'name' => $userName
+                    ]
+                ),
+                    'text/html'
+                );
+            $mailer->send($message);
 
             return $this->redirectToRoute('secure_login');
 

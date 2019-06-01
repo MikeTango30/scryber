@@ -5,14 +5,19 @@ namespace App\Controller;
 
 use App\Api\FileOperator\FileOperator;
 use App\Api\Tilde\Connector;
+use App\Api\Tilde\CtmLine;
+use App\Api\Tilde\CtmModel;
 use App\Api\Tilde\RequestModel;
 use App\Api\Tilde\ResponseModel;
+use App\Api\Tilde\SummaryModel;
 use App\Entity\CreditLogActions;
 use App\Entity\File;
 use App\Entity\User;
 use App\Entity\UserCreditLog;
 use App\Entity\UserFile;
 use App\Form\FileUploadManager;
+use App\Repository\WordBlockGenerator;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\HeaderUtils;
 use Symfony\Component\HttpFoundation\Request;
@@ -97,7 +102,8 @@ class ConnectionController extends AbstractController
 
         return $this->render('home/checkScrybeStatus.html.twig', [
             'userfileId' => $userfileId,
-            'job_status' => $response->getResponseStatusText()
+            'job_status' => $response->getResponseStatusText(),
+            'fileName' => $userFile->getUserfileTitle()
         ]);
     }
 
@@ -109,25 +115,35 @@ class ConnectionController extends AbstractController
         $userFile = $this->getDoctrine()->getRepository(UserFile::class)->find($userfileId);
         $originalFile = $userFile->getUserfileFileId();
         $connector = new Connector();
-        if ($redirected) {
+        if ($redirected) { //reiskia, kad katik baige transkcibcijas, saugome pirmiausia rezultatus
             $summary = $connector->getJobSummary($originalFile->getFileJobId());
             $text = $connector->getScrybedTxt($originalFile->getFileJobId());
             $ctm = $connector->getScrybedCtm($originalFile->getFileJobId());
             if (empty($originalFile->getFileDefaultCtm())) {
                 $originalFile->setFileDefaultCtm($ctm->getRawCtm());
+                $originalFile->setFileTxt($text);
+                $originalFile->setFileWords($summary->getWords());
+                $originalFile->setFileConfidence($summary->getConfidence());
                 $entityManager->persist($originalFile);
             }
-            $userFile->setUserfileCtm($ctm->getRawCtm());
-            $userFile->setUserfileUpdated(new \DateTime());
-            $userFile->setUserfileIsScrybed(1);
-            $entityManager->persist($userFile);
+            if (empty($userFile->getUserfileCtm())) {
+                $userFile->setUserfileCtm($ctm->getRawCtm());
+                $userFile->setUserfileUpdated(new \DateTime());
+                $userFile->setUserfileIsScrybed(1);
+                $entityManager->persist($userFile);
+            }
+            $lengthRounded = $summary->getLengthRounded();
+            $confidence = $summary->getConfidence();
+            $words = $summary->getWords();
 
             $entityManager->flush();
 
             $this->saveCreditLog($originalFile->getFileLength(), true, $userFile);
         }
         else {
-            $summary = $connector->getJobSummary($originalFile->getFileJobId());
+            $lengthRounded = $originalFile->getFileLength();
+            $confidence = $originalFile->getFileConfidence();
+            $words = $originalFile->getFileWords();
             $text = $connector->getScrybedTxt($originalFile->getFileJobId());
             $ctm = $connector->getScrybedCtm($originalFile->getFileJobId());
         }
@@ -135,7 +151,10 @@ class ConnectionController extends AbstractController
 
         return $this->render('home/showScrybedText.html.twig', [
             'userfileId' => $userfileId,
-            'summary' => $summary,
+            'fileName' => $userFile->getUserfileTitle(),
+            'length' => $lengthRounded,
+            'confidence' => $confidence,
+            'words' => $words,
             'text' => $text,
             'ctm' => $ctm,
         ]);
@@ -158,7 +177,7 @@ class ConnectionController extends AbstractController
         return $response;
     }
 
-    public function processScrybeFile(string $userfileId)
+    public function processScrybeFile(string $userfileId, EntityManagerInterface $entityManager)
     {
         /**
          *  1. pasigetiname faila
@@ -167,7 +186,6 @@ class ConnectionController extends AbstractController
          * 4. sumazinkime kreditus.
          */
 
-        $entityManager = $this->getDoctrine()->getManager();
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         /** @var User $user */
         $user = $this->getUser();
@@ -182,10 +200,14 @@ class ConnectionController extends AbstractController
 
         if ($userFile->getUserfileIsScrybed()) {
             //jau vis tik buvo useris scrybe padares
-            return true;
+            return $this->forward('App\Controller\ConnectionController::showResults', [
+                'userfileId' => $userfileId
+            ]);
+
         } elseif (!empty($originalFile->getFileDefaultCtm())) {
             //darome scrybe. bet kadangi origin turi vertima, tuomet ji tik perkeliame
             $userFile->setUserfileCtm($originalFile->getFileDefaultCtm());
+            $userFile->setUserfileText($this->makeCtmJson($originalFile));
             $userFile->setUserfileUpdated(new \DateTime());
             $userFile->setUserfileIsScrybed(1);
 
@@ -198,15 +220,9 @@ class ConnectionController extends AbstractController
             $originalFile->setFileJobId($result->getRequestId());
             $entityManager->flush();
 
-            return $this->redirectToRoute('check_scrybe_status', ['userfileId' => $userfileId]);
-
         }
 
-        $entityManager->flush();
-
-        return true;
-
-
+        return $this->redirectToRoute('check_scrybe_status', ['userfileId' => $userfileId]);
     }
 
     public function saveCreditLog(int $credits, bool $payOut = true, UserFile $userFile = null)
@@ -226,6 +242,35 @@ class ConnectionController extends AbstractController
 
         $entityManager->persist($operationLog);
         $entityManager->flush();
+    }
+
+    private function makeCtmJson(File $file) : array
+    {
+        $ctm = new CtmModel($file->getFileDefaultCtm());
+        $text = $file->getFileTxt();
+        $words = explode(' ', $text);
+        $wordsCount = $file->getFileWords();
+
+        if(count($words)!==$wordsCount)
+            return new \Exception("Unable to format JSON from CTM source", 1);
+
+        $jsonObject = [];
+
+        $index = 0;
+        /** @var CtmLine $_ctm */
+        foreach ($ctm->getCtm() as $_ctm) {
+            $jsonLine = new \stdClass();
+            $jsonLine->duration = $_ctm->getDuration();
+            $jsonLine->beginTime = $_ctm->getBeginTime();
+            $jsonLine->confidence = $_ctm->getConfidence();
+            $jsonLine->word = $words[$index];//$_ctm->getWordId();
+
+            array_push($jsonObject, $jsonLine);
+
+            $index++;
+        }
+
+        return $jsonObject;
     }
 }
 

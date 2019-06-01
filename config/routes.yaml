@@ -54,7 +54,17 @@ about:
 
 pricing:
     path: /pricing
-    controller: App\Controller\HomeController::pricing
+    controller: App\Controller\PricingController::pricing
+
+buy:
+    path: /buy/{hours}
+    controller: App\Controller\PricingController::buyHours
+    methods: GET
+
+bought:
+    path: /bought/{hours}
+    controller: App\Controller\PricingController::updateCredits
+    methods: GET
 
 editor:
     path: /editor

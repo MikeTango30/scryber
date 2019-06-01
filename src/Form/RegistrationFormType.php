@@ -3,8 +3,12 @@
 namespace App\Form;
 
 use App\Entity\User;
+use function PHPSTORM_META\type;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\NotBlank;
@@ -15,12 +19,18 @@ class RegistrationFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('firstname')
-            ->add('email')
-            ->add('plainPassword', PasswordType::class, [
+            ->add('firstname', TextType::class, ['attr' => ['placeholder' => 'Vardas'],])
+            ->add('email', EmailType::class, ['attr' => ['placeholder' => 'El. paštas'],])
+            ->add('plainPassword', RepeatedType::class, [
+                'type' => PasswordType::class,
                 // instead of being set onto the object directly,
                 // this is read and encoded in the controller
                 'mapped' => false,
+                'invalid_message' => 'Slaptažodžiai turi sutapti.',
+                'options' => ['attr' => ['class' => 'password-field', 'placeholder' => 'Slaptažodis']],
+                'required' => true,
+                'first_options'  => ['label' => 'Slaptažodis'],
+                'second_options' => ['label' => 'Pakartokite slaptažodį'],
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Įveskite slaptažodį',

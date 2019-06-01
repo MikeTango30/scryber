@@ -1,0 +1,9 @@
+// Override Bootstrap
+.table-hover {
+    tbody tr {
+        @include hover {
+            color: $color__white;
+            background-color: $color__royal-blue;
+        }
+    }
+}
