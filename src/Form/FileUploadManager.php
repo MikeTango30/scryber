@@ -145,14 +145,14 @@ class FileUploadManager
         return $fileSearch;
     }
 
-    private function saveFileEntry(SymFile $file, string $dir, string $oldFilename)
+    private function saveFileEntry(SymFile $file, string $dir)
     {
 
         $fileEntry = new File();
         $fileEntry->setFileCreated(new \DateTime());
         $fileEntry->setFileDir($dir);
         $fileEntry->setFileMd5($this->generateFileHash($file->getPath()));
-        $fileEntry->setFileName();
+        $fileEntry->setFileName($file->getFilename());
         $fileEntry->setFileLength(9); //TODO reikia plugino iraso ilgiui skaiciuoti. Arba pries taidar net konvertuoti
 
         $this->entityManager->persist($fileEntry);
