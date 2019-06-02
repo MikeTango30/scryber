@@ -19,7 +19,11 @@ $margin__form-label: .25rem;
 // Sizes
 $size__inputs-buttons: 3rem;
 $size__checkbox:       1.4rem;
-$size__radio:          1.5rem; //ND
+$size__radio:          1.5rem;
 
 // Icons
 $icon__check: " \f00c" !default;
+
+//Dropzone
+$box-height__dropzone: 400px;
+$box-width__dropzone: 600px;

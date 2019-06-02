@@ -109,11 +109,22 @@
         max-width: 380px;
     }
 
+    .upload-dropzone {
+        @extend .box;
+        height: $box-height__dropzone;
+        max-width: $box-width__dropzone;
+        margin-bottom: 20px !important;
+        border-style: dashed !important;
+        border-color: $color__royal-blue;
+        border-width: 3px !important;
+    }
+
     .list {
         display: flex;
         flex-direction: column;
         flex-grow: 1;
         max-width: 600px;
+        align-items: center;
     }
 
     .list-group-item {
