@@ -41,10 +41,10 @@ class HomeController extends AbstractController
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $user = $this->getUser();
 
-        if (!$user || $request->files->has('uploaded-file')) {
+        if (!$user || $request->files->has('uploadedFile')) {
             $fileOperator = new FileUploadManager($user, $entityManager);
             /** @var UploadedFile $uploadedFile */
-            $uploadedFile = $request->files->get('uploaded-file');
+            $uploadedFile = $request->files->get('uploadedFile');
             if ($uploadedFile->getError() === 0) {
                 if($fileOperator->processUploadFile($uploadedFile)) {
                     //upload sekmingas, keliaujame i dashboard

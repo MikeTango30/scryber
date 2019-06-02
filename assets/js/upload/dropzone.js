@@ -232,7 +232,7 @@ var Dropzone = function (_Emitter) {
          * **NOTE**: If you have the option  `uploadMultiple` set to `true`, then
          * Dropzone will append `[]` to the name.
          */
-        paramName: "uploaded-file",
+        paramName: "uploadedFile",
 
         /**
          * Whether thumbnails for images should be generated
