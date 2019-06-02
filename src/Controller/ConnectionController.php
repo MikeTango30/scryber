@@ -120,22 +120,6 @@ class ConnectionController extends AbstractController
 
     }
 
-    public function DownloadTxtFile(string $jobId)
-    {
-        $connector = new Connector();
-        $text = $connector->getScrybedTxt($jobId);
-
-        $response = new Response($text);
-
-        $disposition = HeaderUtils::makeDisposition(
-            HeaderUtils::DISPOSITION_ATTACHMENT,
-            'scrybed_text.txt'
-        );
-
-        $response->headers->set('Content-Disposition', $disposition);
-        return $response;
-    }
-
     public function processScrybeFile(string $userfileId, EntityManagerInterface $entityManager)
     {
         /**

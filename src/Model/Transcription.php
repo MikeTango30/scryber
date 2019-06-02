@@ -8,6 +8,10 @@ class Transcription
     /** @var array */
     private $transcriptionLines;
 
+    /**
+     * Transcription constructor.
+     * @param array|null $textArray
+     */
     public function __construct(?array $textArray)
     {
         foreach ($textArray as $line) {
@@ -36,6 +40,18 @@ class Transcription
     public function setTranscriptionLines(array $transcriptionLines): void
     {
         $this->transcriptionLines = $transcriptionLines;
+    }
+
+    public function getArray() : array
+    {
+        $response = [];
+
+        /** @var TranscriptionLine $transcriptionLine */
+        foreach ($this->getTranscriptionLines() as $transcriptionLine) {
+            $response[] = $transcriptionLine->getArray();
+        }
+
+        return $response;
     }
 
 }
