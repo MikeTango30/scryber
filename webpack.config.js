@@ -31,7 +31,6 @@ Encore
      * Each entry will result in one JavaScript file (e.g. app.js)
      * and one CSS file (e.g. app.css) if you JavaScript imports CSS.
      */
-    // .addEntry('downloadEditedText', './assets/js/downloadEditedText.js')
     .addEntry('app', './assets/js/app.js')
     .addEntry('editScrybedText', './assets/js/editScrybedText.js')
     .addEntry('uploadDropzone', './assets/js/uploadDropzone.js')

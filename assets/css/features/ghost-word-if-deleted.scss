@@ -1,0 +1,14 @@
+span.word:empty::before {
+    content: '['attr(data-word-content)']';
+    color: $color__text-muted;
+
+    &.empty {
+        pointer-events: auto;
+    }
+}
+
+[contenteditable="true"]:active,
+[contenteditable="true"]:focus{
+    border:none;
+    outline:none;
+}
