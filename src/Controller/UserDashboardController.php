@@ -19,6 +19,7 @@ class UserDashboardController extends AbstractController
 
         $entityManager = $this->getDoctrine()->getManager();
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        /** @var User $user */
         $user = $this->getUser();
 
         $user_data = $entityManager->getRepository(User::class)->find($user->getId());
@@ -41,12 +42,15 @@ class UserDashboardController extends AbstractController
             $transcriptions[] = $temp;
         }
 
-        //TODO query DB for remaining Time
+        $remainingTime = $user->getCredits();
+        $remainingMinutes = floor($remainingTime/60);
+        $remainingSec = $remainingTime - $remainingMinutes * 60;
 
         return $this->render('userDashboard.html.twig', [
             "title" => "Mano Transkripcijos",
             "transcriptions" => $transcriptions,
-            "remainingTime" => $remainingTime
+            "remainingTime" => $remainingTime,
+            'credits_left' => sprintf("%02d:%02d", $remainingMinutes, $remainingSec),
         ]);
     }
 

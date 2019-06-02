@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Api\Tilde\Connector;
 use App\Api\Tilde\SummaryModel;
 use App\Entity\UserFile;
+use App\Error\UserFileNotFoundMessage;
 use App\Model\Transcription;
 use App\Repository\TextGenerator;
 use App\Repository\TranscriptionAggregator;
@@ -20,22 +21,29 @@ class TextEditorController extends AbstractController
         $this->denyAccessUnlessGranted('ROLE_USER');
 
         /** @var UserFile $userfile */
-        $userfile = $entityManager->getRepository(UserFile::class)->find($userfileId);
+        $userfile = $entityManager->getRepository(UserFile::class)->findOneBy(['id' => $userfileId, 'userfileUserId' => $this->getUser()]);
 
-        $transcription = new Transcription($userfile->getUserfileText());
+        if($userfile) {
 
-        $textGenerator = new TextGenerator();
-        $spanTags = $textGenerator->generateSpans($transcription);
+            $transcription = new Transcription($userfile->getUserfileText());
+
+            $textGenerator = new TextGenerator();
+            $spanTags = $textGenerator->generateSpans($transcription);
 
 //        $connector = new Connector();
 //        $summary = new SummaryModel()
 
 
-        return $this->render("home/editScrybedText.html.twig", [
+            return $this->render("home/editScrybedText.html.twig", [
+                "title" => "Scriber Editor",
+                "summary" => [],//$summary,
+                "words" => $spanTags,
+                "job_id" => $userfileId
+            ]);
+        }
+
+        return $this->render("home/userfileNotFound.html.twig", [
             "title" => "Scriber Editor",
-            "summary" => [],//$summary,
-            "words" => $spanTags,
-            "job_id" => $userfileId
         ]);
     }
 

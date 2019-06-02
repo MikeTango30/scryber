@@ -16,6 +16,7 @@ use App\Entity\User;
 use App\Entity\UserCreditLog;
 use App\Entity\UserFile;
 use App\Form\FileUploadManager;
+use App\Pricing\CreditUpdates;
 use App\Repository\WordBlockGenerator;
 use App\ScribeFormats\CtmTransformer;
 use Doctrine\ORM\EntityManagerInterface;
@@ -90,6 +91,11 @@ class ConnectionController extends AbstractController
                 $userFile->setUserfileUpdated(new \DateTime());
                 $userFile->setUserfileIsScrybed(1);
                 $entityManager->persist($userFile);
+
+                $creditUpdater = new CreditUpdates($entityManager);
+                $creditUpdater->chageUserCreditTotal($this->getUser(), $originalFile->getFileLength() * -1);
+                $creditUpdater->saveUserCreditChangeLog($this->getUser(), $originalFile->getFileLength() * -1, $userFile);
+
             }
             $lengthRounded = $summary->getLengthRounded();
             $confidence = $summary->getConfidence();
@@ -97,7 +103,7 @@ class ConnectionController extends AbstractController
 
             $entityManager->flush();
 
-            $this->saveCreditLog($originalFile->getFileLength(), true, $userFile, $entityManager);
+//            $this->saveCreditLog($originalFile->getFileLength(), true, $userFile, $entityManager);
         }
         else {
             $lengthRounded = $originalFile->getFileLength();
@@ -149,54 +155,6 @@ class ConnectionController extends AbstractController
         }
 
         return $this->redirectToRoute('check_scrybe_status', ['userfileId' => $userfileId]);
-    }
-
-    public function saveCreditLog(int $credits, bool $payOut = true, UserFile $userFile = null, EntityManagerInterface $entityManager)
-    {
-        /** @var User $user */
-        $user = $this->getUser();
-
-        $actionName = $payOut ? 'Scrybe_file' : 'Top_up_credits';
-        $logAction = $entityManager->getRepository(CreditLogActions::class)->findOneBy(['claName' => $actionName]);
-
-        $operationLog = new UserCreditLog();
-        $operationLog->setUclCreated(new \DateTime());
-        $operationLog->setUclCredits($credits * ($payOut ? -1 : 1));
-        $operationLog->setUclUserfileId($userFile);
-        $operationLog->setUclUserId($user);
-        $operationLog->setUclActionId($logAction);
-
-        $entityManager->persist($operationLog);
-        $entityManager->flush();
-    }
-
-    private function makeCtmJson(File $file) : array
-    {
-        $ctm = new CtmModel($file->getFileDefaultCtm());
-        $text = $file->getFileTxt();
-        $words = explode(' ', $text);
-        $wordsCount = $file->getFileWords();
-
-        if(count($words)!==$wordsCount)
-            return new \Exception("Unable to format JSON from CTM source", 1);
-
-        $jsonObject = [];
-
-        $index = 0;
-        /** @var CtmLine $_ctm */
-        foreach ($ctm->getCtm() as $_ctm) {
-            $jsonLine = new \stdClass();
-            $jsonLine->duration = $_ctm->getDuration();
-            $jsonLine->beginTime = $_ctm->getBeginTime();
-            $jsonLine->confidence = $_ctm->getConfidence();
-            $jsonLine->word = $words[$index];//$_ctm->getWordId();
-
-            array_push($jsonObject, $jsonLine);
-
-            $index++;
-        }
-
-        return $jsonObject;
     }
 }
 

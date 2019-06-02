@@ -4,6 +4,7 @@
 namespace App\Controller;
 
 
+use App\Pricing\CreditUpdates;
 use App\Repository\PricingPlanRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -46,8 +47,10 @@ class PricingController extends AbstractController
             return $this->redirectToRoute('buy', ['hours' => $hours]);
         }
 
-        // $userFile ir $logAction yra null, todel error'as
-        //TODO $connectionController->saveCreditLog($hours * 3600, false);
+        $creditUpdater = new CreditUpdates($this->getDoctrine()->getManager());
+        $creditUpdater->chageUserCreditTotal($this->getUser(), $hours * 3600);
+        $creditUpdater->saveUserCreditChangeLog($this->getUser(), $hours * 3600);
+
 
         $this->sendEmail($mailer, $hours, $pricingPlanRate);
 
