@@ -23,7 +23,7 @@ download_txt_file:
     controller: App\Controller\ConnectionController::DownloadTxtFile
 
 edit_scribed_text:
-      path: /edit_scribed_text/{job_id}
+      path: /edit_scribed_text/{userfileId}
       controller: App\Controller\TextEditorController::textEditor
 
 media_player:

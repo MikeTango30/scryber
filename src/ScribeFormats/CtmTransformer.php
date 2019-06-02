@@ -7,6 +7,7 @@ namespace App\ScribeFormats;
 use App\Api\Tilde\CtmLine;
 use App\Api\Tilde\CtmModel;
 use App\Entity\File;
+use App\Model\TranscriptionLine;
 
 class CtmTransformer
 {
@@ -18,7 +19,7 @@ class CtmTransformer
     {
         $ctm = new CtmModel($file->getFileDefaultCtm());
         $text = $file->getFileTxt();
-        $text = trim(preg_replace('/\s+/', ' ', $text )); // get rid of new lines
+        $text = trim(preg_replace('/\s+/', ' ', $text)); // get rid of new lines
         $words = explode(' ', $text);
         $wordsCount = $file->getFileWords();
 
@@ -30,14 +31,15 @@ class CtmTransformer
         $index = 0;
         /** @var CtmLine $_ctm */
         foreach ($ctm->getCtm() as $_ctm) {
-            $jsonLine = new \stdClass();
-            $jsonLine->duration = $_ctm->getDuration();
-            $jsonLine->beginTime = $_ctm->getBeginTime();
-            $jsonLine->endTime = $_ctm->getBeginTime()+$_ctm->getDuration();
-            $jsonLine->confidence = $_ctm->getConfidence();
-            $jsonLine->word = $words[$index];
+            $transcriptionLine = new TranscriptionLine(
+                $_ctm->getBeginTime(),
+                $_ctm->getBeginTime()+$_ctm->getDuration(),
+                $_ctm->getDuration(),
+                $_ctm->getConfidence(),
+                $words[$index]
+            );
 
-            array_push($jsonObject, $jsonLine);
+            array_push($jsonObject, $transcriptionLine->getArray());
 
             $index++;
         }
