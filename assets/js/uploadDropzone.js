@@ -5,7 +5,7 @@ require('bootstrap');
 
 require('../css/app.scss');
 require('./upload/dropzone.js');
-require('./upload/onUploadCompleted.js')
+
 // or you can include specific pieces
 // require('bootstrap/js/dist/tooltip');
 // require('bootstrap/js/dist/popover');

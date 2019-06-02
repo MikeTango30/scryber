@@ -114,6 +114,9 @@
         height: $box-height__dropzone;
         max-width: $box-width__dropzone;
         margin-bottom: 20px !important;
+        border-style: dashed !important;
+        border-color: $color__royal-blue;
+        border-width: 3px !important;
     }
 
     .list {
