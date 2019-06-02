@@ -2,6 +2,12 @@
     background-color: $color__jellybean-red;
 }
 
-.sync {
-    background-color: #DBCF96;
+.highlight-example {
+    background-color: $color__highlight;
+    color: $color__black-steel;
 }
+
+.sync {
+    background-color: $color__light-gold;
+}
+

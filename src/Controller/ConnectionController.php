@@ -16,6 +16,8 @@ use App\Entity\User;
 use App\Entity\UserCreditLog;
 use App\Entity\UserFile;
 use App\Form\FileUploadManager;
+use App\Model\Transcription;
+use App\Repository\TextGenerator;
 use App\Repository\WordBlockGenerator;
 use App\ScribeFormats\CtmTransformer;
 use Doctrine\ORM\EntityManagerInterface;
@@ -107,16 +109,30 @@ class ConnectionController extends AbstractController
             $ctm = new CtmModel($originalFile->setFileDefaultCtm());
         }
 
+        $transcription = new Transcription($userFile->getUserfileText());
 
-        return $this->render('home/showScrybedText.html.twig', [
-            'userfileId' => $userfileId,
+        $textGenerator = new TextGenerator();
+        $spanTags = $textGenerator->generateSpans($transcription);
+
+        return $this->render("home/editScrybedText.html.twig", [
+            "title" => "Scriber Editor",
+            "words" => $spanTags,
+//            'userfileId' => $userfileId,
             'fileName' => $userFile->getUserfileTitle(),
-            'length' => $lengthRounded,
+//            'length' => $lengthRounded,
             'confidence' => $confidence,
-            'words' => $words,
-            'text' => $text,
-            'ctm' => $ctm,
+            'wordCount' => $words,
         ]);
+
+//        return $this->render('home/showScrybedText.html.twig', [
+//            'userfileId' => $userfileId,
+//            'fileName' => $userFile->getUserfileTitle(),
+//            'length' => $lengthRounded,
+//            'confidence' => $confidence,
+//            'words' => $words,
+//            'text' => $text,
+//            'ctm' => $ctm,
+//        ]);
 
     }
 

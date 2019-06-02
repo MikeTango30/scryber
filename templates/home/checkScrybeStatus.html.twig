@@ -1,13 +1,26 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}File status page{% endblock %}
+{% block title %}Failo statutas{% endblock %}
 
-{% block main %}
-    <div class="">Check uploaded file status</div>
-    <form method="post" action="/refresh_status/{{ userfileId }}">
-        Check sent file `{{ fileName }}` scrybe status <input type="hidden" name="userfileId" value="{{ userfileId }}">. Current status is `<strong>{{ job_status }}</strong>` <button type="submit" name="refresh_status">Refresh</button>
-    </form>
-    <div class="progress">
-        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 75%"></div>
+{% block content %}
+  <div class="blue-gradient-page">
+    <div class="container">
+      <div class="content-wrapper text-center">
+        <h1 class="text-white">Vyksta failo transkribavimas</h1>
+        <p class="text-white">Kai transkribavimas bus įvykdytas, nukreipsime jus į Scriber teksto redaktorių ir informuosime el. paštu</p>
+        <div class="box">
+{#            <form method="post" action="/refresh_status/{{ userfileId }}">#}
+{#                `{{ fileName }}` transkribavimo statusas#}
+{#              <input type="hidden" name="userfileId" value="{{ userfileId }}">#}
+{#              Current status is `<strong>{{ job_status }}</strong>`#}
+{#              <button class="button" type="submit" name="refresh_status">Refresh</button>#}
+{#            </form>#}
+{#        {% if not job_status == 'Success' %}#}
+        <div class="lds-dual-ring"></div>
+{#        {% endif %}#}
+        </div>
+      </div>
     </div>
+  </div>
 {% endblock %}
+

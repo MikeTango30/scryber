@@ -41,7 +41,6 @@ class UserDashboardController extends AbstractController
             $transcriptions[] = $temp;
         }
 
-
         $remainingTime['minutes'] = date('i', $user_data->getCredits());
 
         return $this->render('userDashboard.html.twig', [
@@ -54,21 +53,5 @@ class UserDashboardController extends AbstractController
     public function exportTranscription()
     {
         //TODO
-    }
-
-    public function uploadFile()
-    {
-        //TODO
-    }
-
-    public function buyTime()
-    {
-        //TODO
-    }
-
-    public function logout()
-    {
-        //TODO render homepage
-        // return $this->render();
     }
 }
