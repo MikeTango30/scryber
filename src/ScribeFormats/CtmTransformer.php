@@ -18,6 +18,7 @@ class CtmTransformer
     {
         $ctm = new CtmModel($file->getFileDefaultCtm());
         $text = $file->getFileTxt();
+        $text = trim(preg_replace('/\s+/', ' ', $text )); // get rid of new lines
         $words = explode(' ', $text);
         $wordsCount = $file->getFileWords();
 
