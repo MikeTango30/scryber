@@ -60,7 +60,7 @@ class FileUploadManager
             $uploadedFile = new SymFile($this->basePath.$_ENV['AUDIO_FILES_UPLOAD_DIR'].$newFileDir.$newFileName);
         }
         if (!$fileExistsInDb) {
-            $fileExistsInDb = $this->saveFileEntry($uploadedFile, $newFileDir);
+            $fileExistsInDb = $this->saveFileEntry($uploadedFile, $newFileDir, $newFileName);
         }
 
         $userFile = $this->saveUserFileReference($fileExistsInDb, $file->getClientOriginalName(), $this->user);
@@ -145,14 +145,14 @@ class FileUploadManager
         return $fileSearch;
     }
 
-    private function saveFileEntry(SymFile $file, string $dir, string $oldFilename)
+    private function saveFileEntry(SymFile $file, string $dir, string $newFilename)
     {
 
         $fileEntry = new File();
         $fileEntry->setFileCreated(new \DateTime());
         $fileEntry->setFileDir($dir);
         $fileEntry->setFileMd5($this->generateFileHash($file->getPath()));
-        $fileEntry->setFileName();
+        $fileEntry->setFileName($newFilename);
         $fileEntry->setFileLength(9); //TODO reikia plugino iraso ilgiui skaiciuoti. Arba pries taidar net konvertuoti
 
         $this->entityManager->persist($fileEntry);

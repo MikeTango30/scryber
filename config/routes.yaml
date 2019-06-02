@@ -72,8 +72,7 @@ editor:
 
 upload:
     path: /upload
-    controller: App/Form/FileUploadManager::processUploadFile
-#    App\Controller\HomeController::upload
+    controller: App\Controller\HomeController::upload
 
 send_with_api:
     path: /process_scrybe/{userfileId}

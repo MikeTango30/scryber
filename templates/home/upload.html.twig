@@ -2,18 +2,32 @@
 
 {% block title %}{{ title }}{% endblock %}
 
-{% block main %}
-    <form method="POST" action="#" enctype="multipart/form-data">
-        <div>
+{% block content %}
+  <div class="blue-gradient-page">
+    <div class="container">
+      <div class="content-wrapper text-white text-center">
+        <h1 class="text-white">Failo įkėlimas</h1>
+        <p>Norėdami įkelti failą nutempkite failą į žemiau esantį langą arba spustelkite ant jo, kad naršytumėte failo savo įrenginyje</p>
+      </div>
+    </div>
+    <div class="container">
+      <div class="content-wrapper upload-dropzone">
+        <form class="dropzone" method="POST" action="{{ path('upload') }}" enctype="multipart/form-data">
+          <div class="fallback">
             {% if text %}
-                <div class="alert-danger">{{ text }}</div>
+              <div class="alert-danger">{{ text }}</div>
             {% endif %}
             <label for="file-upload" class="button">
-                Pasirinkti failą
+              Pasirinkti failą
             </label>
-            <input id="file-upload" class="button" type="file" name="uploaded-file" />
-        </div>
-
-        <input class="button" type="submit" name="uploadBtn" value="Įkelti" />
-    </form>
+            <input id="file-upload" class="button" type="file" name="uploaded-file"/>
+            <input class="button" type="submit" name="uploadBtn" value="Įkelti"/>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+{% block javascripts %}
+  {{ encore_entry_script_tags('uploadDropzone') }}
 {% endblock %}
