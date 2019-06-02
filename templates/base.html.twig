@@ -45,12 +45,12 @@
       <div class="header-content-right">
         {% if app.user %}
           {{ app.user.getEmail }}
-          <a class="button" href="{{ path('app_logout') }}">Atsijungti</a>
+          <a class="link button" href="{{ path('app_logout') }}">Atsijungti</a>
         {% else %}
           <div class="content-wrapper">
             <div class="header-content-right">
-              <a class="button" href="{{ path('secure_login') }}">Prisijungti</a>
-              <a class="button" href="{{ path('register') }}">Registruotis</a>
+              <a class="link button" href="{{ path('secure_login') }}">Prisijungti</a>
+              <a class="link button" href="{{ path('register') }}">Registruotis</a>
             </div>
           </div>
         {% endif %}
