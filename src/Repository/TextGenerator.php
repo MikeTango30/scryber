@@ -17,8 +17,9 @@ class TextGenerator
     {
 
         $spanTags = [];
+        $transcriptionElement = $transcription->getTranscriptionLines();
         /** @var TranscriptionLine $element */
-        foreach ($transcription as $element) {
+        foreach ($transcriptionElement as $element) {
             $spanBlock = new SpanBlock(
                 $element->getBeginTime(),
                 $element->getEndTime(),
