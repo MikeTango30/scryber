@@ -31,11 +31,6 @@ class UserFile
     private $userfileUserId;
 
     /**
-     * @ORM\Column(type="text", nullable=true)
-     */
-    private $userfileCtm;
-
-    /**
      * @ORM\Column(type="smallint")
      */
     private $userfileIsScrybed;
@@ -95,18 +90,6 @@ class UserFile
     public function setUserfileUserId(?User $userfileUserId): self
     {
         $this->userfileUserId = $userfileUserId;
-
-        return $this;
-    }
-
-    public function getUserfileCtm(): ?string
-    {
-        return $this->userfileCtm;
-    }
-
-    public function setUserfileCtm(?string $userfileCtm): self
-    {
-        $this->userfileCtm = $userfileCtm;
 
         return $this;
     }
