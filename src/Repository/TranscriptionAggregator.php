@@ -2,12 +2,13 @@
 
 namespace App\Repository;
 use App\Api\Tilde\Connector;
-use App\Model\Transcription;
+use App\Api\Tilde\CtmLine;
+use App\Model\TranscriptionLine;
 
 class TranscriptionAggregator
 {
     /**
-     * @return Transcription []
+     * @return TranscriptionLine []
      */
     public function prepareData(string $jobId)
     {
@@ -29,8 +30,9 @@ class TranscriptionAggregator
          */
         $i=0;
         $transcription = [];
+        /** @var CtmLine $ctmLine */
         foreach ($ctm as $ctmLine) {
-            $transcription [] = new Transcription(
+            $transcription [] = new TranscriptionLine(
                 $ctmLine->getBeginTime(),
                 $ctmLine->getBeginTime() + $ctmLine->getDuration(),
                 $ctmLine->getWordId(),

@@ -165,12 +165,10 @@ class FileUploadManager
 
         $userFile = new UserFile();
         $userFile->setUserfileCreated(new \DateTime());
-        $userFile->setUserfileCtm('');
         $userFile->setUserfileFileId($file);
         $userFile->setUserfileIsScrybed(0);
         $userFile->setUserfileUpdated(new \DateTime());
         $userFile->setUserfileUserId($user);
-        $userFile->setUserfileCtm('');
         $userFile->setUserfileTitle($fileTitle);
 
         $this->entityManager->persist($userFile);

@@ -32,7 +32,7 @@
         <td>{{ scrybe.updated }}</td>
         <td>
           {% if scrybe.isScrybed %}
-            <a class="table-link" href="{{ path('edit_scribed_text', {'job_id': scrybe.id} ) }}">Redaguoti</a>
+            <a class="table-link" href="{{ path('edit_scribed_text', {'userfileId': scrybe.id} ) }}">Redaguoti</a>
           {% else %}
             <a class="table-link" href="{{ path('send_with_api', {'userfileId': scrybe.id} ) }}">Transkribuoti</a>
           {% endif %}

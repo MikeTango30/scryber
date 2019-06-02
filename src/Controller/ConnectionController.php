@@ -17,6 +17,7 @@ use App\Entity\UserCreditLog;
 use App\Entity\UserFile;
 use App\Form\FileUploadManager;
 use App\Repository\WordBlockGenerator;
+use App\ScribeFormats\CtmTransformer;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\HeaderUtils;
@@ -26,49 +27,6 @@ use Symfony\Component\HttpFoundation\Response;
 class ConnectionController extends AbstractController
 {
     const ERROR_NO_CREDITS = 'no_credits';
-
-//    /**
-//     * @Route("/", name="connection")
-//     */
-    public function showStaticFileUploadPage()
-    {
-        $message = '';
-
-//        $output .= $package->getUrl('/demo_record.m4a');
-        return $this->render('home/uploadDemoFile.html.twig', [
-            'soundFile' => 'demo_record.m4a',
-            'message' => $message
-        ]);
-    }
-
-    public function sendDemoFile(Request $request)
-    {
-
-        $file_name = $request->request->get('upload_demo_file');
-        if (!empty($file_name)) {
-            $file_operator = new FileOperator();
-            $file_path = $file_operator->uploadFileToServer($_ENV['AUDIO_FILES_DEMO_DIR'] . $file_name, false);
-            if ($file_path && file_exists($file_path)) {
-                $connector = new Connector();
-                $request = new RequestModel($file_path);
-                /** @var ResponseModel $response */
-                $response = $connector->sendFile($request);
-
-                if ($response) {
-                    return $this->forward('App\Controller\ConnectionController::refreshStatus', [
-                        'jobId' => $response->getRequestId()
-                    ]);
-                }
-            }
-        }
-
-        $message = 'No file found!';
-        return $this->render('home/uploadDemoFile.html.twig', [
-            'soundFile' => 'demo_record.m4a',
-            'message' => $message
-        ]);
-
-    }
 
     public function sendFileToScrybe(File $file)
     {
@@ -126,8 +84,9 @@ class ConnectionController extends AbstractController
                 $originalFile->setFileConfidence($summary->getConfidence());
                 $entityManager->persist($originalFile);
             }
-            if (empty($userFile->getUserfileCtm())) {
-                $userFile->setUserfileCtm($ctm->getRawCtm());
+            if (empty($userFile->getUserfileText())) {
+                $ctmTransformer = new CtmTransformer();
+                $userFile->setUserfileText($ctmTransformer->getCtmJson($originalFile));
                 $userFile->setUserfileUpdated(new \DateTime());
                 $userFile->setUserfileIsScrybed(1);
                 $entityManager->persist($userFile);
@@ -138,14 +97,14 @@ class ConnectionController extends AbstractController
 
             $entityManager->flush();
 
-            $this->saveCreditLog($originalFile->getFileLength(), true, $userFile);
+            $this->saveCreditLog($originalFile->getFileLength(), true, $userFile, $entityManager);
         }
         else {
             $lengthRounded = $originalFile->getFileLength();
             $confidence = $originalFile->getFileConfidence();
             $words = $originalFile->getFileWords();
-            $text = $connector->getScrybedTxt($originalFile->getFileJobId());
-            $ctm = $connector->getScrybedCtm($originalFile->getFileJobId());
+            $text = $originalFile->getFileTxt();
+            $ctm = new CtmModel($originalFile->setFileDefaultCtm());
         }
 
 
@@ -198,36 +157,19 @@ class ConnectionController extends AbstractController
             return self::ERROR_NO_CREDITS;
         }
 
-        if ($userFile->getUserfileIsScrybed()) {
-            //jau vis tik buvo useris scrybe padares
-            return $this->forward('App\Controller\ConnectionController::showResults', [
-                'userfileId' => $userfileId
-            ]);
-
-        } elseif (!empty($originalFile->getFileDefaultCtm())) {
-            //darome scrybe. bet kadangi origin turi vertima, tuomet ji tik perkeliame
-            $userFile->setUserfileCtm($originalFile->getFileDefaultCtm());
-            $userFile->setUserfileText($this->makeCtmJson($originalFile));
-            $userFile->setUserfileUpdated(new \DateTime());
-            $userFile->setUserfileIsScrybed(1);
-
-            $this->saveCreditLog($originalFile->getFileLength(), true, $userFile);
-
-            $entityManager->flush();
-        } else {
+        if (empty($originalFile->getFileDefaultCtm())) {
             $result = $this->sendFileToScrybe($originalFile);
 
             $originalFile->setFileJobId($result->getRequestId());
             $entityManager->flush();
-
         }
 
         return $this->redirectToRoute('check_scrybe_status', ['userfileId' => $userfileId]);
     }
 
-    public function saveCreditLog(int $credits, bool $payOut = true, UserFile $userFile = null)
+    public function saveCreditLog(int $credits, bool $payOut = true, UserFile $userFile = null, EntityManagerInterface $entityManager)
     {
-        $entityManager = $this->getDoctrine()->getManager();
+        /** @var User $user */
         $user = $this->getUser();
 
         $actionName = $payOut ? 'Scrybe_file' : 'Top_up_credits';

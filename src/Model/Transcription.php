@@ -1,88 +1,41 @@
 <?php
 
+
 namespace App\Model;
 
 class Transcription
 {
-    /**
-     * @var float
-     */
-    private $beginTime;
+    /** @var array */
+    private $transcriptionLines;
 
-    /**
-     * @var float
-     */
-    private $endTime;
-
-    /**
-     * @var string
-     */
-    private $wordId;
-
-    /**
-     * @var float
-     */
-    private $confidence;
-
-    /**
-     * @var string
-     */
-    private $word;
-
-    /**
-     * Transcription constructor.
-     * @param $beginTime
-     * @param $endTime
-     * @param $wordId
-     * @param $confidence
-     * @param $word
-     */
-    public function __construct($beginTime, $endTime, $wordId, $confidence, $word)
+    public function __construct(?array $textArray)
     {
-        $this->beginTime = $beginTime;
-        $this->endTime = $endTime;
-        $this->wordId = $wordId;
-        $this->confidence = $confidence;
-        $this->word = $word;
+        foreach ($textArray as $line) {
+            $transcriptionLine = new TranscriptionLine(
+                $line['beginTime'],
+                $line['endTime'],
+                $line['duration'],
+                $line['confidence'],
+                $line['word']
+            );
+            $this->transcriptionLines[] = $transcriptionLine;
+        }
     }
 
     /**
-     * @return float
+     * @return array
      */
-    public function getBeginTime(): float
+    public function getTranscriptionLines(): array
     {
-        return $this->beginTime;
+        return $this->transcriptionLines;
     }
 
     /**
-     * @return float
+     * @param array $transcriptionLines
      */
-    public function getEndTime(): float
+    public function setTranscriptionLines(array $transcriptionLines): void
     {
-        return $this->endTime;
+        $this->transcriptionLines = $transcriptionLines;
     }
 
-    /**
-     * @return string
-     */
-    public function getWordId(): string
-    {
-        return $this->wordId;
-    }
-
-    /**
-     * @return float
-     */
-    public function getConfidence(): float
-    {
-        return $this->confidence;
-    }
-
-    /**
-     * @return string
-     */
-    public function getWord(): string
-    {
-        return $this->word;
-    }
 }
