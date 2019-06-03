@@ -23,10 +23,14 @@ function mutationHandler (mutations) {
                     if (!previousSibling[0])
                         $(mutation.nextSibling.nextSibling).before(htmlSpan);
                     else
-                        previousSibling.after(htmlSpan)
+                        previousSibling.after(htmlSpan);
         }
     } );
 }
+//
+// <div class="tooltip">Hover over me
+// <span class="tooltiptext">Tooltip text</span>
+// </div>
 
 (function() {
     $(document).on('click', '.empty', function (e) {

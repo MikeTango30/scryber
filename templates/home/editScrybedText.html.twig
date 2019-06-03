@@ -29,7 +29,7 @@
       <div><strong>Žodžiai:</strong>{{ wordCount }}</div>
       <p class="muted">Žodžių skaičius</p>
     </div>
-    <button class="button" id="downloadButton">Eksportuoti transkripciją</button>
+    <button class="button" id="downloadButton">Parsisiųsti transkripciją</button>
   </div>
   <div class="content-wrapper">
     <div class="field">
@@ -42,10 +42,9 @@
     <div class="field">
       <div class="control control--checkbox">
         <input class="checkbox" type="checkbox" id="hints">
-        <label class="label" for="hints">Nerodyti buvusių žodžių</label>
+        <label class="label" for="hints">Nerodyti ištrintų žodžių</label>
       </div>
-      <p class="help muted">išjungti originalių <strong style="color: black">[žodžių]</strong> rodymą vietoje tuščios
-        vietos</p>
+      <p class="help muted">išjungti originalių <strong style="color: black">[žodžių]</strong> rodymą vietoje ištrinto žodžio</p>
     </div>
   </div>
 {% endblock %}
