@@ -40,7 +40,7 @@ class ConnectionController extends AbstractController
         return $response;
     }
 
-    public function refreshStatus(string $userfileId)
+    public function refreshStatus(string $userfileId, \Swift_Mailer $mailer)
     {
         /** @var UserFile $userFile */
         $userFile = $this->getDoctrine()->getRepository(UserFile::class)->find($userfileId);
@@ -49,10 +49,14 @@ class ConnectionController extends AbstractController
         $connector = new Connector();
         /** @var ResponseModel $response */
         $response = $connector->checkJobStatus($originalFile->getFileJobId());
+        $responseStatus = $response->getResponseStatus();
 
-        if ($response->getResponseStatus() == ResponseModel::SUCCESS) {
+        if ($responseStatus == ResponseModel::SUCCESS) {
 //            $this->showResults($jobId);
             //saugome
+
+            $this->sendEmail($userfileId, $mailer);
+
 
             return $this->forward('App\Controller\ConnectionController::showResults', [
                 'userfileId' => $userfileId,
@@ -65,6 +69,23 @@ class ConnectionController extends AbstractController
             'job_status' => $response->getResponseStatusText(),
             'fileName' => $userFile->getUserfileTitle()
         ]);
+    }
+
+    public function sendEmail( string $userfileId, \Swift_Mailer $mailer): void
+    {
+        $user = $this->getUser();
+        $message = (new \Swift_Message('Scriber'))
+            ->setFrom('scriber.assistant@gmail.com')
+            ->setTo($user->getEmail())
+            ->setBody($this->renderView('emails/transcribed.html.twig', [
+                    'name' => $user->getFirstname(),
+                    'userfileId' => $userfileId
+                ]
+            ),
+                'text/html'
+            );
+
+        $mailer->send($message);
     }
 
     public function showResults(string $userfileId, bool $redirected = false)

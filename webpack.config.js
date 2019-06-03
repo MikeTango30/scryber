@@ -34,6 +34,7 @@ Encore
     .addEntry('app', './assets/js/app.js')
     .addEntry('editScrybedText', './assets/js/editScrybedText.js')
     .addEntry('uploadDropzone', './assets/js/uploadDropzone.js')
+    .addEntry('checkTranscribingStatus', './assets/js/checkTranscribingStatus.js')
     //.addEntry('page1', './assets/js/page1.js')
     //.addEntry('page2', './assets/js/page2.js')
 

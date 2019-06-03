@@ -16,9 +16,9 @@
             </div>
             <div class="content-wrapper">
               <strong>Būklė:</strong>
-              {% if job_status == 'Success' %}
-                Transkribuota sėkmingai
-              {% endif %}
+{#              {% if job_status == 'Success' %}#}
+                {{ job_status }}
+{#              {% endif %}#}
             </div>
             {% if not job_status == 'Success' %}
               <div class="content-wrapper loading">
@@ -32,5 +32,8 @@
       </div>
     </div>
   </div>
+{% endblock %}
+{% block javascripts %}
+{{ encore_entry_script_tags('checkTranscribingStatus') }}
 {% endblock %}
 
