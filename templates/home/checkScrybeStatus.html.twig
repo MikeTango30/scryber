@@ -20,11 +20,11 @@
                 Transkribuota sėkmingai
               {% endif %}
             </div>
-            {#        {% if not job_status == 'Success' %}#}
-            <div class="content-wrapper loading">
-              <div class="lds-dual-ring"></div>
-            </div>
-            {#        {% endif %}#}
+            {% if not job_status == 'Success' %}
+              <div class="content-wrapper loading">
+                <div class="lds-dual-ring"></div>
+              </div>
+            {% endif %}
             <input type="hidden" name="userfileId" value="{{ userfileId }}">
             <button class="button" type="submit" name="refresh_status">Atnaujinti būklę</button>
           </form>
