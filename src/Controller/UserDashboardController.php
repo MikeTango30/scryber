@@ -69,6 +69,20 @@ class UserDashboardController extends AbstractController
         //TODO
     }
 
+    public function deleteUserfile(string $userfileId)
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
+        $userfile = $entityManager->getRepository(UserFile::class)->findOneBy(['id' => $userfileId, 'userfileUserId' => $this->getUser()]);
+
+        $entityManager->remove($userfile);
+        $entityManager->flush();
+
+
+        return $this->redirectToRoute('user_dashboard');
+    }
+
     public function logout()
     {
         //TODO render homepage

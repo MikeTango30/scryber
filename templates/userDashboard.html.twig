@@ -37,6 +37,7 @@
                     {% else %}
                         <a href="{{ path('send_with_api', {'userfileId': scrybe.id} ) }}">Transkribuoti</a>
                     {% endif %}
+                    <a class="requires-confirm" href="{{ path('delete_file', {'userfileId': scrybe.id} ) }}">Trinti</a>
                 </td>
             </tr>
         {% endfor %}
@@ -63,4 +64,8 @@
         </tr>
         </tbody>
     </table>
+{% endblock %}
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('dashboardJs') }}
 {% endblock %}
