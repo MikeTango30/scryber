@@ -39,9 +39,9 @@ class CreditLog
     private $action;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\UserFile", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity="App\Entity\File")
      */
-    private $userFile;
+    private $file;
 
     public function getId(): ?int
     {
@@ -96,14 +96,14 @@ class CreditLog
         return $this;
     }
 
-    public function getUserFile(): ?UserFile
+    public function getFile(): ?File
     {
-        return $this->userFile;
+        return $this->file;
     }
 
-    public function setUserFile(?UserFile $userFile): self
+    public function setFile(?File $file): self
     {
-        $this->userFile = $userFile;
+        $this->file = $file;
 
         return $this;
     }

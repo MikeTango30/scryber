@@ -77,11 +77,6 @@ class UserDashboardController extends AbstractController
 
         $userfile = $entityManager->getRepository(UserFile::class)->findOneBy(['id' => $userfileId, 'user' => $this->getUser()]);
 
-        $creditLogs = $entityManager->getRepository(CreditLog::class)->findBy(['userFile'=>$userfile]);
-        foreach ($creditLogs as $creditLog) {
-            $creditLog->setUserFile(null);
-            $entityManager->persist($creditLog);
-        }
         $entityManager->remove($userfile);
         $entityManager->flush();
 

@@ -94,7 +94,7 @@ class ConnectionController extends AbstractController
 
                 $creditUpdater = new CreditUpdates($entityManager);
                 $creditUpdater->chageUserCreditTotal($this->getUser(), $originalFile->getLength() * -1);
-                $creditUpdater->saveUserCreditChangeLog($this->getUser(), $originalFile->getLength() * -1, $userFile);
+                $creditUpdater->saveUserCreditChangeLog($this->getUser(), $originalFile->getLength() * -1, $originalFile);
 
             }
             $lengthRounded = $summary->getLengthRounded();
