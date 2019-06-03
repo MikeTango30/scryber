@@ -166,7 +166,7 @@ class FileUploadManager
         $userFile = new UserFile();
         $userFile->setCreated(new \DateTime());
         $userFile->setFile($file);
-        $userFile->setScrybeStatus(0);
+        $userFile->setScrybeStatus(UserFile::SCRYBE_STATUS_NOT_SCRYBED);
         $userFile->setUpdated(new \DateTime());
         $userFile->setUser($user);
         $userFile->setTitle($fileTitle);

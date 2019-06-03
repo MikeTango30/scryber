@@ -89,7 +89,7 @@ class ConnectionController extends AbstractController
                 $ctmTransformer = new CtmTransformer();
                 $userFile->setText($ctmTransformer->getCtmJson($originalFile));
                 $userFile->setUpdated(new \DateTime());
-                $userFile->setScrybeStatus(2);
+                $userFile->setScrybeStatus(UserFile::SCRYBE_STATUS_COMPLETED);
                 $entityManager->persist($userFile);
 
                 $creditUpdater = new CreditUpdates($entityManager);

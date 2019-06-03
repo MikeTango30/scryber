@@ -9,6 +9,11 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class UserFile
 {
+
+    const SCRYBE_STATUS_NOT_SCRYBED = 0;
+    const SCRYBE_STATuS_IN_PROGRESS = 1;
+    const SCRYBE_STATUS_COMPLETED = 2;
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()

@@ -52,6 +52,9 @@ class UserDashboardController extends AbstractController
             "transcriptions" => $transcriptions,
             "remainingTime" => $remainingTime,
             'credits_left' => sprintf("%02d:%02d", $remainingMinutes, $remainingSec),
+            'scrybe_not_made' => UserFile::SCRYBE_STATUS_NOT_SCRYBED,
+            'scrybe_in_progress' => UserFile::SCRYBE_STATuS_IN_PROGRESS,
+            'scrybe_done' => UserFile::SCRYBE_STATUS_COMPLETED,
         ]);
     }
 

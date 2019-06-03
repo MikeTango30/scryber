@@ -32,9 +32,9 @@
                 <td>{{ scrybe.length }}</td>
                 <td>{{ scrybe.updated }}</td>
                 <td>
-                    {% if scrybe.scrybeStatus == 2 %}
+                    {% if scrybe.scrybeStatus == scrybe_done %}
                         <a href="{{ path('edit_scribed_text', {'userfileId': scrybe.id} ) }}">Redaguoti</a>
-                    {% elseif scrybe.scrybeStatus == 1 %}
+                    {% elseif scrybe.scrybeStatus == scrybe_in_progress %}
                         Apdorojama
                     {% else %}
                         <a href="{{ path('send_with_api', {'userfileId': scrybe.id} ) }}">Transkribuoti</a>
