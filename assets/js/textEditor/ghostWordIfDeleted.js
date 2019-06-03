@@ -16,7 +16,7 @@ function mutationHandler (mutations) {
             removedNode.addClass('empty');
             var htmlSpan = null;
 
-            if (removedNode.is('span.word'))
+            if (removedNode.is('span.word') || removedNode.is('span.no-word'))
                 htmlSpan = removedNode[0];
             var previousSibling = $(mutation.previousSibling);
                 if (htmlSpan)
@@ -27,10 +27,6 @@ function mutationHandler (mutations) {
         }
     } );
 }
-//
-// <div class="tooltip">Hover over me
-// <span class="tooltiptext">Tooltip text</span>
-// </div>
 
 (function() {
     $(document).on('click', '.empty', function (e) {
