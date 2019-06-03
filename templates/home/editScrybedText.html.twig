@@ -41,16 +41,14 @@
     </div>
     <div class="field">
       <div class="control control--checkbox">
-        <input class="checkbox" type="checkbox" id="hints" checked>
-        <label class="label" for="hints">Buvę žodžiai</label>
+        <input class="checkbox" type="checkbox" id="hints">
+        <label class="label" for="hints">Nerodyti buvusių žodžių</label>
       </div>
-      <p class="help muted">įjungti originalių <strong style="color: black">[žodžių]</strong> rodymą vietoje tuščios
+      <p class="help muted">išjungti originalių <strong style="color: black">[žodžių]</strong> rodymą vietoje tuščios
         vietos</p>
     </div>
-
   </div>
 {% endblock %}
-
 {% block javascripts %}
   {{ encore_entry_script_tags('editScrybedText') }}
 {% endblock %}

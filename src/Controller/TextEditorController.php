@@ -20,22 +20,23 @@ class TextEditorController extends AbstractController
         $this->denyAccessUnlessGranted('ROLE_USER');
 
         /** @var UserFile $userfile */
-        $userfile = $entityManager->getRepository(UserFile::class)->find($userfileId);
+        $userFile = $entityManager->getRepository(UserFile::class)->find($userfileId);
 
-        $transcription = new Transcription($userfile->getUserfileText());
+        $confidence = $userFile->getUserfileFileId()->getFileConfidence();
+        $words =$userFile->getUserfileFileId()->getFileWords();
+
+        $transcription = new Transcription($userFile->getUserfileText());
 
         $textGenerator = new TextGenerator();
         $spanTags = $textGenerator->generateSpans($transcription);
 
-//        $connector = new Connector();
-//        $summary = new SummaryModel()
-
 
         return $this->render("home/editScrybedText.html.twig", [
-            "title" => "Scriber Editor",
-            "summary" => [],//$summary,
+            "title" => "Scriber Redaktorius",
             "words" => $spanTags,
-            "job_id" => $userfileId
+            'fileName' => $userFile->getUserfileTitle(),
+            'confidence' => $confidence,
+            'wordCount' => $words,
         ]);
     }
 

@@ -93,7 +93,7 @@ class ConnectionController extends AbstractController
                 $userFile->setUserfileIsScrybed(1);
                 $entityManager->persist($userFile);
             }
-            $lengthRounded = $summary->getLengthRounded();
+//            $lengthRounded = $summary->getLengthRounded();
             $confidence = $summary->getConfidence();
             $words = $summary->getWords();
 
@@ -102,11 +102,11 @@ class ConnectionController extends AbstractController
             $this->saveCreditLog($originalFile->getFileLength(), true, $userFile, $entityManager);
         }
         else {
-            $lengthRounded = $originalFile->getFileLength();
+//            $lengthRounded = $originalFile->getFileLength();
             $confidence = $originalFile->getFileConfidence();
             $words = $originalFile->getFileWords();
-            $text = $originalFile->getFileTxt();
-            $ctm = new CtmModel($originalFile->setFileDefaultCtm());
+//            $text = $originalFile->getFileTxt();
+//            $ctm = new CtmModel($originalFile->setFileDefaultCtm());
         }
 
         $transcription = new Transcription($userFile->getUserfileText());
@@ -115,11 +115,9 @@ class ConnectionController extends AbstractController
         $spanTags = $textGenerator->generateSpans($transcription);
 
         return $this->render("home/editScrybedText.html.twig", [
-            "title" => "Scriber Editor",
+            "title" => "Scriber Redaktorius",
             "words" => $spanTags,
-//            'userfileId' => $userfileId,
             'fileName' => $userFile->getUserfileTitle(),
-//            'length' => $lengthRounded,
             'confidence' => $confidence,
             'wordCount' => $words,
         ]);
