@@ -2,6 +2,7 @@
     display: inline-block;
     width: 64px;
     height: 64px;
+
 }
 .lds-dual-ring:after {
     content: " ";
@@ -11,7 +12,7 @@
     margin: 1px;
     border-radius: 50%;
     border: 5px solid $color__royal-blue;
-    border-color: $color__royal-blue transparent $color__white transparent;
+    border-color: $color__royal-blue transparent $color__royal-blue transparent;
     animation: lds-dual-ring 1.2s linear infinite;
 }
 @keyframes lds-dual-ring {

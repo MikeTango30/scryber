@@ -3,21 +3,31 @@
 {% block title %}Failo statutas{% endblock %}
 
 {% block content %}
-  <div class="blue-gradient-page">
-    <div class="container">
+  <div class="page-wrapper blue-gradient-page">
+    <div class="page-content container">
       <div class="content-wrapper text-center">
         <h1 class="text-white">Vyksta failo transkribavimas</h1>
-        <p class="text-white">Kai transkribavimas bus įvykdytas, nukreipsime jus į Scriber teksto redaktorių ir informuosime el. paštu</p>
-        <div class="box">
-{#            <form method="post" action="/refresh_status/{{ userfileId }}">#}
-{#                `{{ fileName }}` transkribavimo statusas#}
-{#              <input type="hidden" name="userfileId" value="{{ userfileId }}">#}
-{#              Current status is `<strong>{{ job_status }}</strong>`#}
-{#              <button class="button" type="submit" name="refresh_status">Refresh</button>#}
-{#            </form>#}
-{#        {% if not job_status == 'Success' %}#}
-        <div class="lds-dual-ring"></div>
-{#        {% endif %}#}
+        <p class="text-white">Kai transkribavimas bus įvykdytas, nukreipsime jus į Scriber teksto redaktorių ir
+          informuosime el. paštu</p>
+        <div class="loading-ring">
+          <form method="post" action="/refresh_status/{{ userfileId }}">
+            <div class="content-wrapper">
+              <strong>Failas:</strong> {{ fileName }}
+            </div>
+            <div class="content-wrapper">
+              <strong>Būklė:</strong>
+              {% if job_status == 'Success' %}
+                Transkribuota sėkmingai
+              {% endif %}
+            </div>
+            {#        {% if not job_status == 'Success' %}#}
+            <div class="content-wrapper loading">
+              <div class="lds-dual-ring"></div>
+            </div>
+            {#        {% endif %}#}
+            <input type="hidden" name="userfileId" value="{{ userfileId }}">
+            <button class="button" type="submit" name="refresh_status">Atnaujinti būklę</button>
+          </form>
         </div>
       </div>
     </div>

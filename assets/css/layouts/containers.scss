@@ -73,6 +73,12 @@
         padding: $size__gutter;
     }
 
+    &.loading {
+        display: flex;
+        justify-content: center;
+        align-content: center;
+    }
+
     .pricing {
         @extend .box;
         height: 450px;
@@ -92,7 +98,7 @@
         @extend .box;
         text-align: center;
         height: 300px;
-        max-width: 400px;
+        max-width: 380px;
     }
 
     .login {
@@ -117,6 +123,12 @@
         border-style: dashed !important;
         border-color: $color__royal-blue;
         border-width: 3px !important;
+    }
+
+    .loading-ring {
+        @extend .box;
+        height: 300px;
+        max-width: 380px;
     }
 
     .list {
