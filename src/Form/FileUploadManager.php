@@ -42,7 +42,7 @@ class FileUploadManager
      */
     public function processUploadFile(UploadedFile $file)
     {
-        $fileMd5 = $this->generateFileHash($file->getPath());
+        $fileMd5 = $this->generateFileHash($file->getPathname());
         $newFileDir = '';
         $newFileName = $fileMd5.$file->getExtension();
 
@@ -51,11 +51,11 @@ class FileUploadManager
             .$newFileDir.$newFileName);
 
         if (!$fileExistsInFileSystem) {
-            $uploadedFile = $this->uploadFileToServer(
+            $uploadedFile = new SymFile($this->uploadFileToServer(
                 $file,
                 $this->basePath.$_ENV['AUDIO_FILES_UPLOAD_DIR'].$newFileDir,
                 $newFileName
-            );
+            ));
         } else {
             $uploadedFile = new SymFile($this->basePath.$_ENV['AUDIO_FILES_UPLOAD_DIR'].$newFileDir.$newFileName);
         }
@@ -128,7 +128,7 @@ class FileUploadManager
      */
     public function generateFileHash(string $filePath)
     {
-        return md5_file($filePath);
+        return hash_file('md5', $filePath);
     }
 
     /**
@@ -151,7 +151,7 @@ class FileUploadManager
         $fileEntry = new File();
         $fileEntry->setFileCreated(new \DateTime());
         $fileEntry->setFileDir($dir);
-        $fileEntry->setFileMd5($this->generateFileHash($file->getPath()));
+        $fileEntry->setFileMd5($this->generateFileHash($file->getPathname()));
         $fileEntry->setFileName($file->getFilename());
         $fileEntry->setFileLength(9); //TODO reikia plugino iraso ilgiui skaiciuoti. Arba pries taidar net konvertuoti
 
