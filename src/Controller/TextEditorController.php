@@ -21,11 +21,11 @@ class TextEditorController extends AbstractController
         $this->denyAccessUnlessGranted('ROLE_USER');
 
         /** @var UserFile $userfile */
-        $userfile = $entityManager->getRepository(UserFile::class)->findOneBy(['id' => $userfileId, 'userfileUserId' => $this->getUser()]);
+        $userfile = $entityManager->getRepository(UserFile::class)->findOneBy(['id' => $userfileId, 'user' => $this->getUser()]);
 
         if($userfile) {
 
-            $transcription = new Transcription($userfile->getUserfileText());
+            $transcription = new Transcription($userfile->getText());
 
             $textGenerator = new TextGenerator();
             $spanTags = $textGenerator->generateSpans($transcription);

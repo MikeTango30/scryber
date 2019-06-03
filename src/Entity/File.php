@@ -2,8 +2,6 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -21,215 +19,174 @@ class File
     /**
      * @ORM\Column(type="string", length=130)
      */
-    private $fileDir;
+    private $dir;
 
     /**
      * @ORM\Column(type="string", length=50)
      */
-    private $fileName;
+    private $name;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $fileLength;
+    private $length;
 
     /**
      * @ORM\Column(type="string", length=32)
      */
-    private $fileMd5;
+    private $md5;
 
     /**
      * @ORM\Column(type="datetime")
      */
-    private $fileCreated;
+    private $created;
 
     /**
      * @ORM\Column(type="string", length=55, nullable=true)
      */
-    private $fileJobId;
+    private $job_id;
 
     /**
      * @ORM\Column(type="text", nullable=true)
      */
-    private $fileDefaultCtm;
-
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\UserFile", mappedBy="userfileFileId")
-     */
-    private $userFiles;
+    private $defaultCtm;
 
     /**
      * @ORM\Column(type="text", nullable=true)
      */
-    private $fileTxt;
-
-    /**
-     * @ORM\Column(type="float", nullable=true)
-     */
-    private $fileConfidence;
+    private $plainText;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $fileWords;
+    private $wordsCount;
 
-    public function __construct()
-    {
-        $this->userFiles = new ArrayCollection();
-    }
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $confidence;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getFileDir(): ?string
+    public function getDir(): ?string
     {
-        return $this->fileDir;
+        return $this->dir;
     }
 
-    public function setFileDir(string $fileDir): self
+    public function setDir(string $dir): self
     {
-        $this->fileDir = $fileDir;
+        $this->dir = $dir;
 
         return $this;
     }
 
-    public function getFileName(): ?string
+    public function getName(): ?string
     {
-        return $this->fileName;
+        return $this->name;
     }
 
-    public function setFileName(string $fileName): self
+    public function setName(string $name): self
     {
-        $this->fileName = $fileName;
+        $this->name = $name;
 
         return $this;
     }
 
-    public function getFileLength(): ?int
+    public function getLength(): ?int
     {
-        return $this->fileLength;
+        return $this->length;
     }
 
-    public function setFileLength(int $fileLength): self
+    public function setLength(int $length): self
     {
-        $this->fileLength = $fileLength;
+        $this->length = $length;
 
         return $this;
     }
 
-    public function getFileMd5(): ?string
+    public function getMd5(): ?string
     {
-        return $this->fileMd5;
+        return $this->md5;
     }
 
-    public function setFileMd5(string $fileMd5): self
+    public function setMd5(string $md5): self
     {
-        $this->fileMd5 = $fileMd5;
+        $this->md5 = $md5;
 
         return $this;
     }
 
-    public function getFileCreated(): ?\DateTimeInterface
+    public function getCreated(): ?\DateTimeInterface
     {
-        return $this->fileCreated;
+        return $this->created;
     }
 
-    public function setFileCreated(\DateTimeInterface $fileCreated): self
+    public function setCreated(\DateTimeInterface $created): self
     {
-        $this->fileCreated = $fileCreated;
+        $this->created = $created;
 
         return $this;
     }
 
-    public function getFileJobId(): ?string
+    public function getJobId(): ?string
     {
-        return $this->fileJobId;
+        return $this->job_id;
     }
 
-    public function setFileJobId(?string $fileJobId): self
+    public function setJobId(?string $job_id): self
     {
-        $this->fileJobId = $fileJobId;
+        $this->job_id = $job_id;
 
         return $this;
     }
 
-    public function getFileDefaultCtm(): ?string
+    public function getDefaultCtm(): ?string
     {
-        return $this->fileDefaultCtm;
+        return $this->defaultCtm;
     }
 
-    public function setFileDefaultCtm(?string $fileDefaultCtm): self
+    public function setDefaultCtm(?string $defaultCtm): self
     {
-        $this->fileDefaultCtm = $fileDefaultCtm;
+        $this->defaultCtm = $defaultCtm;
 
         return $this;
     }
 
-    /**
-     * @return Collection|UserFile[]
-     */
-    public function getUserFiles(): Collection
+    public function getPlainText(): ?string
     {
-        return $this->userFiles;
+        return $this->plainText;
     }
 
-    public function addUserFile(UserFile $userFile): self
+    public function setPlainText(?string $plainText): self
     {
-        if (!$this->userFiles->contains($userFile)) {
-            $this->userFiles[] = $userFile;
-            $userFile->setUserfileFileId($this);
-        }
+        $this->plainText = $plainText;
 
         return $this;
     }
 
-    public function removeUserFile(UserFile $userFile): self
+    public function getWordsCount(): ?int
     {
-        if ($this->userFiles->contains($userFile)) {
-            $this->userFiles->removeElement($userFile);
-            // set the owning side to null (unless already changed)
-            if ($userFile->getUserfileFileId() === $this) {
-                $userFile->setUserfileFileId(null);
-            }
-        }
+        return $this->wordsCount;
+    }
+
+    public function setWordsCount(?int $wordsCount): self
+    {
+        $this->wordsCount = $wordsCount;
 
         return $this;
     }
 
-    public function getFileTxt(): ?string
+    public function getConfidence(): ?float
     {
-        return $this->fileTxt;
+        return $this->confidence;
     }
 
-    public function setFileTxt(?string $fileTxt): self
+    public function setConfidence(?float $confidence): self
     {
-        $this->fileTxt = $fileTxt;
-
-        return $this;
-    }
-
-    public function getFileConfidence(): ?float
-    {
-        return $this->fileConfidence;
-    }
-
-    public function setFileConfidence(?float $fileConfidence): self
-    {
-        $this->fileConfidence = $fileConfidence;
-
-        return $this;
-    }
-
-    public function getFileWords(): ?int
-    {
-        return $this->fileWords;
-    }
-
-    public function setFileWords(?int $fileWords): self
-    {
-        $this->fileWords = $fileWords;
+        $this->confidence = $confidence;
 
         return $this;
     }

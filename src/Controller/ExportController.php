@@ -25,7 +25,7 @@ class ExportController extends AbstractController
         /** @var UserFile $userfile */
         $userfile = $entityManager->getRepository(UserFile::class)->find($userfileId);
 
-        $transcription = new Transcription($userfile->getUserfileText());
+        $transcription = new Transcription($userfile->getText());
 
         $txtExorter = new ExportTxt();
 
@@ -35,7 +35,7 @@ class ExportController extends AbstractController
 
         $disposition = HeaderUtils::makeDisposition(
             HeaderUtils::DISPOSITION_ATTACHMENT,
-            $userfile->getUserfileTitle().'_scribed.txt'
+            $userfile->getTitle().'_scribed.txt'
         );
 
         $response->headers->set('Content-Disposition', $disposition);
@@ -55,7 +55,7 @@ class ExportController extends AbstractController
         /** @var UserFile $userfile */
         $userfile = $entityManager->getRepository(UserFile::class)->find($userfileId);
 
-        $transcription = new Transcription($userfile->getUserfileText());
+        $transcription = new Transcription($userfile->getText());
 
         $txtExorter = new ExportSrt();
 
@@ -65,7 +65,7 @@ class ExportController extends AbstractController
 
         $disposition = HeaderUtils::makeDisposition(
             HeaderUtils::DISPOSITION_ATTACHMENT,
-            $userfile->getUserfileTitle().'_scribed.srt'
+            $userfile->getTitle().'_scribed.srt'
         );
 
         $response->headers->set('Content-Disposition', $disposition);

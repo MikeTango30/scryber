@@ -29,11 +29,11 @@ class ConnectionController extends AbstractController
 {
     const ERROR_NO_CREDITS = 'no_credits';
 
-    public function sendFileToScrybe(File $file)
+    public function sendFileToScrybe(/*File */$file)
     {
         $connector = new Connector();
         $fileOperator = new FileUploadManager(null, null);
-        $request = new RequestModel($fileOperator->getBasePath() . $_ENV['AUDIO_FILES_UPLOAD_DIR'] . $file->getFileDir() . $file->getFileName());
+        $request = new RequestModel($fileOperator->getBasePath() . $_ENV['AUDIO_FILES_UPLOAD_DIR'] . $file->getDir() . $file->getName());
         $response = $connector->sendFile($request);
 
         return $response;
@@ -43,11 +43,11 @@ class ConnectionController extends AbstractController
     {
         /** @var UserFile $userFile */
         $userFile = $this->getDoctrine()->getRepository(UserFile::class)->find($userfileId);
-        $originalFile = $userFile->getUserfileFileId();
+        $originalFile = $userFile->getFile();
 
         $connector = new Connector();
         /** @var ResponseModel $response */
-        $response = $connector->checkJobStatus($originalFile->getFileJobId());
+        $response = $connector->checkJobStatus($originalFile->getJobId());
 
         if ($response->getResponseStatus() == ResponseModel::SUCCESS) {
 //            $this->showResults($jobId);
@@ -62,7 +62,7 @@ class ConnectionController extends AbstractController
         return $this->render('home/checkScrybeStatus.html.twig', [
             'userfileId' => $userfileId,
             'job_status' => $response->getResponseStatusText(),
-            'fileName' => $userFile->getUserfileTitle()
+            'fileName' => $userFile->getTitle()
         ]);
     }
 
@@ -72,29 +72,29 @@ class ConnectionController extends AbstractController
 
         /** @var UserFile $userFile */
         $userFile = $this->getDoctrine()->getRepository(UserFile::class)->find($userfileId);
-        $originalFile = $userFile->getUserfileFileId();
+        $originalFile = $userFile->getFile();
         $connector = new Connector();
         if ($redirected) { //reiskia, kad katik baige transkcibcijas, saugome pirmiausia rezultatus
-            $summary = $connector->getJobSummary($originalFile->getFileJobId());
-            $text = $connector->getScrybedTxt($originalFile->getFileJobId());
-            $ctm = $connector->getScrybedCtm($originalFile->getFileJobId());
-            if (empty($originalFile->getFileDefaultCtm())) {
-                $originalFile->setFileDefaultCtm($ctm->getRawCtm());
-                $originalFile->setFileTxt($text);
-                $originalFile->setFileWords($summary->getWords());
-                $originalFile->setFileConfidence($summary->getConfidence());
+            $summary = $connector->getJobSummary($originalFile->getJobId());
+            $text = $connector->getScrybedTxt($originalFile->getJobId());
+            $ctm = $connector->getScrybedCtm($originalFile->getJobId());
+            if (empty($originalFile->getDefaultCtm())) {
+                $originalFile->setDefaultCtm($ctm->getRawCtm());
+                $originalFile->setPlainText($text);
+                $originalFile->setWordsCount($summary->getWords());
+                $originalFile->setConfidence($summary->getConfidence());
                 $entityManager->persist($originalFile);
             }
-            if (empty($userFile->getUserfileText())) {
+            if (empty($userFile->getText())) {
                 $ctmTransformer = new CtmTransformer();
-                $userFile->setUserfileText($ctmTransformer->getCtmJson($originalFile));
-                $userFile->setUserfileUpdated(new \DateTime());
-                $userFile->setUserfileIsScrybed(1);
+                $userFile->setText($ctmTransformer->getCtmJson($originalFile));
+                $userFile->setUpdated(new \DateTime());
+                $userFile->setScrybeStatus(2);
                 $entityManager->persist($userFile);
 
                 $creditUpdater = new CreditUpdates($entityManager);
-                $creditUpdater->chageUserCreditTotal($this->getUser(), $originalFile->getFileLength() * -1);
-                $creditUpdater->saveUserCreditChangeLog($this->getUser(), $originalFile->getFileLength() * -1, $userFile);
+                $creditUpdater->chageUserCreditTotal($this->getUser(), $originalFile->getLength() * -1);
+                $creditUpdater->saveUserCreditChangeLog($this->getUser(), $originalFile->getLength() * -1, $userFile);
 
             }
             $lengthRounded = $summary->getLengthRounded();
@@ -106,17 +106,17 @@ class ConnectionController extends AbstractController
 //            $this->saveCreditLog($originalFile->getFileLength(), true, $userFile, $entityManager);
         }
         else {
-            $lengthRounded = $originalFile->getFileLength();
-            $confidence = $originalFile->getFileConfidence();
-            $words = $originalFile->getFileWords();
-            $text = $originalFile->getFileTxt();
-            $ctm = new CtmModel($originalFile->setFileDefaultCtm());
+            $lengthRounded = $originalFile->getLength();
+            $confidence = $originalFile->getConfidence();
+            $words = $originalFile->getWordsCount();
+            $text = $originalFile->getPlainText();
+            $ctm = new CtmModel($originalFile->setDefaultCtm());
         }
 
 
         return $this->render('home/showScrybedText.html.twig', [
             'userfileId' => $userfileId,
-            'fileName' => $userFile->getUserfileTitle(),
+            'fileName' => $userFile->getTitle(),
             'length' => $lengthRounded,
             'confidence' => $confidence,
             'words' => $words,
@@ -141,16 +141,16 @@ class ConnectionController extends AbstractController
 
         /** @var UserFile $userFile */
         $userFile = $entityManager->getRepository(UserFile::class)->find($userfileId);
-        $originalFile = $userFile->getUserfileFileId();
+        $originalFile = $userFile->getFile();
 
-        if ($user->getCredits() < $originalFile->getFileLength()) {
+        if ($user->getCredits() < $originalFile->getLength()) {
             return self::ERROR_NO_CREDITS;
         }
 
-        if (empty($originalFile->getFileDefaultCtm())) {
+        if (empty($originalFile->getDefaultCtm())) {
             $result = $this->sendFileToScrybe($originalFile);
 
-            $originalFile->setFileJobId($result->getRequestId());
+            $originalFile->setJobId($result->getRequestId());
             $entityManager->flush();
         }
 

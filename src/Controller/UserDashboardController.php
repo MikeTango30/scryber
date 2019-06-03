@@ -4,6 +4,7 @@
 namespace App\Controller;
 
 
+use App\Entity\CreditLog;
 use App\Entity\File;
 use App\Entity\User;
 use App\Entity\UserFile;
@@ -29,16 +30,16 @@ class UserDashboardController extends AbstractController
             /** @var UserFile $transcription_container */
             $temp['no'] = count($transcriptions)+1;
             /** @var File $originalFile */
-            $originalFile = $transcript_container->getUserfileFileId();
+            $originalFile = $transcript_container->getFile();
             $temp['id'] = $transcript_container->getId();
-            $temp['date'] = $transcript_container->getUserfileCreated()->format("Y-m-d");
+            $temp['date'] = $transcript_container->getCreated()->format("Y-m-d");
             /** @var File $temp_file */
-            $temp_file = $entityManager->getRepository(File::class)->find($transcript_container->getUserfileFileId());
-            $temp['title'] = $transcript_container->getUserfileTitle();
-            $temp_length = new \DateInterval(sprintf("PT%dS", $temp_file->getFileLength()));
+            $temp_file = $entityManager->getRepository(File::class)->find($transcript_container->getFile());
+            $temp['title'] = $transcript_container->getTitle();
+            $temp_length = new \DateInterval(sprintf("PT%dS", $temp_file->getLength()));
             $temp['length'] = sprintf("%02d:%02d:%02d", $temp_length->h, $temp_length->i, $temp_length->s);
-            $temp['isScrybed'] = $transcript_container->getUserfileIsScrybed();
-            $temp['updated'] = $transcript_container->getUserfileUpdated()->format("Y-m-d");
+            $temp['scrybeStatus'] = $transcript_container->getScrybeStatus();
+            $temp['updated'] = $transcript_container->getUpdated()->format("Y-m-d");
             $transcriptions[] = $temp;
         }
 
@@ -74,8 +75,13 @@ class UserDashboardController extends AbstractController
         $entityManager = $this->getDoctrine()->getManager();
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
-        $userfile = $entityManager->getRepository(UserFile::class)->findOneBy(['id' => $userfileId, 'userfileUserId' => $this->getUser()]);
+        $userfile = $entityManager->getRepository(UserFile::class)->findOneBy(['id' => $userfileId, 'user' => $this->getUser()]);
 
+        $creditLogs = $entityManager->getRepository(CreditLog::class)->findBy(['userFile'=>$userfile]);
+        foreach ($creditLogs as $creditLog) {
+            $creditLog->setUserFile(null);
+            $entityManager->persist($creditLog);
+        }
         $entityManager->remove($userfile);
         $entityManager->flush();
 
