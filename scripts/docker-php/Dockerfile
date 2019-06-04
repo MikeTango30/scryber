@@ -15,7 +15,7 @@ RUN ln -s /php/composer.phar /usr/bin/composer
 
 # Install depenedencies and PHP extensions
 RUN apt-get update \
- && apt-get install -y libzip-dev bash-completion procps nano libicu-dev g++ libpng-dev libcurl4-gnutls-dev git wget gzip unzip \
+ && apt-get install -y ffmpeg libzip-dev bash-completion procps nano libicu-dev g++ libpng-dev libcurl4-gnutls-dev git wget gzip unzip \
  && docker-php-ext-install -j$(nproc) zip mysqli pdo_mysql intl calendar exif gd gettext pcntl sockets opcache \
  && rm -rf /var/lib/apt/lists/*
 
