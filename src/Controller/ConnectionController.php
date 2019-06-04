@@ -142,6 +142,7 @@ class ConnectionController extends AbstractController
         $spanTags = $textGenerator->generateSpans($transcription);
 
         return $this->render("home/editScrybedText.html.twig", [
+            'userfileId' =>$userfileId,
             "title" => "Scriber Redaktorius",
             "words" => $spanTags,
             'fileName' => $userFile->getTitle(),

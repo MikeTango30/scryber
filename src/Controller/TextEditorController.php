@@ -66,6 +66,8 @@ class TextEditorController extends AbstractController
 
     public function saveTranscribedText(string $userfileId, EntityManagerInterface $entityManager, Request $request, TranscriptionAggregator $transcriptionAggregator)
     {
+        $response = new JsonResponse(['saved' => false]);
+
         if ($request->isMethod('POST') && $request->request->has('text')) {
             $text = $request->request->get('text');
 
@@ -74,10 +76,12 @@ class TextEditorController extends AbstractController
             $userfile = $entityManager->getRepository(UserFile::class)->findOneBy(['id' => $userfileId, 'user' => $this->getUser()]);
             $userfile->setText($editedTextJsonForSaving);
             $userfile->setUpdated(new \DateTime());
-//            $entityManager->persist($userfile);
-//            $entityManager->flush();
+            $entityManager->persist($userfile);
+            $entityManager->flush();
 
-            return new JsonResponse(['saved' => true]);
+            $response = new JsonResponse(['saved' => true]);
         }
+
+        return $response;
     }
 }

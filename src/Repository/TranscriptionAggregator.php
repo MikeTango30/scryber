@@ -57,11 +57,11 @@ class TranscriptionAggregator
         $transcriptionLines = [];
         $jsonObject = [];
 
-        $textStrippedNewLines = trim(str_replace(array("\r", "\n"), '', $text));
+        $textStrippedNewLines = trim(str_replace(array("\r", "\n", "&nbsp;"), '', $text));
         $spans = preg_split('/  +/', $textStrippedNewLines);
 
         foreach ($spans as $span) {
-            $spanAttributes = trim(str_replace(array('<span class="word"', '</span>'), '', $span));
+            $spanAttributes = trim(str_replace(array('<span class=""', '</span>'), '', $span));
             $spanAttributes = substr($spanAttributes, 0, strpos($spanAttributes, ">"));
             $spanAttributes = explode(' ', $spanAttributes);
 
@@ -81,9 +81,8 @@ class TranscriptionAggregator
                 $textLine['data-word-content']
             );
             $transcriptionLines[] = $transcriptionLine;
+            array_push($jsonObject, $transcriptionLine->getArray());
         }
-
-        array_push($jsonObject, $transcriptionLine->getArray());
 
         return $jsonObject;
     }
