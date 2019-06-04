@@ -3,38 +3,51 @@
 {% block title %}{{ title }}{% endblock %}
 
 {% block main %}
-    <div class="container">
-        <div class="content-wrapper" aria-label="Text Editor">
-            <div><h1>Mano Transkripcija</h1></div>
-            <div class="editor" id="editor" contenteditable="true">
-                {% for word in words %}
-                    {{ word|raw }}
-                {% endfor %}
-            </div>
-        </div>
+  <div class="container">
+    <div class="content-wrapper" aria-label="Text Editor">
+      <div><h1>Mano Transkripcija</h1></div>
+      <div class="editor" id="editor" contenteditable="true">
+        {% for word in words %}
+          {{ word|raw }}
+        {% endfor %}
+      </div>
     </div>
+  </div>
 {% endblock %}
 
 {% block aside %}
+  <div class="content-wrapper">
     <div class="content-wrapper">
-        <audio id="player" controls>
-            <source src="../../public/audio_files/demo/demo_record.mp3" type="audio/mpeg">
-        </audio>
+      <h4>Failas: {{ fileName }}</h4>
     </div>
+    <audio id="player" controls>
+      <source src="../../public/audio_files/demo/demo_record.mp3" type="audio/mpeg">
+    </audio>
     <div class="content-wrapper">
-        <button class="button" id="downloadButton">Eksportuoti transkripciją</button>
+      <div><strong>Reitingas:</strong> {{ confidence }}</div>
+      <p class="help muted">Transkribavimo kokybės koeficientas (1 = puikiai)</p>
+      <div><strong>Žodžiai:</strong>{{ wordCount }}</div>
+      <p class="muted">Žodžių skaičius</p>
     </div>
-    <div class="content-wrapper">
-        <div class="field">
-            <div class="control control--checkbox">
-                <input class="checkbox" type="checkbox" id="highlights">
-                <label class="label" for="highlights">Sunkūs žodžiai</label>
-            </div>
-            <p class="help error">nuspalvinti algoritmui sunkius žodžius</p>
-        </div>
+    <button class="button" id="downloadButton">Parsisiųsti transkripciją</button>
+  </div>
+  <div class="content-wrapper">
+    <div class="field">
+      <div class="control control--checkbox">
+        <input class="checkbox" type="checkbox" id="highlights">
+        <label class="label" for="highlights">Sunkūs žodžiai</label>
+      </div>
+      <p class="help muted">nuspalvinti algoritmui sunkius <span class="highlight-example">žodžius</span></p>
     </div>
+    <div class="field">
+      <div class="control control--checkbox">
+        <input class="checkbox" type="checkbox" id="hints">
+        <label class="label" for="hints">Nerodyti ištrintų žodžių</label>
+      </div>
+      <p class="help muted">išjungti originalių <strong style="color: black">[žodžių]</strong> rodymą vietoje ištrinto žodžio</p>
+    </div>
+  </div>
 {% endblock %}
-
 {% block javascripts %}
-    {{ encore_entry_script_tags('editScrybedText') }}
+  {{ encore_entry_script_tags('editScrybedText') }}
 {% endblock %}

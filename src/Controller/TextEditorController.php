@@ -21,26 +21,29 @@ class TextEditorController extends AbstractController
         $this->denyAccessUnlessGranted('ROLE_USER');
 
         /** @var UserFile $userfile */
-        $userfile = $entityManager->getRepository(UserFile::class)->findOneBy(['id' => $userfileId, 'userfileUserId' => $this->getUser()]);
+        $userfile = $entityManager->getRepository(UserFile::class)->findOneBy(['id' => $userfileId, 'user' => $this->getUser()]);
 
         if($userfile) {
 
-            $transcription = new Transcription($userfile->getUserfileText());
+            $transcription = new Transcription($userfile->getText());
+
+            $connector = new Connector();
+            $summary = $connector->getJobSummary($userfile->getFile()->getJobId());
+            $confidence = $summary->getConfidence();
+            $words = $summary->getWords();
 
             $textGenerator = new TextGenerator();
             $spanTags = $textGenerator->generateSpans($transcription);
 
-//        $connector = new Connector();
-//        $summary = new SummaryModel()
 
-
-            return $this->render("home/editScrybedText.html.twig", [
-                "title" => "Scriber Editor",
-                "summary" => [],//$summary,
-                "words" => $spanTags,
-                "job_id" => $userfileId
-            ]);
-        }
+        return $this->render("home/editScrybedText.html.twig", [
+            "title" => "Scriber Redaktorius",
+            "words" => $spanTags,
+            'fileName' => $userfile->getTitle(),
+            'confidence' => $confidence,
+            'wordCount' => $words,
+        ]);
+    }
 
         return $this->render("home/userfileNotFound.html.twig", [
             "title" => "Scriber Editor",

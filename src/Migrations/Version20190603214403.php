@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20190527172704 extends AbstractMigration
+final class Version20190603214403 extends AbstractMigration
 {
     public function getDescription() : string
     {
@@ -22,11 +22,10 @@ final class Version20190527172704 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('ALTER TABLE file ADD file_title VARCHAR(55) NOT NULL, CHANGE file_job_id file_job_id VARCHAR(55) DEFAULT NULL');
-        $this->addSql('ALTER TABLE file CHANGE file_job_id file_job_id VARCHAR(55) DEFAULT NULL');
-        $this->addSql('ALTER TABLE user_file ADD userfile_title VARCHAR(255) NOT NULL');
-        $this->addSql('ALTER TABLE user_credit_log CHANGE ucl_userfile_id_id ucl_userfile_id_id INT DEFAULT NULL');
+        $this->addSql('ALTER TABLE file CHANGE job_id job_id VARCHAR(55) DEFAULT NULL, CHANGE words_count words_count INT DEFAULT NULL, CHANGE confidence confidence DOUBLE PRECISION DEFAULT NULL');
+        $this->addSql('ALTER TABLE user_file ADD scrybe_status INT NOT NULL, CHANGE text text JSON DEFAULT NULL');
         $this->addSql('ALTER TABLE user CHANGE roles roles JSON NOT NULL');
+        $this->addSql('ALTER TABLE credit_log CHANGE user_file_id user_file_id INT DEFAULT NULL');
     }
 
     public function down(Schema $schema) : void
@@ -34,10 +33,9 @@ final class Version20190527172704 extends AbstractMigration
         // this down() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('ALTER TABLE file DROP file_title, CHANGE file_job_id file_job_id VARCHAR(55) DEFAULT \'NULL\' COLLATE utf8mb4_unicode_ci');
-        $this->addSql('ALTER TABLE file CHANGE file_job_id file_job_id VARCHAR(55) DEFAULT \'NULL\' COLLATE utf8mb4_unicode_ci');
+        $this->addSql('ALTER TABLE credit_log CHANGE user_file_id user_file_id INT DEFAULT NULL');
+        $this->addSql('ALTER TABLE file CHANGE job_id job_id VARCHAR(55) DEFAULT \'NULL\' COLLATE utf8mb4_unicode_ci, CHANGE words_count words_count INT DEFAULT NULL, CHANGE confidence confidence DOUBLE PRECISION DEFAULT \'NULL\'');
         $this->addSql('ALTER TABLE user CHANGE roles roles LONGTEXT NOT NULL COLLATE utf8mb4_bin');
-        $this->addSql('ALTER TABLE user_credit_log CHANGE ucl_userfile_id_id ucl_userfile_id_id INT DEFAULT NULL');
-        $this->addSql('ALTER TABLE user_file DROP userfile_title');
+        $this->addSql('ALTER TABLE user_file DROP scrybe_status, CHANGE text text LONGTEXT DEFAULT NULL COLLATE utf8mb4_bin');
     }
 }

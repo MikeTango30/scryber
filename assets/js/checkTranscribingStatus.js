@@ -4,10 +4,7 @@ const $ = require('jquery');
 require('bootstrap');
 
 require('../css/app.scss');
-require('./textEditor/audioSynchronize');
-require('./textEditor/downloadEditedText');
-require('./textEditor/highlightHardWords');
-require('./textEditor/ghostWordIfDeleted');
+require('./transcribing/transcribingStatus.js');
 
 // or you can include specific pieces
 // require('bootstrap/js/dist/tooltip');

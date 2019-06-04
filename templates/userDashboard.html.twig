@@ -4,10 +4,9 @@
 
 {% block aside %}
 <div class="content-wrapper">
-
-</div>
 <h2>Liko minučių: {{ credits_left }}</h2>
 <h4><a class="button" href="{{ path('pricing') }}">Pirkti daugiau minučių</a> </h4>
+</div>
 {% endblock %}
 
 {% block main %}
@@ -32,35 +31,21 @@
                 <td>{{ scrybe.length }}</td>
                 <td>{{ scrybe.updated }}</td>
                 <td>
-                    {% if scrybe.isScrybed %}
-                        <a href="{{ path('edit_scribed_text', {'userfileId': scrybe.id} ) }}">Redaguoti</a>
+                    {% if scrybe.scrybeStatus == scrybe_done %}
+                        <a class="table-link" href="{{ path('edit_scribed_text', {'userfileId': scrybe.id} ) }}">Redaguoti</a>
+                    {% elseif scrybe.scrybeStatus == scrybe_in_progress %}
+                        Apdorojama
                     {% else %}
-                        <a href="{{ path('send_with_api', {'userfileId': scrybe.id} ) }}">Transkribuoti</a>
+                        <a class="table-link" href="{{ path('send_with_api', {'userfileId': scrybe.id} ) }}">Transkribuoti</a>
                     {% endif %}
+                    <a class="requires-confirm table-link" href="{{ path('delete_file', {'userfileId': scrybe.id} ) }}">Trinti</a>
                 </td>
             </tr>
         {% endfor %}
-        <tr>
-            <th scope="row">1</th>
-            <td>2019-05-05</td>
-            <td>Paskaita</td>
-            <td>01:30:00</td>
-            <td>2019-05-08 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp <a href="/edit_scribed_text/94e370a3-4f5c-45bf-a743-587b45174cbf">Redaguoti</a></td>
-        </tr>
-        <tr>
-            <th scope="row">2</th>
-            <td>2018-06-02</td>
-            <td>Interviu su A.A.</td>
-            <td>00:15:47</td>
-            <td>2019-03-29 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp <a href="/edit_scribed_text/94e370a3-4f5c-45bf-a743-587b45174cbf">Redaguoti</a></td>
-        </tr>
-        <tr>
-            <th scope="row">3</th>
-            <td>2018-06-06</td>
-            <td>Z.Z. disertacijos gynimas</td>
-            <td>01:05:00</td>
-            <td>2018-07-26 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp <a href="/edit_scribed_text/94e370a3-4f5c-45bf-a743-587b45174cbf">Redaguoti</a></td>
-        </tr>
         </tbody>
     </table>
+{% endblock %}
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('dashboardJs') }}
 {% endblock %}

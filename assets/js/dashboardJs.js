@@ -4,15 +4,17 @@ const $ = require('jquery');
 require('bootstrap');
 
 require('../css/app.scss');
-require('./textEditor/audioSynchronize');
-require('./textEditor/downloadEditedText');
-require('./textEditor/highlightHardWords');
-require('./textEditor/ghostWordIfDeleted');
-
 // or you can include specific pieces
 // require('bootstrap/js/dist/tooltip');
 // require('bootstrap/js/dist/popover');
 
 $(document).ready(function() {
     $('[data-toggle="popover"]').popover();
+
+    $('.requires-confirm').click(function () {
+        if (confirm('Ištrinti pasirinktą failą?')) {
+            return true;
+        }
+        return false;
+    })
 });

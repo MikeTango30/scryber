@@ -17,11 +17,11 @@ class CtmTransformer
      */
     public function getCtmJson(File $file) : array
     {
-        $ctm = new CtmModel($file->getFileDefaultCtm());
-        $text = $file->getFileTxt();
+        $ctm = new CtmModel($file->getDefaultCtm());
+        $text = $file->getPlainText();
         $text = trim(preg_replace('/\s+/', ' ', $text)); // get rid of new lines
         $words = explode(' ', $text);
-        $wordsCount = $file->getFileWords();
+        $wordsCount = $file->getWordsCount();
 
         if(count($words)!==$wordsCount)
             return new \Exception("Unable to format JSON from CTM source", 1);

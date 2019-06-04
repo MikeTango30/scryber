@@ -1,0 +1,30 @@
+span.word:empty::before {
+    content: '['attr(data-word-content)']';
+    color: $color__text-muted;
+    cursor: pointer;
+
+    &.empty {
+        pointer-events: auto;
+    }
+}
+
+span.word:empty:hover::after {
+    content: 'Spustelkite, kad įterptumėte senąjį žodį';
+    width: 120px;
+    background-color: $color__royal-blue;
+    color: $color__white;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px;
+    position: absolute;
+    z-index: 1;
+    margin-left: -5px;
+    animation: appear 150ms ease-out 0s;
+    cursor: pointer;
+}
+
+[contenteditable="true"]:active,
+[contenteditable="true"]:focus{
+    border:none;
+    outline:none;
+}

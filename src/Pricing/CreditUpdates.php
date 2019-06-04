@@ -4,7 +4,10 @@
 namespace App\Pricing;
 
 
+use App\Entity\CreditLog;
+use App\Entity\CreditLogAction;
 use App\Entity\CreditLogActions;
+use App\Entity\File;
 use App\Entity\User;
 use App\Entity\UserCreditLog;
 use App\Entity\UserFile;
@@ -34,17 +37,17 @@ class CreditUpdates
         return $response;
     }
 
-    public function saveUserCreditChangeLog(User $user, int $amount, UserFile $userFile = null)
+    public function saveUserCreditChangeLog(User $user, int $amount, File $file = null)
     {
-        $actionName = $amount <= 0 ? 'Scrybe_file' : 'Top_up_credits';
-        $logAction = $this->entityManager->getRepository(CreditLogActions::class)->findOneBy(['claName' => $actionName]);
+        $actionName = $amount <= 0 ? 'scrybe_file' : 'top_up_credits';
+        $logAction = $this->entityManager->getRepository(CreditLogAction::class)->findOneBy(['name' => $actionName]);
 
-        $operationLog = new UserCreditLog();
-        $operationLog->setUclCreated(new \DateTime());
-        $operationLog->setUclCredits($amount);
-        $operationLog->setUclUserfileId($userFile);
-        $operationLog->setUclUserId($user);
-        $operationLog->setUclActionId($logAction);
+        $operationLog = new CreditLog();
+        $operationLog->setCreated(new \DateTime());
+        $operationLog->setAmount($amount);
+        $operationLog->setFile($file);
+        $operationLog->setUser($user);
+        $operationLog->setAction($logAction);
 
         $this->entityManager->persist($operationLog);
         $this->entityManager->flush();

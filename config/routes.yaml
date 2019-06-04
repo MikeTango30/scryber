@@ -82,6 +82,15 @@ export_subtitles:
     path: /export/srt/{userfileId}
     controller: App\Controller\ExportController::exportSrt
 
+delete_file:
+    path: /remove_file/{userfileId}
+    controller: App\Controller\UserDashboardController::deleteUserfile
+
+check_transcription_status:
+    path: /check_status/{userfileId}
+    controller: App\Controller\ConnectionController::checkTranscriptionStatus
+    methods: GET
+
 #download_transcribed_text:
 #  path: /download_transcribed_text
 #  controller: App\Controller\TextEditorController::downloadTranscribedText

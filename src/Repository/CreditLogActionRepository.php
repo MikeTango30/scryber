@@ -2,25 +2,25 @@
 
 namespace App\Repository;
 
-use App\Entity\CreditLogActions;
+use App\Entity\CreditLogAction;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
- * @method CreditLogActions|null find($id, $lockMode = null, $lockVersion = null)
- * @method CreditLogActions|null findOneBy(array $criteria, array $orderBy = null)
- * @method CreditLogActions[]    findAll()
- * @method CreditLogActions[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method CreditLogAction|null find($id, $lockMode = null, $lockVersion = null)
+ * @method CreditLogAction|null findOneBy(array $criteria, array $orderBy = null)
+ * @method CreditLogAction[]    findAll()
+ * @method CreditLogAction[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class CreditLogActionsRepository extends ServiceEntityRepository
+class CreditLogActionRepository extends ServiceEntityRepository
 {
     public function __construct(RegistryInterface $registry)
     {
-        parent::__construct($registry, CreditLogActions::class);
+        parent::__construct($registry, CreditLogAction::class);
     }
 
     // /**
-    //  * @return CreditLogActions[] Returns an array of CreditLogActions objects
+    //  * @return CreditLogAction[] Returns an array of CreditLogAction objects
     //  */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class CreditLogActionsRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?CreditLogActions
+    public function findOneBySomeField($value): ?CreditLogAction
     {
         return $this->createQueryBuilder('c')
             ->andWhere('c.exampleField = :val')

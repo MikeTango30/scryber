@@ -1,13 +1,35 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}File status page{% endblock %}
+{% block title %}Failo statutas{% endblock %}
 
-{% block main %}
-    <div class="">Check uploaded file status</div>
-    <form method="post" action="/refresh_status/{{ userfileId }}">
-        Check sent file `{{ fileName }}` scrybe status <input type="hidden" name="userfileId" value="{{ userfileId }}">. Current status is `<strong>{{ job_status }}</strong>` <button type="submit" name="refresh_status">Refresh</button>
-    </form>
-    <div class="progress">
-        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 75%"></div>
+{% block content %}
+  <div class="page-wrapper blue-gradient-page">
+    <div class="page-content container">
+      <div class="content-wrapper text-center">
+        <h1 class="text-white">Vyksta failo transkribavimas</h1>
+        <p class="text-white">Kai transkribavimas bus įvykdytas, nukreipsime jus į Scriber teksto redaktorių ir
+          informuosime el. paštu</p>
+        <div class="loading-ring">
+          <form method="post" action="/refresh_status/{{ userfileId }}">
+            <div class="content-wrapper">
+              <strong>Failas:</strong> {{ fileName }}
+            </div>
+            <div class="content-wrapper">
+              <strong>Būklė:</strong>
+                {{ job_status }}
+            </div>
+              <div class="content-wrapper loading">
+                <div class="lds-dual-ring"></div>
+              </div>
+            <input type="hidden" name="userfileId" value="{{ userfileId }}">
+            <button class="button" type="submit" name="refresh_status">Atnaujinti būklę</button>
+          </form>
+        </div>
+      </div>
     </div>
+  </div>
 {% endblock %}
+{% block javascripts %}
+{{ encore_entry_script_tags('checkTranscribingStatus') }}
+{% endblock %}
+
