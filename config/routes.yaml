@@ -18,12 +18,8 @@ show_scrybed_results:
     path: /show_results/{userfileId}
     controller: App\Controller\ConnectionController::showResults
 
-download_txt_file:
-    path: /download_txt_file/{jobId}
-    controller: App\Controller\ConnectionController::DownloadTxtFile
-
 edit_scribed_text:
-      path: /edit_scribed_text/{job_id}
+      path: /edit_scribed_text/{userfileId}
       controller: App\Controller\TextEditorController::textEditor
 
 media_player:
@@ -54,7 +50,17 @@ about:
 
 pricing:
     path: /pricing
-    controller: App\Controller\HomeController::pricing
+    controller: App\Controller\PricingController::pricing
+
+buy:
+    path: /buy/{hours}
+    controller: App\Controller\PricingController::buyHours
+    methods: GET
+
+bought:
+    path: /bought/{hours}
+    controller: App\Controller\PricingController::updateCredits
+    methods: GET
 
 editor:
     path: /editor
@@ -67,6 +73,14 @@ upload:
 send_with_api:
     path: /process_scrybe/{userfileId}
     controller: App\Controller\ConnectionController::processScrybeFile
+
+export_txt:
+    path: /export/txt/{userfileId}
+    controller: App\Controller\ExportController::exportTxt
+
+export_subtitles:
+    path: /export/srt/{userfileId}
+    controller: App\Controller\ExportController::exportSrt
 
 #download_transcribed_text:
 #  path: /download_transcribed_text

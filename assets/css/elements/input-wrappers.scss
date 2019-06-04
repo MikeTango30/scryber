@@ -18,6 +18,7 @@
 
 .label {
     margin-left: 2px;
+    margin-right: 5px;
     margin-bottom: $margin__form-label;
     font-weight: bold;
     line-height: $line-height__input-normal;
@@ -27,6 +28,11 @@
     display: flex;
     align-items: center;
     text-align: left;
+}
+
+.center-button {
+    display: flex;
+    justify-content: center;
 }
 
 .help {

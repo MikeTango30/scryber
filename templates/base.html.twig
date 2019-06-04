@@ -1,86 +1,91 @@
 <!DOCTYPE html>
 <html lang="en/lt">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-    <title>{% block title %}Scriber{% endblock %}</title>
-    {% block stylesheets %}
-        {{ encore_entry_link_tags('app') }}
-    {% endblock %}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+        integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+  <title>{% block title %}Scriber{% endblock %}</title>
+  {% block stylesheets %}
+    {{ encore_entry_link_tags('app') }}
+  {% endblock %}
 </head>
 <body>
 {% block body %}
-    <div id="app" class="page-wrapper">
-        <header class="page-header">
-            <div class="header-content-left">
-                <div class="content-wrapper">
-                    <div class="app-title">
-                        <h1>
-                            <a class="link logo" href="{{ path('index') }}">Scriber</a>
-                            <img src="{{ asset('build/images/quill.svg') }}" alt="quill-logo">
-                        </h1>
-                    </div>
-                </div>
+  <div id="app" class="page-wrapper">
+    <header class="page-header">
+      <div class="header-content-left">
+        <div class="content-wrapper">
+          <div class="app-title">
+            <h1>
+              <a class="link logo" href="{{ path('index') }}">Scriber</a>
+              <img src="{{ asset('build/images/quill.svg') }}" alt="quill-logo">
+            </h1>
+          </div>
+        </div>
+      </div>
+      <nav class="navbar navbar-expand-lg navbar-light" style="background-color: transparent;">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+          <div class="navbar-nav">
+            <a class="nav-item nav-link active" href="{{ path('about') }}">Apie</a>
+            <a class="nav-item nav-link active" href="{{ path('pricing') }}">Kaina</a>
+            <a class="nav-item nav-link active" href="{{ path('editor') }}">Redaktorius</a>
+            {% if app.user %}
+              <a class="nav-item nav-link active" href="{{ path("user_dashboard") }}">Transkripcijos</a>
+              <a class="nav-item nav-link active" href="{{ path("upload") }}">Įkelti failą</a>
+            {% endif %}
+          </div>
+        </div>
+      </nav>
+      <div class="header-content-right">
+        {% if app.user %}
+          {{ app.user.getEmail }}
+          <a class="button" href="{{ path('app_logout') }}">Atsijungti</a>
+        {% else %}
+          <div class="content-wrapper">
+            <div class="header-content-right">
+              <a class="button" href="{{ path('secure_login') }}">Prisijungti</a>
+              <a class="button" href="{{ path('register') }}">Registruotis</a>
             </div>
-                <nav class="navbar navbar-expand-lg navbar-light" style="background-color: transparent;">
-                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                        <div class="navbar-nav">
-                            <a class="nav-item nav-link active" href="{{ path('about') }}">Apie <span class="sr-only">(current)</span></a>
-                            <a class="nav-item nav-link active" href="{{ path('pricing') }}">Kaina</a>
-                            <a class="nav-item nav-link active" href="{{ path('editor') }}">Redaktorius</a>
-                            {% if app.user %}
-                            <a class="nav-item nav-link active" href="{{ path("user_dashboard") }}">Transkripcijos</a>
-                            <a class="nav-item nav-link active" href="{{ path("upload") }}">Įkelti failą</a>
-                            {% endif %}
-                        </div>
-                    </div>
-                </nav>
-                <div class="header-content-right">
-                    {% if app.user %}
-                    {{ app.user.getEmail }}
-                    <a class="button" href="{{ path('app_logout') }}">Logout</a>
-                    {% else %}
-                        <div class="content-wrapper">
-                            <div class="header-content-right">
-                                <a class="button" href="{{ path('secure_login') }}">Prisijungti</a>
-                                <a class="button" href="{{ path('register') }}">Registruotis</a>
-                            </div>
-                        </div>
-                    {% endif %}
-                </div>
-        </header>
-        {% block content %}
-            <div class="page-content container">
-                <main class="main">
-                    <div class="container">
-                        <div class="content-wrapper">
-                            {% block main %}{% endblock %}
-                        </div>
-                    </div>
-                </main>
-                <aside class="aside">
-                    <div class="container">
-                            {% block aside %}{% endblock %}
-                    </div>
-                </aside>
+          </div>
+        {% endif %}
+      </div>
+    </header>
+    {% block content %}
+      <div class="page-content container">
+        <main class="main">
+          <div class="container">
+            <div class="content-wrapper">
+              {% block main %}{% endblock %}
             </div>
+          </div>
+        </main>
+        <aside class="aside">
+          <div class="container">
+            {% block aside %}{% endblock %}
+          </div>
+        </aside>
+      </div>
+    {% endblock %}
+    <footer class="page-footer">
+      <div class="content-wrapper">
+        {% block footer %}
+          NFQ Akademija.
+          Komanda: <em>Subscribe</em>.
+          Mentorius: <em>Tautvydas</em>.
+          Mokiniai: <em>Alius ir Mantas</em>
         {% endblock %}
-        <footer class="page-footer">
-            <div class="container">
-                <div class="content-wrapper">
-                    {% block footer %}{% endblock %}
-                </div>
-            </div>
-        </footer>
-    </div>
+      </div>
+    </footer>
+  </div>
 {% endblock %}
 {% block javascripts %}
-    {{ encore_entry_script_tags('app') }}
+  {{ encore_entry_script_tags('app') }}
 {% endblock %}
 </body>
 </html>

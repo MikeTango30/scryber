@@ -1,88 +1,57 @@
 <?php
 
+
 namespace App\Model;
 
 class Transcription
 {
-    /**
-     * @var float
-     */
-    private $beginTime;
-
-    /**
-     * @var float
-     */
-    private $endTime;
-
-    /**
-     * @var string
-     */
-    private $wordId;
-
-    /**
-     * @var float
-     */
-    private $confidence;
-
-    /**
-     * @var string
-     */
-    private $word;
+    /** @var array */
+    private $transcriptionLines;
 
     /**
      * Transcription constructor.
-     * @param $beginTime
-     * @param $endTime
-     * @param $wordId
-     * @param $confidence
-     * @param $word
+     * @param array|null $textArray
      */
-    public function __construct($beginTime, $endTime, $wordId, $confidence, $word)
+    public function __construct(?array $textArray)
     {
-        $this->beginTime = $beginTime;
-        $this->endTime = $endTime;
-        $this->wordId = $wordId;
-        $this->confidence = $confidence;
-        $this->word = $word;
+        foreach ($textArray as $line) {
+            $transcriptionLine = new TranscriptionLine(
+                $line['beginTime'],
+                $line['endTime'],
+                $line['duration'],
+                $line['confidence'],
+                $line['word']
+            );
+            $this->transcriptionLines[] = $transcriptionLine;
+        }
     }
 
     /**
-     * @return float
+     * @return array
      */
-    public function getBeginTime(): float
+    public function getTranscriptionLines(): array
     {
-        return $this->beginTime;
+        return $this->transcriptionLines;
     }
 
     /**
-     * @return float
+     * @param array $transcriptionLines
      */
-    public function getEndTime(): float
+    public function setTranscriptionLines(array $transcriptionLines): void
     {
-        return $this->endTime;
+        $this->transcriptionLines = $transcriptionLines;
     }
 
-    /**
-     * @return string
-     */
-    public function getWordId(): string
+    public function getArray() : array
     {
-        return $this->wordId;
+        $response = [];
+
+        /** @var TranscriptionLine $transcriptionLine */
+        foreach ($this->getTranscriptionLines() as $transcriptionLine) {
+            $response[] = $transcriptionLine->getArray();
+        }
+
+        return $response;
     }
 
-    /**
-     * @return float
-     */
-    public function getConfidence(): float
-    {
-        return $this->confidence;
-    }
-
-    /**
-     * @return string
-     */
-    public function getWord(): string
-    {
-        return $this->word;
-    }
 }

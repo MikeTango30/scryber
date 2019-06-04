@@ -3,23 +3,52 @@
 {% block title %}Registracija{% endblock %}
 
 {% block content %}
-<div class="page-content container">
-    <div class="container">
-        <div class="content-wrapper">
-    <h1>Registracija</h1>
-
-    {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.firstname) }}
-        {{ form_row(registrationForm.email) }}
-        {{ form_row(registrationForm.plainPassword) }}
-
-        <button class="button">Registruotis</button>
-    {{ form_end(registrationForm) }}
-        <div class="content-wrapper">
-            Turite paskyrą?
-            <a href="{{ path('secure_login') }}">Prisijunkite</a>
+  <div class="page-wrapper blue-gradient-page">
+    <div class="page-content container">
+      <div class="content-wrapper register">
+        <h1 class="text-center">Registracija</h1>
+        {{ form_start(registrationForm) }}
+        <div class="field">
+          {{ form_label(registrationForm.firstname, null, {
+            'label': 'Vardas',
+            'label_attr': {'class': 'label'}}) }}
+          {{ form_errors(registrationForm.firstname) }}
+          <div class="control">
+            {{ form_widget(registrationForm.firstname, {'attr': {'class': 'input'}}) }}
+          </div>
         </div>
+        <div class="field">
+          {{ form_label(registrationForm.email, null, {
+            'label': 'El. paštas',
+            'label_attr': {'class': 'label'}}) }}
+          {{ form_errors(registrationForm.email) }}
+          <div class="control">
+            {{ form_widget(registrationForm.email, {'attr': {'class': 'input'}}) }}
+          </div>
         </div>
+        <div class="field">
+          {{ form_label(registrationForm.plainPassword.first, null, {'label_attr': {'class': 'label'}}) }}
+          {{ form_errors(registrationForm.plainPassword.first) }}
+          <div class="control">
+            {{ form_widget(registrationForm.plainPassword.first, {'attr': {'class': 'input'}}) }}
+          </div>
+        </div>
+        <div class="field">
+          {{ form_label(registrationForm.plainPassword.second, null, {'label_attr': {'class': 'label'}}) }}
+          {{ form_errors(registrationForm.plainPassword.second) }}
+          <div class="control">
+            {{ form_widget(registrationForm.plainPassword.second, {'attr': {'class': 'input'}}) }}
+          </div>
+        </div>
+        <div class="center-button">
+          <button class="button" type="submit">Registruotis</button>
+        </div>
+        {{ form_end(registrationForm) }}
+        <div class="content-wrapper text-center">
+          Jau turite paskyrą?
+          <a href="{{ path('secure_login') }}">Prisijunkite</a>
+        </div>
+      </div>
     </div>
-</div>
+  </div>
 {% endblock %}

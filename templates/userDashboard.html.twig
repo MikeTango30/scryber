@@ -6,7 +6,7 @@
 <div class="content-wrapper">
 
 </div>
-<h2>Liko minučių: 48</h2>
+<h2>Liko minučių: {{ credits_left }}</h2>
 <h4><a class="button" href="{{ path('pricing') }}">Pirkti daugiau minučių</a> </h4>
 {% endblock %}
 
@@ -33,7 +33,7 @@
                 <td>{{ scrybe.updated }}</td>
                 <td>
                     {% if scrybe.isScrybed %}
-                        <a href="{{ path('edit_scribed_text', {'job_id': scrybe.id} ) }}">Redaguoti</a>
+                        <a href="{{ path('edit_scribed_text', {'userfileId': scrybe.id} ) }}">Redaguoti</a>
                     {% else %}
                         <a href="{{ path('send_with_api', {'userfileId': scrybe.id} ) }}">Transkribuoti</a>
                     {% endif %}
