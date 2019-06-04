@@ -43,5 +43,7 @@ RUN git config --global user.email "docker.fake.user@example.com" && git config 
 # xDebug configuration
 ENV PHP_IDE_CONFIG serverName=nfqKickStartDocker
 
+ADD configs/custom.ini /usr/local/etc/php/conf.d/custom.ini
+
 WORKDIR /code
 VOLUME /code

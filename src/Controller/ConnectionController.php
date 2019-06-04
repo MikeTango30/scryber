@@ -5,11 +5,8 @@ namespace App\Controller;
 
 use App\Api\FileOperator\FileOperator;
 use App\Api\Tilde\Connector;
-use App\Api\Tilde\CtmLine;
-use App\Api\Tilde\CtmModel;
 use App\Api\Tilde\RequestModel;
 use App\Api\Tilde\ResponseModel;
-use App\Api\Tilde\SummaryModel;
 use App\Entity\CreditLogActions;
 use App\Entity\File;
 use App\Entity\User;
@@ -23,15 +20,13 @@ use App\Repository\WordBlockGenerator;
 use App\ScribeFormats\CtmTransformer;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\HeaderUtils;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class ConnectionController extends AbstractController
 {
     const ERROR_NO_CREDITS = 'no_credits';
 
-    public function sendFileToScrybe(/*File */$file)
+    public function sendFileToScrybe(File $file)
     {
         $connector = new Connector();
         $fileOperator = new FileUploadManager(null, null);

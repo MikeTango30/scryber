@@ -3,7 +3,7 @@
 
 namespace App\Form;
 
-use App\Api\FileConverter;
+use App\Api\MediaConverter;
 use App\Api\FileOperator\FileOperator;
 use App\Entity\File;
 use App\Entity\User;
@@ -61,7 +61,9 @@ class FileUploadManager
             $uploadedFile = new SymFile($this->basePath.$_ENV['AUDIO_FILES_UPLOAD_DIR'].$newFileDir.$newFileName);
         }
         if (!$fileExistsInDb) {
-            $fileExistsInDb = $this->saveFileEntry($uploadedFile, $newFileDir);
+            $mediaConverter = new MediaConverter();
+            $fileDuration = $mediaConverter->getMediaDuration($uploadedFile);
+            $fileExistsInDb = $this->saveFileEntry($uploadedFile, $newFileDir, $fileDuration);
         }
 
         $userFile = $this->saveUserFileReference($fileExistsInDb, $file->getClientOriginalName(), $this->user);
@@ -69,42 +71,6 @@ class FileUploadManager
         return $userFile;
     }
 
-    /*
-    public function UploadFormFile(Request $request)
-    {
-        $uploadResult = new UploadResult();
-
-        if ($request->files->has('uploadedFile')) {
-            $fileOperator = new FileOperator();
-            /** @var UploadedFile $uploadFile */
-            /*$uploadFile = $request->files->get('uploadedFile');
-
-            if ($uploadFile->getError() === 0) {
-                $uploadFileMd5 = $fileOperator->generateFileHash($uploadFile->getPath());
-                $existingFile = $fileOperator->searchFileByHash($uploadFileMd5);
-                if ($existingFile && $existingFile->) {
-                    $uploadResult->setUploadedFileName($existingFile->getFileName());
-                    $uploadResult->setUploadSuccess(true);
-                }
-                else {
-                    $new_path = $this->uploadFileToServer($uploadFile->getPath());
-
-                }
-                if ($new_path !== false) {
-                    $uploadError = false;
-                } else {
-                    $uploadError = true;
-                }
-            } else {
-                $uploadError = $uploadFile->getErrorMessage();
-            }
-        } else {
-            $uploadError = "No file found";
-        }
-
-        return $uploadResult;
-    }
-    */
     /**
      * @param UploadedFile $file
      * @param string $newDir
@@ -115,12 +81,9 @@ class FileUploadManager
     {
         $result = false;
         if ($file) {
-            $fileConverter = new FileConverter();
-            $fileConverter->ConvertFile($file->getPathname(), $newDir.$newName);
-            $result = $file->move($newDir, $newName);//) {
-//                $uploadedFile = new SymFile($this->basePath.$newDir.$newName);
-//                return $uploadedFile;
-//            }
+            $mediaConverter = new MediaConverter();
+            $file = $mediaConverter->ConvertFile($file);
+            $result = $file->move($newDir, $newName);
         }
         return $result;
     }
@@ -148,7 +111,14 @@ class FileUploadManager
         return $fileSearch;
     }
 
-    private function saveFileEntry(SymFile $file, string $dir)
+    /**
+     * @param SymFile $file
+     * @param string $dir
+     * @param int $duration
+     * @return File
+     * @throws \Exception
+     */
+    private function saveFileEntry(SymFile $file, string $dir, int $duration)
     {
 
         $fileEntry = new File();
@@ -156,7 +126,7 @@ class FileUploadManager
         $fileEntry->setDir($dir);
         $fileEntry->setMd5($this->generateFileHash($file->getPathname()));
         $fileEntry->setName($file->getFilename());
-        $fileEntry->setLength(9); //TODO reikia plugino iraso ilgiui skaiciuoti. Arba pries taidar net konvertuoti
+        $fileEntry->setLength($duration);
 
         $this->entityManager->persist($fileEntry);
         $this->entityManager->flush();
@@ -164,6 +134,13 @@ class FileUploadManager
         return $fileEntry;
     }
 
+    /**
+     * @param File $file
+     * @param string $fileTitle
+     * @param User $user
+     * @return UserFile
+     * @throws \Exception
+     */
     private function saveUserFileReference(File $file, string $fileTitle, User $user) {
 
         $userFile = new UserFile();

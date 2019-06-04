@@ -7,6 +7,7 @@ popd > /dev/null
 
 # Clean old PHP contgainer
 docker rmi -f scripts_php.symfony
+# php.symfony
 
 # Prerequisits
 docker --version > /dev/null 2>&1 || { echo >&2 "Docker not found. Please install it via https://docs.docker.com/install/"; exit 1; }

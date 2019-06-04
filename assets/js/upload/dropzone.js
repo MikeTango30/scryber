@@ -237,7 +237,7 @@ var Dropzone = function (_Emitter) {
         /**
          * Whether thumbnails for images should be generated
          */
-        createImageThumbnails: true,
+        createImageThumbnails: false,
 
         /**
          * In MB. When the filename exceeds this limit, the thumbnail will not be generated.
@@ -338,7 +338,7 @@ var Dropzone = function (_Emitter) {
          * [`accept`](https://developer.mozilla.org/en-US/docs/HTML/Element/input#attr-accept)
          * parameter on the hidden file input as well.
          */
-        acceptedFiles: null,
+        acceptedFiles: 'audio/*,video/*',
 
         /**
          * **Deprecated!**
