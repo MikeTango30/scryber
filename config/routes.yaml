@@ -78,6 +78,11 @@ send_with_api:
     path: /process_scrybe/{userfileId}
     controller: App\Controller\ConnectionController::processScrybeFile
 
+check_transcription_status:
+    path: /check_status/{userfileId}
+    controller: App\Controller\ConnectionController::checkTranscriptionStatus
+    methods: GET
+
 #download_transcribed_text:
 #  path: /download_transcribed_text
 #  controller: App\Controller\TextEditorController::downloadTranscribedText

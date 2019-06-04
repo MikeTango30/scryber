@@ -249,5 +249,27 @@ class ConnectionController extends AbstractController
 
         return $jsonObject;
     }
+
+    public function checkTranscriptionStatus(string $userfileId)
+    {
+        /** @var UserFile $userFile */
+        $userFile = $this->getDoctrine()->getRepository(UserFile::class)->find($userfileId);
+        $originalFile = $userFile->getUserfileFileId();
+
+        $connector = new Connector();
+        /** @var ResponseModel $response */
+        $response = $connector->checkJobStatus($originalFile->getFileJobId());
+        $responseStatus = $response->getResponseStatus();
+
+        $response = new Response('0', 200);
+
+        if ($responseStatus == ResponseModel::SUCCESS) {
+
+            $response = new Response('0', 200);
+
+        }
+
+        return $response;
+    }
 }
 
