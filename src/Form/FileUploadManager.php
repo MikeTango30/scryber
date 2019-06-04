@@ -42,7 +42,7 @@ class FileUploadManager
      */
     public function processUploadFile(UploadedFile $file)
     {
-        $fileMd5 = $this->generateFileHash($file->getPath());
+        $fileMd5 = $this->generateFileHash($file->getPathname());
         $newFileDir = '';
         $newFileName = $fileMd5.$file->getExtension();
 
@@ -51,11 +51,11 @@ class FileUploadManager
             .$newFileDir.$newFileName);
 
         if (!$fileExistsInFileSystem) {
-            $uploadedFile = $this->uploadFileToServer(
+            $uploadedFile = new SymFile($this->uploadFileToServer(
                 $file,
                 $this->basePath.$_ENV['AUDIO_FILES_UPLOAD_DIR'].$newFileDir,
                 $newFileName
-            );
+            ));
         } else {
             $uploadedFile = new SymFile($this->basePath.$_ENV['AUDIO_FILES_UPLOAD_DIR'].$newFileDir.$newFileName);
         }
@@ -128,7 +128,7 @@ class FileUploadManager
      */
     public function generateFileHash(string $filePath)
     {
-        return md5_file($filePath);
+        return hash_file('md5', $filePath);
     }
 
     /**
@@ -140,7 +140,7 @@ class FileUploadManager
         /** @var File $fileSearch */
         $fileSearch = $this->entityManager
             ->getRepository(File::class)
-            ->findOneBy(['fileMd5' => $md5Hash]);
+            ->findOneBy(['md5' => $md5Hash]);
 
         return $fileSearch;
     }
@@ -149,11 +149,11 @@ class FileUploadManager
     {
 
         $fileEntry = new File();
-        $fileEntry->setFileCreated(new \DateTime());
-        $fileEntry->setFileDir($dir);
-        $fileEntry->setFileMd5($this->generateFileHash($file->getPath()));
-        $fileEntry->setFileName($file->getFilename());
-        $fileEntry->setFileLength(9); //TODO reikia plugino iraso ilgiui skaiciuoti. Arba pries taidar net konvertuoti
+        $fileEntry->setCreated(new \DateTime());
+        $fileEntry->setDir($dir);
+        $fileEntry->setMd5($this->generateFileHash($file->getPathname()));
+        $fileEntry->setName($file->getFilename());
+        $fileEntry->setLength(9); //TODO reikia plugino iraso ilgiui skaiciuoti. Arba pries taidar net konvertuoti
 
         $this->entityManager->persist($fileEntry);
         $this->entityManager->flush();
@@ -164,12 +164,12 @@ class FileUploadManager
     private function saveUserFileReference(File $file, string $fileTitle, User $user) {
 
         $userFile = new UserFile();
-        $userFile->setUserfileCreated(new \DateTime());
-        $userFile->setUserfileFileId($file);
-        $userFile->setUserfileIsScrybed(0);
-        $userFile->setUserfileUpdated(new \DateTime());
-        $userFile->setUserfileUserId($user);
-        $userFile->setUserfileTitle($fileTitle);
+        $userFile->setCreated(new \DateTime());
+        $userFile->setFile($file);
+        $userFile->setScrybeStatus(UserFile::SCRYBE_STATUS_NOT_SCRYBED);
+        $userFile->setUpdated(new \DateTime());
+        $userFile->setUser($user);
+        $userFile->setTitle($fileTitle);
 
         $this->entityManager->persist($userFile);
         $this->entityManager->flush();

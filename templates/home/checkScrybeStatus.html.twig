@@ -16,15 +16,11 @@
             </div>
             <div class="content-wrapper">
               <strong>Būklė:</strong>
-{#              {% if job_status == 'Success' %}#}
                 {{ job_status }}
-{#              {% endif %}#}
             </div>
-            {% if not job_status == 'Success' %}
               <div class="content-wrapper loading">
                 <div class="lds-dual-ring"></div>
               </div>
-            {% endif %}
             <input type="hidden" name="userfileId" value="{{ userfileId }}">
             <button class="button" type="submit" name="refresh_status">Atnaujinti būklę</button>
           </form>

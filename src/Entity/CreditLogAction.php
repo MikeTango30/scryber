@@ -5,9 +5,9 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\CreditLogActionsRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\CreditLogActionRepository")
  */
-class CreditLogActions
+class CreditLogAction
 {
     /**
      * @ORM\Id()
@@ -19,21 +19,21 @@ class CreditLogActions
     /**
      * @ORM\Column(type="string", length=25)
      */
-    private $claName;
+    private $name;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getClaName(): ?string
+    public function getName(): ?string
     {
-        return $this->claName;
+        return $this->name;
     }
 
-    public function setClaName(string $claName): self
+    public function setName(string $name): self
     {
-        $this->claName = $claName;
+        $this->name = $name;
 
         return $this;
     }

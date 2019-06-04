@@ -3,42 +3,49 @@
 {% block title %}{{ title }}{% endblock %}
 
 {% block aside %}
-  <div class="content-wrapper">
-    <h2>Liko minučių: {{ remainingTime.minutes }}</h2>
-    <h4><a class="button" href="{{ path('pricing') }}">Pirkti daugiau minučių</a></h4>
-  </div>
+<div class="content-wrapper">
+<h2>Liko minučių: {{ credits_left }}</h2>
+<h4><a class="button" href="{{ path('pricing') }}">Pirkti daugiau minučių</a> </h4>
+</div>
 {% endblock %}
 
 {% block main %}
-  <h1>Mano Transkripcijos</h1>
-  <table class="table table-striped table-hover">
-    <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">Data</th>
-      <th scope="col">Failas</th>
-      <th scope="col">Trukmė</th>
-      <th scope="col">Redaguota</th>
-      <th scope="col">Veiksmai</th>
-    </tr>
-    </thead>
-    <tbody>
-    {% for scrybe in transcriptions %}
-      <tr>
-        <th scope="row">{{ scrybe.no }}</th>
-        <td>{{ scrybe.date }}</td>
-        <td>{{ scrybe.title }}</td>
-        <td>{{ scrybe.length }}</td>
-        <td>{{ scrybe.updated }}</td>
-        <td>
-          {% if scrybe.isScrybed %}
-            <a class="table-link" href="{{ path('edit_scribed_text', {'userfileId': scrybe.id} ) }}">Redaguoti</a>
-          {% else %}
-            <a class="table-link" href="{{ path('send_with_api', {'userfileId': scrybe.id} ) }}">Transkribuoti</a>
-          {% endif %}
-        </td>
-      </tr>
-    {% endfor %}
-    </tbody>
-  </table>
+    <h1>Mano Transkripcijos</h1>
+    <table class="table table-striped table-hover">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Data</th>
+            <th scope="col">Failas</th>
+            <th scope="col">Trukmė</th>
+            <th scope="col">Paskutinį kartą redaguota</th>
+            <th scope="col">Veiksmai</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for scrybe in transcriptions %}
+            <tr>
+                <th scope="row">{{ scrybe.no }}</th>
+                <td>{{ scrybe.date }}</td>
+                <td>{{ scrybe.title }}</td>
+                <td>{{ scrybe.length }}</td>
+                <td>{{ scrybe.updated }}</td>
+                <td>
+                    {% if scrybe.scrybeStatus == scrybe_done %}
+                        <a class="table-link" href="{{ path('edit_scribed_text', {'userfileId': scrybe.id} ) }}">Redaguoti</a>
+                    {% elseif scrybe.scrybeStatus == scrybe_in_progress %}
+                        Apdorojama
+                    {% else %}
+                        <a class="table-link" href="{{ path('send_with_api', {'userfileId': scrybe.id} ) }}">Transkribuoti</a>
+                    {% endif %}
+                    <a class="requires-confirm table-link" href="{{ path('delete_file', {'userfileId': scrybe.id} ) }}">Trinti</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('dashboardJs') }}
 {% endblock %}

@@ -48,19 +48,20 @@ class User implements UserInterface
     private $credits;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\UserFile", mappedBy="userfileUserId", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\UserFile", mappedBy="user", orphanRemoval=true)
      */
     private $userFiles;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\UserCreditLog", mappedBy="uclUserId")
+     * @ORM\OneToMany(targetEntity="App\Entity\CreditLog", mappedBy="user", orphanRemoval=true)
      */
-    private $userCreditLogs;
+    private $creditLogs;
+
 
     public function __construct()
     {
         $this->userFiles = new ArrayCollection();
-        $this->userCreditLogs = new ArrayCollection();
+        $this->creditLogs = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -177,7 +178,7 @@ class User implements UserInterface
     {
         if (!$this->userFiles->contains($userFile)) {
             $this->userFiles[] = $userFile;
-            $userFile->setUserfileUserId($this);
+            $userFile->setUser($this);
         }
 
         return $this;
@@ -188,8 +189,8 @@ class User implements UserInterface
         if ($this->userFiles->contains($userFile)) {
             $this->userFiles->removeElement($userFile);
             // set the owning side to null (unless already changed)
-            if ($userFile->getUserfileUserId() === $this) {
-                $userFile->setUserfileUserId(null);
+            if ($userFile->getUser() === $this) {
+                $userFile->setUser(null);
             }
         }
 
@@ -197,30 +198,30 @@ class User implements UserInterface
     }
 
     /**
-     * @return Collection|UserCreditLog[]
+     * @return Collection|CreditLog[]
      */
-    public function getUserCreditLogs(): Collection
+    public function getCreditLogs(): Collection
     {
-        return $this->userCreditLogs;
+        return $this->creditLogs;
     }
 
-    public function addUserCreditLog(UserCreditLog $userCreditLog): self
+    public function addCreditLog(CreditLog $creditLog): self
     {
-        if (!$this->userCreditLogs->contains($userCreditLog)) {
-            $this->userCreditLogs[] = $userCreditLog;
-            $userCreditLog->setUclUserId($this);
+        if (!$this->creditLogs->contains($creditLog)) {
+            $this->creditLogs[] = $creditLog;
+            $creditLog->setUser($this);
         }
 
         return $this;
     }
 
-    public function removeUserCreditLog(UserCreditLog $userCreditLog): self
+    public function removeCreditLog(CreditLog $creditLog): self
     {
-        if ($this->userCreditLogs->contains($userCreditLog)) {
-            $this->userCreditLogs->removeElement($userCreditLog);
+        if ($this->creditLogs->contains($creditLog)) {
+            $this->creditLogs->removeElement($creditLog);
             // set the owning side to null (unless already changed)
-            if ($userCreditLog->getUclUserId() === $this) {
-                $userCreditLog->setUclUserId(null);
+            if ($creditLog->getUser() === $this) {
+                $creditLog->setUser(null);
             }
         }
 

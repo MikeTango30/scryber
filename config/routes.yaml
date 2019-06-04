@@ -18,10 +18,6 @@ show_scrybed_results:
     path: /show_results/{userfileId}
     controller: App\Controller\ConnectionController::showResults
 
-download_txt_file:
-    path: /download_txt_file/{jobId}
-    controller: App\Controller\ConnectionController::DownloadTxtFile
-
 edit_scribed_text:
       path: /edit_scribed_text/{userfileId}
       controller: App\Controller\TextEditorController::textEditor
@@ -77,6 +73,18 @@ upload:
 send_with_api:
     path: /process_scrybe/{userfileId}
     controller: App\Controller\ConnectionController::processScrybeFile
+
+export_txt:
+    path: /export/txt/{userfileId}
+    controller: App\Controller\ExportController::exportTxt
+
+export_subtitles:
+    path: /export/srt/{userfileId}
+    controller: App\Controller\ExportController::exportSrt
+
+delete_file:
+    path: /remove_file/{userfileId}
+    controller: App\Controller\UserDashboardController::deleteUserfile
 
 check_transcription_status:
     path: /check_status/{userfileId}

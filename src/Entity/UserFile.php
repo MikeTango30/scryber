@@ -2,8 +2,6 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -11,6 +9,11 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class UserFile
 {
+
+    const SCRYBE_STATUS_NOT_SCRYBED = 0;
+    const SCRYBE_STATUS_IN_PROGRESS = 1;
+    const SCRYBE_STATUS_COMPLETED = 2;
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -19,168 +22,127 @@ class UserFile
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\File", inversedBy="userFiles")
+     * @ORM\Column(type="string", length=80)
+     */
+    private $title;
+
+    /**
+     * @ORM\Column(type="json", nullable=true)
+     */
+    private $text = [];
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $created;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $updated;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\File")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $userfileFileId;
+    private $file;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="userFiles")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $userfileUserId;
+    private $user;
 
     /**
-     * @ORM\Column(type="smallint")
+     * @ORM\Column(type="integer")
      */
-    private $userfileIsScrybed;
-
-    /**
-     * @ORM\Column(type="datetime")
-     */
-    private $userfileCreated;
-
-    /**
-     * @ORM\Column(type="datetime")
-     */
-    private $userfileUpdated;
-
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\UserCreditLog", mappedBy="uclUserfileId")
-     */
-    private $userCreditLogs;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $userfileTitle;
-
-    /**
-     * @ORM\Column(type="json", nullable=true)
-     */
-    private $userfileText = [];
-
-    public function __construct()
-    {
-        $this->userCreditLogs = new ArrayCollection();
-    }
+    private $scrybeStatus;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getUserfileFileId(): ?File
+    public function getTitle(): ?string
     {
-        return $this->userfileFileId;
+        return $this->title;
     }
 
-    public function setUserfileFileId(?File $userfileFileId): self
+    public function setTitle(string $title): self
     {
-        $this->userfileFileId = $userfileFileId;
+        $this->title = $title;
 
         return $this;
     }
 
-    public function getUserfileUserId(): ?User
+    public function getText(): ?array
     {
-        return $this->userfileUserId;
+        return $this->text;
     }
 
-    public function setUserfileUserId(?User $userfileUserId): self
+    public function setText(?array $text): self
     {
-        $this->userfileUserId = $userfileUserId;
+        $this->text = $text;
 
         return $this;
     }
 
-    public function getUserfileIsScrybed(): ?int
+    public function getCreated(): ?\DateTimeInterface
     {
-        return $this->userfileIsScrybed;
+        return $this->created;
     }
 
-    public function setUserfileIsScrybed(int $userfileIsScrybed): self
+    public function setCreated(\DateTimeInterface $created): self
     {
-        $this->userfileIsScrybed = $userfileIsScrybed;
+        $this->created = $created;
 
         return $this;
     }
 
-    public function getUserfileCreated(): ?\DateTimeInterface
+    public function getUpdated(): ?\DateTimeInterface
     {
-        return $this->userfileCreated;
+        return $this->updated;
     }
 
-    public function setUserfileCreated(\DateTimeInterface $userfileCreated): self
+    public function setUpdated(\DateTimeInterface $updated): self
     {
-        $this->userfileCreated = $userfileCreated;
+        $this->updated = $updated;
 
         return $this;
     }
 
-    public function getUserfileUpdated(): ?\DateTimeInterface
+    public function getFile(): ?File
     {
-        return $this->userfileUpdated;
+        return $this->file;
     }
 
-    public function setUserfileUpdated(\DateTimeInterface $userfileUpdated): self
+    public function setFile(?File $file): self
     {
-        $this->userfileUpdated = $userfileUpdated;
+        $this->file = $file;
 
         return $this;
     }
 
-    /**
-     * @return Collection|UserCreditLog[]
-     */
-    public function getUserCreditLogs(): Collection
+    public function getUser(): ?User
     {
-        return $this->userCreditLogs;
+        return $this->user;
     }
 
-    public function addUserCreditLog(UserCreditLog $userCreditLog): self
+    public function setUser(?User $user): self
     {
-        if (!$this->userCreditLogs->contains($userCreditLog)) {
-            $this->userCreditLogs[] = $userCreditLog;
-            $userCreditLog->setUclUserfileId($this);
-        }
+        $this->user = $user;
 
         return $this;
     }
 
-    public function removeUserCreditLog(UserCreditLog $userCreditLog): self
+    public function getScrybeStatus(): ?int
     {
-        if ($this->userCreditLogs->contains($userCreditLog)) {
-            $this->userCreditLogs->removeElement($userCreditLog);
-            // set the owning side to null (unless already changed)
-            if ($userCreditLog->getUclUserfileId() === $this) {
-                $userCreditLog->setUclUserfileId(null);
-            }
-        }
-
-        return $this;
+        return $this->scrybeStatus;
     }
 
-    public function getUserfileTitle(): ?string
+    public function setScrybeStatus(int $scrybeStatus): self
     {
-        return $this->userfileTitle;
-    }
-
-    public function setUserfileTitle(string $userfileTitle): self
-    {
-        $this->userfileTitle = $userfileTitle;
-
-        return $this;
-    }
-
-    public function getUserfileText(): ?array
-    {
-        return $this->userfileText;
-    }
-
-    public function setUserfileText(?array $userfileText): self
-    {
-        $this->userfileText = $userfileText;
+        $this->scrybeStatus = $scrybeStatus;
 
         return $this;
     }

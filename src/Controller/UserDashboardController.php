@@ -4,6 +4,7 @@
 namespace App\Controller;
 
 
+use App\Entity\CreditLog;
 use App\Entity\File;
 use App\Entity\User;
 use App\Entity\UserFile;
@@ -19,6 +20,7 @@ class UserDashboardController extends AbstractController
 
         $entityManager = $this->getDoctrine()->getManager();
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        /** @var User $user */
         $user = $this->getUser();
 
         $user_data = $entityManager->getRepository(User::class)->find($user->getId());
@@ -28,30 +30,66 @@ class UserDashboardController extends AbstractController
             /** @var UserFile $transcription_container */
             $temp['no'] = count($transcriptions)+1;
             /** @var File $originalFile */
-            $originalFile = $transcript_container->getUserfileFileId();
+            $originalFile = $transcript_container->getFile();
             $temp['id'] = $transcript_container->getId();
-            $temp['date'] = $transcript_container->getUserfileCreated()->format("Y-m-d");
+            $temp['date'] = $transcript_container->getCreated()->format("Y-m-d");
             /** @var File $temp_file */
-            $temp_file = $entityManager->getRepository(File::class)->find($transcript_container->getUserfileFileId());
-            $temp['title'] = $transcript_container->getUserfileTitle();
-            $temp_length = new \DateInterval(sprintf("PT%dS", $temp_file->getFileLength()));
+            $temp_file = $entityManager->getRepository(File::class)->find($transcript_container->getFile());
+            $temp['title'] = $transcript_container->getTitle();
+            $temp_length = new \DateInterval(sprintf("PT%dS", $temp_file->getLength()));
             $temp['length'] = sprintf("%02d:%02d:%02d", $temp_length->h, $temp_length->i, $temp_length->s);
-            $temp['isScrybed'] = $transcript_container->getUserfileIsScrybed();
-            $temp['updated'] = $transcript_container->getUserfileUpdated()->format("Y-m-d");
+            $temp['scrybeStatus'] = $transcript_container->getScrybeStatus();
+            $temp['updated'] = $transcript_container->getUpdated()->format("Y-m-d");
             $transcriptions[] = $temp;
         }
 
-        $remainingTime['minutes'] = date('i', $user_data->getCredits());
+        $remainingTime = $user->getCredits();
+        $remainingMinutes = floor($remainingTime/60);
+        $remainingSec = $remainingTime - $remainingMinutes * 60;
 
         return $this->render('userDashboard.html.twig', [
             "title" => "Mano Transkripcijos",
             "transcriptions" => $transcriptions,
-            "remainingTime" => $remainingTime
+            "remainingTime" => $remainingTime,
+            'credits_left' => sprintf("%02d:%02d", $remainingMinutes, $remainingSec),
+            'scrybe_not_made' => UserFile::SCRYBE_STATUS_NOT_SCRYBED,
+            'scrybe_in_progress' => UserFile::SCRYBE_STATUS_IN_PROGRESS,
+            'scrybe_done' => UserFile::SCRYBE_STATUS_COMPLETED,
         ]);
     }
 
     public function exportTranscription()
     {
         //TODO
+    }
+
+    public function uploadFile()
+    {
+        //TODO
+    }
+
+    public function buyTime()
+    {
+        //TODO
+    }
+
+    public function deleteUserfile(string $userfileId)
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
+        $userfile = $entityManager->getRepository(UserFile::class)->findOneBy(['id' => $userfileId, 'user' => $this->getUser()]);
+
+        $entityManager->remove($userfile);
+        $entityManager->flush();
+
+
+        return $this->redirectToRoute('user_dashboard');
+    }
+
+    public function logout()
+    {
+        //TODO render homepage
+        // return $this->render();
     }
 }
