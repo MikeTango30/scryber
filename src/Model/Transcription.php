@@ -14,15 +14,17 @@ class Transcription
      */
     public function __construct(?array $textArray)
     {
-        foreach ($textArray as $line) {
-            $transcriptionLine = new TranscriptionLine(
-                $line['beginTime'],
-                $line['endTime'],
-                $line['duration'],
-                $line['confidence'],
-                $line['word']
-            );
-            $this->transcriptionLines[] = $transcriptionLine;
+        if (isset($textArray)) {
+            foreach ($textArray as $line) {
+                $transcriptionLine = new TranscriptionLine(
+                    $line['beginTime'],
+                    $line['endTime'],
+                    $line['duration'],
+                    $line['confidence'],
+                    $line['word']
+                );
+                $this->transcriptionLines[] = $transcriptionLine;
+            }
         }
     }
 

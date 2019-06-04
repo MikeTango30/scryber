@@ -26,6 +26,10 @@ media_player:
     path: /public/audio_files/demo/{file}
     controller: App\Controller\TextEditorController::mediaPlayer
 
+save_scribed_text:
+  path: /save_scribed_text/{userfileId}
+  controller: App\Controller\TextEditorController::saveTranscribedText
+
 secure_login:
     path: /login
     controller: App\Controller\SecurityController::login
@@ -95,6 +99,3 @@ check_transcription_status:
 #  path: /download_transcribed_text
 #  controller: App\Controller\TextEditorController::downloadTranscribedText
 #
-#save_transcribed_text:
-#  path: /save_transcribed_text
-#  controller: App\Controller\TextEditorController::saveTranscribedText

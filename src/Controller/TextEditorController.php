@@ -10,8 +10,10 @@ use App\Model\Transcription;
 use App\Repository\TextGenerator;
 use App\Repository\TranscriptionAggregator;
 use Doctrine\ORM\EntityManagerInterface;
+use http\Client\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 class TextEditorController extends AbstractController
@@ -25,12 +27,11 @@ class TextEditorController extends AbstractController
 
         if($userfile) {
 
+            $originalFile = $userfile->getFile();
             $transcription = new Transcription($userfile->getText());
 
-            $connector = new Connector();
-            $summary = $connector->getJobSummary($userfile->getFile()->getJobId());
-            $confidence = $summary->getConfidence();
-            $words = $summary->getWords();
+            $confidence = $originalFile->getConfidence();
+            $words = $originalFile->getWordsCount();
 
             $textGenerator = new TextGenerator();
             $spanTags = $textGenerator->generateSpans($transcription);
@@ -38,6 +39,7 @@ class TextEditorController extends AbstractController
 
         return $this->render("home/editScrybedText.html.twig", [
             "title" => "Scriber Redaktorius",
+            'userfileId' => $userfileId,
             "words" => $spanTags,
             'fileName' => $userfile->getTitle(),
             'confidence' => $confidence,
@@ -59,9 +61,15 @@ class TextEditorController extends AbstractController
         return $response;
     }
 
-    public function saveTranscribedText()
+    public function saveTranscribedText(string $userfileId, EntityManagerInterface $entityManager, Request $request)
     {
-        //TODO
+        if ($request->isMethod('POST') && $request->request->has('text')) {
+            $text = $request->request->get('text');
+
+            $scrybeForSave = new Transcription(null);
+        }
+
+        return new JsonResponse(['saved' => true]);
     }
 
 }
