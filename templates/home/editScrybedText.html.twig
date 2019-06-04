@@ -16,7 +16,6 @@
 {% endblock %}
 
 {% block aside %}
-  <div class="content-wrapper">
     <div class="content-wrapper">
       <h4>Failas: {{ fileName }}</h4>
     </div>
@@ -28,26 +27,31 @@
       <p class="help muted">Transkribavimo kokybės koeficientas (1 = puikiai)</p>
       <div><strong>Žodžiai:</strong>{{ wordCount }}</div>
       <p class="muted">Žodžių skaičius</p>
-    </div>
-    <button class="button" id="downloadButton">Parsisiųsti transkripciją</button>
-  </div>
-  <div class="content-wrapper">
-    <div class="field">
-      <div class="control control--checkbox">
-        <input class="checkbox" type="checkbox" id="highlights">
-        <label class="label" for="highlights">Sunkūs žodžiai</label>
+      <div>
+        <div class="field">
+          <div class="control control--checkbox">
+            <input class="checkbox" type="checkbox" id="highlights">
+            <label class="label" for="highlights">Sunkūs žodžiai</label>
+          </div>
+          <p class="help muted">nuspalvinti algoritmui sunkius <span class="highlight-example">žodžius</span></p>
+        </div>
+        <div class="field">
+          <div class="control control--checkbox">
+            <input class="checkbox" type="checkbox" id="hints">
+            <label class="label" for="hints">Nerodyti ištrintų žodžių</label>
+          </div>
+          <p class="help muted">išjungti originalių <strong style="color: black">[žodžių]</strong> rodymą vietoje
+            ištrinto
+            žodžio</p>
+        </div>
+        <div class="button-wrapper">
+          <button class="button" id="downloadButton">Išsaugoti transkripciją</button>
+        </div>
+        <div class="button-wrapper">
+          <button class="button" id="exportButton">Eksportuoti transkripciją</button>
+        </div>
       </div>
-      <p class="help muted">nuspalvinti algoritmui sunkius <span class="highlight-example">žodžius</span></p>
     </div>
-    <div class="field">
-      <div class="control control--checkbox">
-        <input class="checkbox" type="checkbox" id="hints">
-        <label class="label" for="hints">Nerodyti ištrintų žodžių</label>
-      </div>
-      <p class="help muted">išjungti originalių <strong style="color: black">[žodžių]</strong> rodymą vietoje ištrinto žodžio</p>
-    </div>
-  </div>
-
   <div class="js-userfile" data-id="{{ userfileId }}">
 
   </div>

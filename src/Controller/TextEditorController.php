@@ -69,9 +69,9 @@ class TextEditorController extends AbstractController
         $response = new JsonResponse(['saved' => false]);
 
         if ($request->isMethod('POST') && $request->request->has('text')) {
-            $text = $request->request->get('text');
+            $textSpans = $request->request->get('text');
 
-            $editedTextJsonForSaving = $transcriptionAggregator->aggregateTranscriptionJsonForSaving($text);
+            $editedTextJsonForSaving = $transcriptionAggregator->aggregateTranscriptionJsonForSaving($textSpans);
 
             $userfile = $entityManager->getRepository(UserFile::class)->findOneBy(['id' => $userfileId, 'user' => $this->getUser()]);
             $userfile->setText($editedTextJsonForSaving);

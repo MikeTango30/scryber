@@ -50,35 +50,51 @@ class TranscriptionAggregator
      * @param string $text
      * @return Transcription
      */
-    public function aggregateTranscriptionJsonForSaving(string $text): array
+    public function aggregateTranscriptionJsonForSaving(string $textSpans): array
     {
         $textArray = [];
         $textAttributes = [];
         $transcriptionLines = [];
         $jsonObject = [];
+        $i = 0;
 
-        $textStrippedNewLines = trim(str_replace(array("\r", "\n", "&nbsp;"), '', $text));
-        $spans = preg_split('/  +/', $textStrippedNewLines);
+        $textStrippedNewLinesAndClasses = trim(str_replace(array("\r", "\n", "no-word", "sync", "highlight", "word"), '', $textSpans));
+        $spans = explode('</span>', $textStrippedNewLinesAndClasses);
+
+        $textStripped = preg_split('/  +/', strip_tags($textSpans));
+        $textStripped = str_replace(array("\r", "\n"), '', $textStripped);
 
         foreach ($spans as $span) {
-            $spanAttributes = trim(str_replace(array('<span class=""', '</span>'), '', $span));
-            $spanAttributes = substr($spanAttributes, 0, strpos($spanAttributes, ">"));
-            $spanAttributes = explode(' ', $spanAttributes);
+            if (strpos($span, 'empty') == false) {
+                if (!empty($span)) {
+                    $spanAttributes = trim(str_replace(array('<span class=""'), '', $span));
+                    $spanAttributes = substr($spanAttributes, 0, strpos($spanAttributes, ">"));
+                    $spanAttributes = strstr($spanAttributes, 'data--start=');
+                    $spanAttributes = explode(' ', $spanAttributes);
 
-            foreach ($spanAttributes as $spanAttribute) {
-                $tmp = explode( '=', $spanAttribute );
-                $textAttributes[ $tmp[0] ] = str_replace('"','', $tmp[1]);
+                    foreach ($spanAttributes as $spanAttribute) {
+
+                        $tmp = explode('=', $spanAttribute);
+                        $textAttributes[$tmp[0]] = str_replace('"', '', $tmp[1]);
+                        if ($i >= count($textStripped)) {
+                            $textAttributes['word'] = '';
+                        } elseif ($i <count($textStripped)) {
+                            $textAttributes['word'] = trim($textStripped[$i], " ");
+                        }
+                    }
+                    $textArray[] = $textAttributes;
+                    $i++;
+                }
             }
-            $textArray[] = $textAttributes;
         }
 
         foreach ($textArray as $textLine) {
             $transcriptionLine = new TranscriptionLine(
-                floatval($textLine['data-word-start']),
-                floatval($textLine['data-word-end']),
-                floatval($textLine['data-word-end']) - floatval($textLine['data-word-start']),
-                floatval($textLine['data-word-conf']),
-                $textLine['data-word-content']
+                floatval($textLine['data--start']),
+                floatval($textLine['data--end']),
+                floatval($textLine['data--end']) - floatval($textLine['data--start']),
+                floatval($textLine['data--conf']),
+                $textLine['word']
             );
             $transcriptionLines[] = $transcriptionLine;
             array_push($jsonObject, $transcriptionLine->getArray());

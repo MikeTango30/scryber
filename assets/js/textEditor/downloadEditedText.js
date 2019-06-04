@@ -2,11 +2,9 @@ $(document).ready(function () {
 
     var text;
     $('#downloadButton').click(function () {
-        $('#editor').find('span').removeClass();
-        if ($('#editor').html() !== '') {
-            // saveFile(text);
-            //console.log($('#editor').html());
-             saveEditedText($('#editor').html());
+        let editor = $('#editor');
+        if (editor.html() !== '') {
+             saveEditedText(editor.html().replace(/&nbsp;/gi,' '));
         } else
             alert('Redaktoriuje nėra teksto');
     });
