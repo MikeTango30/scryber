@@ -7,9 +7,12 @@ use App\Api\Tilde\SummaryModel;
 use App\Entity\UserFile;
 use App\Error\UserFileNotFoundMessage;
 use App\Model\Transcription;
+use App\Model\TranscriptionLine;
 use App\Repository\TextGenerator;
 use App\Repository\TranscriptionAggregator;
+use App\ScribeFormats\CtmTransformer;
 use Doctrine\ORM\EntityManagerInterface;
+use function GuzzleHttp\Psr7\str;
 use http\Client\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
@@ -61,15 +64,20 @@ class TextEditorController extends AbstractController
         return $response;
     }
 
-    public function saveTranscribedText(string $userfileId, EntityManagerInterface $entityManager, Request $request)
+    public function saveTranscribedText(string $userfileId, EntityManagerInterface $entityManager, Request $request, TranscriptionAggregator $transcriptionAggregator)
     {
         if ($request->isMethod('POST') && $request->request->has('text')) {
             $text = $request->request->get('text');
 
-            $scrybeForSave = new Transcription(null);
+            $editedTextJsonForSaving = $transcriptionAggregator->aggregateTranscriptionJsonForSaving($text);
+
+            $userfile = $entityManager->getRepository(UserFile::class)->findOneBy(['id' => $userfileId, 'user' => $this->getUser()]);
+            $userfile->setText($editedTextJsonForSaving);
+            $userfile->setUpdated(new \DateTime());
+//            $entityManager->persist($userfile);
+//            $entityManager->flush();
+
+            return new JsonResponse(['saved' => true]);
         }
-
-        return new JsonResponse(['saved' => true]);
     }
-
 }
