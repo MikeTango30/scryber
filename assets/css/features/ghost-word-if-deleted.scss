@@ -1,6 +1,6 @@
-span.word:empty::before {
+span.word.empty:empty::before {
     content: '['attr(data-word-content)']';
-    color: $color__text-muted;
+    color: $color__ghost;
     cursor: pointer;
 
     &.empty {
@@ -8,7 +8,7 @@ span.word:empty::before {
     }
 }
 
-span.word:empty:hover::after {
+span.word.empty:empty:hover::after {
     content: 'Spustelkite, kad įterptumėte senąjį žodį';
     width: 120px;
     background-color: $color__royal-blue;

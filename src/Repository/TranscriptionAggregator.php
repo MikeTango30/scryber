@@ -74,11 +74,16 @@ class TranscriptionAggregator
 
                     foreach ($spanAttributes as $spanAttribute) {
 
-                        $tmp = explode('=', $spanAttribute);
-                        $textAttributes[$tmp[0]] = str_replace('"', '', $tmp[1]);
+                        $spanAttributeParts = explode('=', $spanAttribute);
+                        if (count($spanAttributeParts) >=2) {
+                            $textAttributes[$spanAttributeParts[0]] = str_replace('"', '', $spanAttributeParts[1]);
+                        }
+                        else {
+                            $textAttributes[$spanAttributeParts[0]] = ' ';
+                        }
                         if ($i >= count($textStripped)) {
-                            $textAttributes['word'] = '';
-                        } elseif ($i <count($textStripped)) {
+                            $textAttributes['word'] = ' ';
+                        } elseif ($i < count($textStripped)) {
                             $textAttributes['word'] = trim($textStripped[$i], " ");
                         }
                     }
@@ -89,15 +94,22 @@ class TranscriptionAggregator
         }
 
         foreach ($textArray as $textLine) {
-            $transcriptionLine = new TranscriptionLine(
-                floatval($textLine['data--start']),
-                floatval($textLine['data--end']),
-                floatval($textLine['data--end']) - floatval($textLine['data--start']),
-                floatval($textLine['data--conf']),
-                $textLine['word']
-            );
+            if (count($textLine) === 4) {
+                $transcriptionLine = new TranscriptionLine(
+                    floatval($textLine['data--start']),
+                    floatval($textLine['data--end']),
+                    floatval($textLine['data--end']) - floatval($textLine['data--start']),
+                    floatval($textLine['data--conf']),
+                    $textLine['word']
+                );
+            } else {
+                $transcriptionLine = new TranscriptionLine(0, 0, 0, 0, $textAttributes[0]);
+            }
             $transcriptionLines[] = $transcriptionLine;
-            array_push($jsonObject, $transcriptionLine->getArray());
+        }
+
+        foreach ($transcriptionLines as $transcriptionLine) {
+        array_push($jsonObject, $transcriptionLine->getArray());
         }
 
         return $jsonObject;

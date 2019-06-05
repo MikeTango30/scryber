@@ -5,7 +5,7 @@ require('bootstrap');
 
 require('../css/app.scss');
 require('./textEditor/audioSynchronize');
-require('./textEditor/downloadEditedText');
+require('./textEditor/saveEditedText');
 require('./textEditor/highlightHardWords');
 require('./textEditor/ghostWordIfDeleted');
 
