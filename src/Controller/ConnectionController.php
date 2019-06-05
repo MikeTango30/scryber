@@ -20,6 +20,7 @@ use App\Repository\WordBlockGenerator;
 use App\ScribeFormats\CtmTransformer;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -85,18 +86,22 @@ class ConnectionController extends AbstractController
         $mailer->send($message);
     }
 
-    public function saveResults(string $userfileId, bool $redirected = false)
+    public function saveResults(string $userfileId)
     {
         $entityManager = $this->getDoctrine()->getManager();
 
         /** @var UserFile $userFile */
-        $userFile = $this->getDoctrine()->getRepository(UserFile::class)->find($userfileId);
+        $userFile = $this->getDoctrine()->getRepository(UserFile::class)->findOneBy(['id'=>$userfileId, 'user'=>$this->getUser()]);
         $originalFile = $userFile->getFile();
         $connector = new Connector();
-        if ($redirected) { //reiskia, kad katik baige transkcibcijas, saugome pirmiausia rezultatus
+
+        $jobStatus = $connector->checkJobStatus($originalFile->getJobId());
+
+        if($jobStatus->getResponseStatus() == ResponseModel::SUCCESS) {
             $summary = $connector->getJobSummary($originalFile->getJobId());
             $text = $connector->getScrybedTxt($originalFile->getJobId());
             $ctm = $connector->getScrybedCtm($originalFile->getJobId());
+
             if (empty($originalFile->getDefaultCtm())) {
                 $originalFile->setDefaultCtm($ctm->getRawCtm());
                 $originalFile->setPlainText($text);
@@ -114,24 +119,16 @@ class ConnectionController extends AbstractController
                 $creditUpdater = new CreditUpdates($entityManager);
                 $creditUpdater->chageUserCreditTotal($this->getUser(), $originalFile->getLength() * -1);
                 $creditUpdater->saveUserCreditChangeLog($this->getUser(), $originalFile->getLength() * -1, $originalFile);
-
             }
-//            $lengthRounded = $summary->getLengthRounded();
-            $confidence = $summary->getConfidence();
-            $words = $summary->getWords();
-
-            $entityManager->flush();
-
-//            $this->saveCreditLog($originalFile->getFileLength(), true, $userFile, $entityManager);
         }
-        else {
-//            $lengthRounded = $originalFile->getLength();
-            $confidence = $originalFile->getConfidence();
-            $words = $originalFile->getWordsCount();
-//            $text = $originalFile->getPlainText();
-//            $ctm = new CtmModel($originalFile->setDefaultCtm());
+        elseif (in_array($jobStatus->getResponseStatus(), [ResponseModel::NO_SPEECH, ResponseModel::DECODING_ERROR, ResponseModel::ERROR, ResponseModel::TYPE_NOT_RECOGNIZED]) ) {
+            $userFile->setScrybeStatus(UserFile::SCRYBE_STATUS_SCRYBE_IMPOSIBLE);
+            $userFile->setUpdated(new \DateTime());
+            $userFile->setText([]);
+            $entityManager->persist($userFile);
         }
 
+        $entityManager->flush();
 
         return $this->redirectToRoute('edit_scribed_text', ['userfileId' => $userfileId]);
 
@@ -162,6 +159,7 @@ class ConnectionController extends AbstractController
             $result = $this->sendFileToScrybe($originalFile);
 
             $originalFile->setJobId($result->getRequestId());
+            $userFile->setScrybeStatus(UserFile::SCRYBE_STATUS_IN_PROGRESS);
             $entityManager->flush();
         }
 
@@ -171,23 +169,21 @@ class ConnectionController extends AbstractController
     public function checkTranscriptionStatus(string $userfileId)
     {
         /** @var UserFile $userFile */
-        $userFile = $this->getDoctrine()->getRepository(UserFile::class)->find($userfileId);
+        $userFile = $this->getDoctrine()->getRepository(UserFile::class)->findOneBy(['id'=>$userfileId, 'user'=>$this->getUser()]);
+
         $originalFile = $userFile->getFile();
 
         $connector = new Connector();
         /** @var ResponseModel $response */
         $response = $connector->checkJobStatus($originalFile->getJobId());
         $responseStatus = $response->getResponseStatus();
+        $responseMessage = $response->getResponseStatusText();
+        $finished = in_array($responseStatus, [ResponseModel::SUCCESS, ResponseModel::NO_SPEECH, ResponseModel::DECODING_ERROR, ResponseModel::ERROR, ResponseModel::TYPE_NOT_RECOGNIZED]);
 
-        $response = new Response('1', 200);
-
-        if ($responseStatus == ResponseModel::SUCCESS) {
-
-            $response = new Response('0', 200);
-
-        }
+        $response = new JsonResponse(['redirecting'=>$finished, 'message'=>$responseMessage]);
 
         return $response;
     }
 }
+
 

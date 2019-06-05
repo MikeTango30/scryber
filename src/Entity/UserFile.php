@@ -13,6 +13,7 @@ class UserFile
     const SCRYBE_STATUS_NOT_SCRYBED = 0;
     const SCRYBE_STATUS_IN_PROGRESS = 1;
     const SCRYBE_STATUS_COMPLETED = 2;
+    const SCRYBE_STATUS_SCRYBE_IMPOSIBLE = 3;
 
     /**
      * @ORM\Id()

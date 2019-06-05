@@ -32,13 +32,15 @@
                 <td>{{ scrybe.updated }}</td>
                 <td>
                     {% if scrybe.scrybeStatus == scrybe_done %}
-                        <a class="table-link" href="{{ path('edit_scribed_text', {'userfileId': scrybe.id} ) }}">Redaguoti</a>
+                        <a class="table-link" href="{{ url('edit_scribed_text', {'userfileId': scrybe.id} ) }}">Redaguoti</a>
                     {% elseif scrybe.scrybeStatus == scrybe_in_progress %}
-                        Apdorojama
+                        <a class="table-link" href="{{ url('check_scrybe_status', {'userfileId': scrybe.id} ) }}">Apdorojama</a>
+                    {% elseif scrybe.scrybeStatus == scrybe_imposible %}
+                        Nepavyko/Nėra šnektos
                     {% else %}
-                        <a class="table-link" href="{{ path('send_with_api', {'userfileId': scrybe.id} ) }}">Transkribuoti</a>
+                        <a class="table-link" href="{{ url('send_with_api', {'userfileId': scrybe.id} ) }}">Transkribuoti</a>
                     {% endif %}
-                    <a class="requires-confirm table-link" href="{{ path('delete_file', {'userfileId': scrybe.id} ) }}">Trinti</a>
+                    <a class="requires-confirm table-link" href="{{ url('delete_file', {'userfileId': scrybe.id} ) }}">Trinti</a>
                 </td>
             </tr>
         {% endfor %}

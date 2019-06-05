@@ -14,6 +14,7 @@ class Transcription
      */
     public function __construct(?array $textArray)
     {
+        $this->transcriptionLines = [];
         foreach ($textArray as $line) {
             $transcriptionLine = new TranscriptionLine(
                 $line['beginTime'],

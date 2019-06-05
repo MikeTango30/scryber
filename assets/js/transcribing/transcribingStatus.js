@@ -1,22 +1,21 @@
 var userfileId = window.location.href.split('/').pop();
 
-$(document).ready(function f(){
-    setTimeout(function () {
+$(document).ready(function () {
+    (function worker()
+    {
         $.ajax({
             url: '/check_status/'+ userfileId,
-            //data: job_status,
-            success: function(data) {
-                if (data === '0') {
-                    $.ajax({url: '/refresh_status/' + userfileId,
-                        success: function () {
-                            top.location.href = '/edit_scribed_text/'+userfileId
-                        }
-                    });
-                } else {
-                    f();
+            success: function (data) {
+                $("#statusMessage").text(data.message);
+                if (data.redirecting === true) {
+                    $(location).attr('href', '/show_results/'+userfileId);
                 }
+            },
+            complete: function () {
+                // Schedule the next request when the current one's complete
+                setTimeout(worker, 5000);
             }
-        })
-    }, 5000);
+        });
+    })();
 });
 
