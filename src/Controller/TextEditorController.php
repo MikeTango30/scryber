@@ -25,13 +25,11 @@ class TextEditorController extends AbstractController
         $userfile = $entityManager->getRepository(UserFile::class)->findOneBy(['id' => $userfileId, 'user' => $this->getUser()]);
 
         if ($userfile) {
-
+            $originalFile = $userfile->getFile();
             $transcription = new Transcription($userfile->getText());
 
-            $connector = new Connector();
-            $summary = $connector->getJobSummary($userfile->getFile()->getJobId());
-            $confidence = $summary->getConfidence();
-            $words = $summary->getWords();
+            $confidence = $originalFile->getConfidence();
+            $words = $originalFile->getWordsCount();
 
             $textGenerator = new TextGenerator();
             $spanTags = $textGenerator->generateSpans($transcription);

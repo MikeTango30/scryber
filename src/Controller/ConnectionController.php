@@ -20,6 +20,7 @@ use App\Repository\WordBlockGenerator;
 use App\ScribeFormats\CtmTransformer;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class ConnectionController extends AbstractController
@@ -54,7 +55,7 @@ class ConnectionController extends AbstractController
             $this->sendEmail($userfileId, $mailer);
 
 
-            return $this->redirectToRoute('show_scrybed_results', [
+            return $this->forward('App\Controller\ConnectionController::saveResults', [
                 'userfileId' => $userfileId,
                 'redirected' => true,
             ]);
