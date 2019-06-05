@@ -171,14 +171,14 @@ class ConnectionController extends AbstractController
     {
         /** @var UserFile $userFile */
         $userFile = $this->getDoctrine()->getRepository(UserFile::class)->find($userfileId);
-        $originalFile = $userFile->getUserfileFileId();
+        $originalFile = $userFile->getFile();
 
         $connector = new Connector();
         /** @var ResponseModel $response */
-        $response = $connector->checkJobStatus($originalFile->getFileJobId());
+        $response = $connector->checkJobStatus($originalFile->getJobId());
         $responseStatus = $response->getResponseStatus();
 
-        $response = new Response('0', 200);
+        $response = new Response('1', 200);
 
         if ($responseStatus == ResponseModel::SUCCESS) {
 
