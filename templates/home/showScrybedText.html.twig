@@ -1,25 +1,25 @@
-{% extends 'base.html.twig' %}
+{#{% extends 'base.html.twig' %}#}
 
-{% block title %}File status page{% endblock %}
+{#{% block title %}File status page{% endblock %}#}
 
-{% block main %}
-    <div class="container">
-        <div class="content-wrapper">
-            <div class="">Check uploaded file status</div>
-                Job `{{ fileName }}` was finished. Duration: {{ length }}s, confidence ratio:
-            {{ confidence }}, words count: {{ words }}.
-            <br>
-            <div>Text:</div>
-        </div>
-        <div class="content-wrapper" style="background-color: lightgrey">
-            {{ text }}
-        </div>
-        <span><a class="button" href="/export/txt/{{ userfileId }}" target="_blank">Download TXT file</a></span>
-        <span><a class="button" href="/edit_scribed_text/{{ userfileId }}" target="_blank">Edit Text</a></span>
-    </div>
-{% endblock %}
-{% block aside %}
-   aside
-{% endblock %}
+{#{% block main %}#}
+{#    <div class="container">#}
+{#        <div class="content-wrapper">#}
+{#            <div class="">Check uploaded file status</div>#}
+{#                Job `{{ fileName }}` was finished. Duration: {{ length }}s, confidence ratio:#}
+{#            {{ confidence }}, words count: {{ words }}.#}
+{#            <br>#}
+{#            <div>Text:</div>#}
+{#        </div>#}
+{#        <div class="content-wrapper" style="background-color: lightgrey">#}
+{#            {{ text }}#}
+{#        </div>#}
+{#        <span><a class="button" href="/export/txt/{{ userfileId }}" target="_blank">Download TXT file</a></span>#}
+{#        <span><a class="button" href="/edit_scribed_text/{{ userfileId }}" target="_blank">Edit Text</a></span>#}
+{#    </div>#}
+{#{% endblock %}#}
+{#{% block aside %}#}
+{#   aside#}
+{#{% endblock %}#}
 
 

@@ -31,7 +31,7 @@
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-          <div class="navbar-nav">
+          <div class="navbar-nav" >
             <a class="nav-item nav-link active" href="{{ path('about') }}">Apie</a>
             <a class="nav-item nav-link active" href="{{ path('pricing') }}">Kaina</a>
             <a class="nav-item nav-link active" href="{{ path('editor') }}">Redaktorius</a>
@@ -45,12 +45,12 @@
       <div class="header-content-right">
         {% if app.user %}
           {{ app.user.getEmail }}
-          <a class="link button" href="{{ path('app_logout') }}">Atsijungti</a>
+          <a class="link button" href="{{ path('app_logout') }}" role="button">Atsijungti</a>
         {% else %}
           <div class="content-wrapper">
             <div class="header-content-right">
-              <a class="link button" href="{{ path('secure_login') }}">Prisijungti</a>
-              <a class="link button" href="{{ path('register') }}">Registruotis</a>
+              <a class="link button" href="{{ path('secure_login') }}" role="button">Prisijungti</a>
+              <a class="link button" href="{{ path('register') }}" role="button">Registruotis</a>
             </div>
           </div>
         {% endif %}

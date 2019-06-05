@@ -23,7 +23,7 @@
             {{ (pricingPlan.pricingPlanRate / (pricingPlan.pricingPlanHours * 60)) | number_format(2, '.', ',') }} eur/min
           </h4>
           <br><br><br>
-          <a class="link button container" href="{{ path('buy', {'hours': pricingPlan.pricingPlanHours}) }}">Pasirinkti!</a>
+          <a class="link button container" href="{{ path('buy', {'hours': pricingPlan.pricingPlanHours}) }}" role="button">Pasirinkti!</a>
         </div>
       </div>
       {% endfor %}
@@ -32,7 +32,7 @@
       <div class="container">
         <div class="content-wrapper">
           <h1 class="text-white text-center">
-            Arba<a class="button-link" href="{{ path('register') }}">Išbandykite nemokamai</a>
+            Arba<a class="button-link" href="{{ path('register') }}" role="button">Išbandykite nemokamai</a>
           </h1>
         </div>
       </div>

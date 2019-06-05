@@ -11,7 +11,7 @@
         <br>
         {{ errors }}
         <br>
-        <a class='button-link' href="{{ path('pricing') }}">Grižti į kainoraštį</a>
+        <a class='button-link' href="{{ path('pricing') }}" role="button">Grižti į kainoraštį</a>
       </div>
     </div>
   {% endif %}
@@ -22,7 +22,7 @@
         <div class="content-wrapper pricing-heading">
             {{ pricingPlanHours }} val. už {{ pricingPlanRate }} &euro;
         </div>
-        <a class="link button" href="{{ path('bought', {'hours': pricingPlanHours}) }}">Patvirtinti užsakymą!</a>
+        <a class="link button" href="{{ path('bought', {'hours': pricingPlanHours}) }}" role="button">Patvirtinti užsakymą!</a>
       </div>
     </div>
   {% endif %}
