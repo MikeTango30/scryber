@@ -59,9 +59,16 @@
         flex-grow: 1;
         order: 1;
     }
-        .editor {
-          margin: 1em;
+        .editor, .editor:focus {
+          padding: 1em;
           flex-grow: 1;
+          border-width: 1px;
+          border-style: solid;
+          border-color: $color__input-border;
+        }
+
+        .editor:focus {
+            box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.3);
         }
 }
 
