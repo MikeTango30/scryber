@@ -19,6 +19,7 @@ function saveEditedText(text) {
         data : 'text='+text,
         success: function (data, textStatus, jqXHR) {
             //data - response from server
+            alert('Išsaugota');
             console.log("data", data, "textStatus", textStatus);
         },
         error: function (jqXHR, textStatus, errorThrown) {
