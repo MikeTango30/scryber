@@ -9,53 +9,37 @@ use App\Entity\File;
 use App\Entity\User;
 use App\Entity\UserFile;
 use App\Repository\UserFileRepository;
+use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 
 class UserDashboardController extends AbstractController
 {
-    public function showTranscriptions()
-    {
-        $transcriptions = [];
-        $remainingTime = [];
+    const ITEMS_PER_PAGE = 10;
 
-        $entityManager = $this->getDoctrine()->getManager();
+    public function showTranscriptions(Request $request, UserFileRepository $userFileRepository)
+    {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         /** @var User $user */
         $user = $this->getUser();
 
-        $user_data = $entityManager->getRepository(User::class)->find($user->getId());
-        /** @var User $user_data */
-        $transcription_container = $user_data->getUserFiles();
-        foreach ($transcription_container as $transcript_container) {
-            /** @var UserFile $transcription_container */
-            $temp['no'] = count($transcriptions)+1;
-            /** @var File $originalFile */
-            $originalFile = $transcript_container->getFile();
-            $temp['id'] = $transcript_container->getId();
-            $temp['date'] = $transcript_container->getCreated()->format("Y-m-d");
-            /** @var File $temp_file */
-            $temp_file = $entityManager->getRepository(File::class)->find($transcript_container->getFile());
-            $temp['title'] = $transcript_container->getTitle();
-            $temp_length = new \DateInterval(sprintf("PT%dS", $temp_file->getLength()));
-            $temp['length'] = sprintf("%02d:%02d:%02d", $temp_length->h, $temp_length->i, $temp_length->s);
-            $temp['scrybeStatus'] = $transcript_container->getScrybeStatus();
-            $temp['updated'] = $transcript_container->getUpdated()->format("Y-m-d");
-            $transcriptions[] = $temp;
-        }
+        $currentPage = $request->query->has('page') ? $request->query->get('page') : 1;
+        $pagesTotal = (int)ceil($userFileRepository->getUserfilesTotal($user) / self::ITEMS_PER_PAGE);
 
-        $remainingTime = $user->getCredits();
-        $remainingMinutes = floor($remainingTime/60);
-        $remainingSec = $remainingTime - $remainingMinutes * 60;
+        $transcription_container = $userFileRepository->getUserfilesSorted($user, $currentPage, self::ITEMS_PER_PAGE);
 
         return $this->render('userDashboard.html.twig', [
             "title" => "Mano Transkripcijos",
-            "transcriptions" => $transcriptions,
-            "remainingTime" => $remainingTime,
-            'credits_left' => sprintf("%02d:%02d", $remainingMinutes, $remainingSec),
+            "transcriptions" => $transcription_container,
+            "remainingTime" => $user->getCredits(),
             'scrybe_not_made' => UserFile::SCRYBE_STATUS_NOT_SCRYBED,
             'scrybe_in_progress' => UserFile::SCRYBE_STATUS_IN_PROGRESS,
             'scrybe_imposible' => UserFile::SCRYBE_STATUS_SCRYBE_IMPOSIBLE,
             'scrybe_done' => UserFile::SCRYBE_STATUS_COMPLETED,
+            'currentPage' => $currentPage,
+            'nbPages' => $pagesTotal,
+            'url' => 'user_dashboard',
+            'itemsPerPage' => self::ITEMS_PER_PAGE
         ]);
     }
 
