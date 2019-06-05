@@ -190,4 +190,30 @@ class File
 
         return $this;
     }
+
+    /**
+     * @return \Symfony\Component\HttpFoundation\File\File|null
+     */
+    public function getFileObject() : ?\Symfony\Component\HttpFoundation\File\File
+    {
+        $baseUrl = getcwd();
+        $dir = $_ENV['AUDIO_FILES_UPLOAD_DIR'];
+        $filename = $this->getFilePathName();
+
+        $file = null;
+
+        echo $baseUrl . DIRECTORY_SEPARATOR . $dir . $filename;
+
+        try {
+            $file = new \Symfony\Component\HttpFoundation\File\File( $baseUrl . DIRECTORY_SEPARATOR . $dir . $filename);
+        } catch (\Exception $exception) {
+        }
+
+        return $file;
+    }
+
+    public function getFilePathName() : string
+    {
+        return $this->getDir().$this->getName();
+    }
 }

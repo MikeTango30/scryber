@@ -54,7 +54,7 @@ class ConnectionController extends AbstractController
             $this->sendEmail($userfileId, $mailer);
 
 
-            return $this->forward('App\Controller\ConnectionController::showResults', [
+            return $this->redirectToRoute('show_scrybed_results', [
                 'userfileId' => $userfileId,
                 'redirected' => true,
             ]);
@@ -84,7 +84,7 @@ class ConnectionController extends AbstractController
         $mailer->send($message);
     }
 
-    public function showResults(string $userfileId, bool $redirected = false)
+    public function saveResults(string $userfileId, bool $redirected = false)
     {
         $entityManager = $this->getDoctrine()->getManager();
 
@@ -131,18 +131,8 @@ class ConnectionController extends AbstractController
 //            $ctm = new CtmModel($originalFile->setDefaultCtm());
         }
 
-        $transcription = new Transcription($userFile->getText());
 
-        $textGenerator = new TextGenerator();
-        $spanTags = $textGenerator->generateSpans($transcription);
-
-        return $this->render("home/editScrybedText.html.twig", [
-            "title" => "Scriber Redaktorius",
-            "words" => $spanTags,
-            'fileName' => $userFile->getTitle(),
-            'confidence' => $confidence,
-            'wordCount' => $words,
-        ]);
+        return $this->redirectToRoute('edit_scribed_text', ['userfileId' => $userfileId]);
 
     }
 

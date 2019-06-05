@@ -20,9 +20,9 @@
     <div class="content-wrapper">
       <h4>Failas: {{ fileName }}</h4>
     </div>
-    <audio id="player" controls>
-      <source src="../../public/audio_files/demo/demo_record.mp3" type="audio/mpeg">
-    </audio>
+    <video id="player" controls>
+      <source src="{{ url('media_player', {userfileId: userfileId}) }}" type="video/mp4">
+    </video>
     <div class="content-wrapper">
       <div><strong>Reitingas:</strong> {{ confidence }}</div>
       <p class="help muted">Transkribavimo kokybės koeficientas (1 = puikiai)</p>

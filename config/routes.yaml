@@ -2,29 +2,21 @@ index:
     path: /
     controller: App\Controller\HomeController::index
 
-demo:
-    path: /demo
-    controller: App\Controller\ConnectionController::showStaticFileUploadPage
-
-send_demo_file:
-    path: /send_demo_file
-    controller: App\Controller\ConnectionController::sendDemoFile
-
 check_scrybe_status:
     path: /refresh_status/{userfileId}
     controller: App\Controller\ConnectionController::refreshStatus
 
 show_scrybed_results:
     path: /show_results/{userfileId}
-    controller: App\Controller\ConnectionController::showResults
+    controller: App\Controller\ConnectionController::saveResults
 
 edit_scribed_text:
       path: /edit_scribed_text/{userfileId}
       controller: App\Controller\TextEditorController::textEditor
 
 media_player:
-    path: /public/audio_files/demo/{file}
-    controller: App\Controller\TextEditorController::mediaPlayer
+    path: /audio_files/{userfileId}
+    controller: App\Controller\MediaController::mediaPlayer
 
 secure_login:
     path: /login
