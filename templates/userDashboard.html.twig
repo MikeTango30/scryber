@@ -3,49 +3,91 @@
 {% block title %}{{ title }}{% endblock %}
 
 {% block aside %}
-<div class="content-wrapper">
-<h2>Liko minučių: {{ credits_left }}</h2>
-<h4><a class=" link button" href="{{ path('pricing') }}" role="button">Pirkti daugiau minučių</a></h4>
-</div>
+    <div class="content-wrapper">
+        <h2>Liko minučių: {{ remainingTime|date("H:i:s") }}</h2>
+        <h4><a class="link button" href="{{ path('pricing') }}" role="button">Pirkti daugiau minučių</a></h4>
+    </div>
 {% endblock %}
 
 {% block main %}
     <h1>Mano Transkripcijos</h1>
-    <table class="table table-striped table-hover">
-        <thead>
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">Data</th>
-            <th scope="col">Failas</th>
-            <th scope="col">Trukmė</th>
-            <th scope="col">Paskutinį kartą redaguota</th>
-            <th scope="col">Veiksmai</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for scrybe in transcriptions %}
+    <div>
+        <table class="table table-striped table-hover">
+            <thead>
             <tr>
-                <th scope="row">{{ scrybe.no }}</th>
-                <td>{{ scrybe.date }}</td>
-                <td>{{ scrybe.title }}</td>
-                <td>{{ scrybe.length }}</td>
-                <td>{{ scrybe.updated }}</td>
-                <td>
-                    {% if scrybe.scrybeStatus == scrybe_done %}
-                        <a class="table-link" href="{{ url('edit_scribed_text', {'userfileId': scrybe.id} ) }}" role="link">Redaguoti</a>
-                    {% elseif scrybe.scrybeStatus == scrybe_in_progress %}
-                        <a class="table-link" href="{{ url('check_scrybe_status', {'userfileId': scrybe.id} ) }}" role="link">Apdorojama</a>
-                    {% elseif scrybe.scrybeStatus == scrybe_imposible %}
-                        Nepavyko/Nėra šnektos
-                    {% else %}
-                        <a class="table-link" href="{{ url('send_with_api', {'userfileId': scrybe.id} ) }}" role="link">Transkribuoti</a>
-                    {% endif %}
-                    <a class="requires-confirm table-link" href="{{ url('delete_file', {'userfileId': scrybe.id} ) }}" role="link">Trinti</a>
-                </td>
+                <th scope="col">#</th>
+                <th scope="col">Data</th>
+                <th scope="col">Failas</th>
+                <th scope="col">Trukmė</th>
+                <th scope="col">Paskutinį kartą redaguota</th>
+                <th scope="col">Veiksmai</th>
             </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+            {% for scrybe in transcriptions %}
+                <tr>
+                    <th scope="row">{{ loop.index + itemsPerPage * ( currentPage - 1 ) }}</th>
+                    <td>{{ scrybe.created|date("Y-m-d") }}</td>
+                    <td>{{ scrybe.title }}</td>
+                    <td>{{ scrybe.file.length|date('H:i:s') }}</td>
+                    <td>{{ scrybe.updated|date("Y-m-d") }}</td>
+                    <td>
+                        {% if scrybe.scrybeStatus == scrybe_done %}
+                            <a class="table-link" href="{{ url('edit_scribed_text', {'userfileId': scrybe.id} ) }}" role="link">Redaguoti</a>
+                        {% elseif scrybe.scrybeStatus == scrybe_in_progress %}
+                            <a class="table-link" href="{{ url('check_scrybe_status', {'userfileId': scrybe.id} ) }}" role="link">Apdorojama</a>
+                        {% elseif scrybe.scrybeStatus == scrybe_imposible %}
+                            Nepavyko/Nėra šnektos
+                        {% else %}
+                            <a class="table-link" href="{{ url('send_with_api', {'userfileId': scrybe.id} ) }}" role="link">Transkribuoti</a>
+                        {% endif %}
+                        <a class="requires-confirm table-link"
+                           href="{{ url('delete_file', {'userfileId': scrybe.id} ) }}" role="link">Trinti</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    {% spaceless %}
+        {% if nbPages > 1 %}
+
+            {# Number of page around current page+1 #}
+            {% set nearbyPagesLimit = 4 %}
+
+            <div class="pt-25">
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-center">
+                        {% if currentPage != 1 %}
+                            <li class="page-item">
+                                <a class="page-link" href="{{ path(url, { 'page': 1 }) }}">Pirmas</a>
+                            </li>
+                        {% endif %}
+                        {% for i in 1..nbPages %}
+                            {% if 0 == (currentPage - nearbyPagesLimit) - loop.index %} {# dot before #}
+                                <li class="page-item disabled"><a class="page-link" href="#">...</a></li>
+                            {% elseif 0 == (currentPage + nearbyPagesLimit) - loop.index %} {# dot after #}
+                                <li class="page-item disabled"><a class="page-link" href="#">...</a></li>
+                            {% elseif 0 < (currentPage - nearbyPagesLimit) - loop.index %} {# hide all before #}
+                            {% elseif 0 > (currentPage + nearbyPagesLimit) - loop.index %} {# hide all after #}
+                            {% else %}
+                                <li class="page-item {% if currentPage == loop.index %} active{% endif %}">
+                                    <a class="page-link" href="{{ path(url, { 'page': loop.index }) }}">{{ loop.index }}</a>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+                        {% if currentPage != nbPages %}
+                            <li class="page-item">
+                                <a class="page-link" href="{{ path(url, { 'page': nbPages }) }}">Paskutinis</a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            </div>
+        {% endif %}
+    {% endspaceless %}
+
 {% endblock %}
 
 {% block javascripts %}
