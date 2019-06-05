@@ -229,6 +229,10 @@ class FileUploadManager
         }
     }
 
+    /**
+     * @param UserFile $userfileId
+     * @return array
+     */
     public function processScrybeFile(UserFile $userfileId)
     {
         $response = ['error'=>''];

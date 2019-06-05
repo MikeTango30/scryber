@@ -12,13 +12,17 @@ use App\Model\TranscriptionLine;
 class CtmTransformer
 {
 
-    private $currentDec;
+    private $lastTime;
+    private $lastDuration;
     private $lastUtterance;
+    private $lastUtteranceBegin;
 
     public function __construct()
     {
-        $this->currentDec = 0;
+        $this->lastTime = 0;
+        $this->lastDuration = 0;
         $this->lastUtterance = null;
+        $this->lastUtteranceBegin = 0;
     }
 
     /**
@@ -42,7 +46,7 @@ class CtmTransformer
         $currentDec = 0;
         /** @var CtmLine $_ctm */
         foreach ($ctm->getCtm() as $_ctm) {
-            $beginTime = $this->getUpdatedTime($_ctm->getBeginTime(), $_ctm->getUtterance());
+            $beginTime = $this->getUpdatedTime($_ctm->getBeginTime(), $_ctm->getDuration(), $_ctm->getUtterance());
             $endTime = $beginTime + $_ctm->getDuration();
             $transcriptionLine = new TranscriptionLine(
                 $beginTime,
@@ -60,17 +64,16 @@ class CtmTransformer
         return $jsonObject;
     }
 
-    private function getUpdatedTime(float $time, string $utterance) : float
+    private function getUpdatedTime(float $currentTime, float $currentDuration, string $utterance) : float
     {
         $updatedTime = 0.0;
-        if (!isset($this->lastUtterance)) {
-            $this->lastUtterance = $utterance;
-        }
         if ($this->lastUtterance != $utterance) {
             $this->lastUtterance = $utterance;
-            $this->currentDec++;
+            $this->lastUtteranceBegin += $this->lastTime + $this->lastDuration;
         }
-        $updatedTime = $time + ($this->currentDec * 10);
+        $updatedTime = $currentTime + $this->lastUtteranceBegin;
+        $this->lastTime = $currentTime + $currentDuration;
+        $this->lastDuration = $currentDuration;
 
         return $updatedTime;
     }
