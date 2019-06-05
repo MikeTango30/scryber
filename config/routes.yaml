@@ -74,6 +74,10 @@ export_subtitles:
     path: /export/srt/{userfileId}
     controller: App\Controller\ExportController::exportSrt
 
+restore_file:
+    path: /reset_file/{userfileId}
+    controller: App\Controller\UserDashboardController::resetUserfile
+
 delete_file:
     path: /remove_file/{userfileId}
     controller: App\Controller\UserDashboardController::deleteUserfile

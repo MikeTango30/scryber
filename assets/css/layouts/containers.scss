@@ -146,6 +146,14 @@
         align-items: start;
     }
 
+    .list-h {
+        display: flex;
+        flex-direction: row;
+        flex-grow: 1;
+        max-width: 600px;
+        justify-content: start;
+    }
+
     .list-group-item {
         background-color: $color__baby-powder !important; //override Bootstrap
     }

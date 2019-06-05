@@ -72,6 +72,11 @@ class UserDashboardController extends AbstractController
         return $this->redirectToRoute('user_dashboard');
     }
 
+    public function resetUserfile(string $userileId)
+    {
+        //TODO nebaigta
+    }
+
     public function logout()
     {
         //TODO render homepage
