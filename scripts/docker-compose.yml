@@ -6,6 +6,7 @@ services:
     image: nfqakademija/docker:nginx-latest
     volumes:
       - ../:/code # Mount your code, so nginx/phpcould see it
+      - ./docker-php/configs/my_proxy.conf:/etc/nginx/conf.d/my_proxy.conf:ro
     ports:
       - 127.0.0.1:8000:80 # For development. Open in browser 127.0.0.1:8000
 
