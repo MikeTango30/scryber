@@ -11,6 +11,16 @@ use App\Model\TranscriptionLine;
 
 class CtmTransformer
 {
+
+    private $currentDec;
+    private $lastUtterance;
+
+    public function __construct()
+    {
+        $this->currentDec = 0;
+        $this->lastUtterance = null;
+    }
+
     /**
      * @param File $file
      * @return array
@@ -29,11 +39,14 @@ class CtmTransformer
         $jsonObject = [];
 
         $index = 0;
+        $currentDec = 0;
         /** @var CtmLine $_ctm */
         foreach ($ctm->getCtm() as $_ctm) {
+            $beginTime = $this->getUpdatedTime($_ctm->getBeginTime(), $_ctm->getUtterance());
+            $endTime = $beginTime + $_ctm->getDuration();
             $transcriptionLine = new TranscriptionLine(
-                $_ctm->getBeginTime(),
-                $_ctm->getBeginTime()+$_ctm->getDuration(),
+                $beginTime,
+                $endTime,
                 $_ctm->getDuration(),
                 $_ctm->getConfidence(),
                 $words[$index]
@@ -45,5 +58,20 @@ class CtmTransformer
         }
 
         return $jsonObject;
+    }
+
+    private function getUpdatedTime(float $time, string $utterance) : float
+    {
+        $updatedTime = 0.0;
+        if (!isset($this->lastUtterance)) {
+            $this->lastUtterance = $utterance;
+        }
+        if ($this->lastUtterance != $utterance) {
+            $this->lastUtterance = $utterance;
+            $this->currentDec++;
+        }
+        $updatedTime = $time + ($this->currentDec * 10);
+
+        return $updatedTime;
     }
 }
