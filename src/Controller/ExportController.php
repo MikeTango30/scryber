@@ -23,22 +23,30 @@ class ExportController extends AbstractController
         $this->denyAccessUnlessGranted('ROLE_USER');
 
         /** @var UserFile $userfile */
-        $userfile = $entityManager->getRepository(UserFile::class)->find($userfileId);
+        $userfile = $entityManager->getRepository(UserFile::class)->findOneBy(['id' => $userfileId, 'user' => $this->getUser()]);;
 
-        $transcription = new Transcription($userfile->getText());
+        if ($userfile) {
+            $transcription = new Transcription($userfile->getText());
 
-        $txtExorter = new ExportTxt();
+            $txtExorter = new ExportTxt();
 
-        $contents = $txtExorter->getExportContent($transcription);
+            $contents = $txtExorter->getExportContent($transcription);
 
-        $response = new Response($contents);
+            $response = new Response($contents);
 
-        $disposition = HeaderUtils::makeDisposition(
-            HeaderUtils::DISPOSITION_ATTACHMENT,
-            $userfile->getTitle().'_scribed.txt'
-        );
+            $disposition = HeaderUtils::makeDisposition(
+                HeaderUtils::DISPOSITION_ATTACHMENT,
+                $userfile->getTitle() . '_scribed.txt'
+            );
 
-        $response->headers->set('Content-Disposition', $disposition);
+            $response->headers->set('Content-Disposition', $disposition);
+        }
+        else {
+            $response = $this->render("home/errorPage.html.twig", [
+                "title" => "Scriber Editor",
+                "error" => "Pasirinktas failas nerastas."
+            ]);
+        }
 
         return $response;
     }
@@ -53,22 +61,30 @@ class ExportController extends AbstractController
         $this->denyAccessUnlessGranted('ROLE_USER');
 
         /** @var UserFile $userfile */
-        $userfile = $entityManager->getRepository(UserFile::class)->find($userfileId);
+        $userfile = $entityManager->getRepository(UserFile::class)->findOneBy(['id' => $userfileId, 'user' => $this->getUser()]);
 
-        $transcription = new Transcription($userfile->getText());
+        if ($userfile) {
+            $transcription = new Transcription($userfile->getText());
 
-        $txtExorter = new ExportSrt();
+            $txtExorter = new ExportSrt();
 
-        $contents = $txtExorter->getExportContent($transcription);
+            $contents = $txtExorter->getExportContent($transcription);
 
-        $response = new Response($contents);
+            $response = new Response($contents);
 
-        $disposition = HeaderUtils::makeDisposition(
-            HeaderUtils::DISPOSITION_ATTACHMENT,
-            $userfile->getTitle().'_scribed.srt'
-        );
+            $disposition = HeaderUtils::makeDisposition(
+                HeaderUtils::DISPOSITION_ATTACHMENT,
+                $userfile->getTitle() . '_scribed.srt'
+            );
 
-        $response->headers->set('Content-Disposition', $disposition);
+            $response->headers->set('Content-Disposition', $disposition);
+        }
+        else {
+            $response = $this->render("home/errorPage.html.twig", [
+                "title" => "Scriber Editor",
+                "error" => "Pasirinktas failas nerastas."
+            ]);
+        }
 
         return $response;
     }

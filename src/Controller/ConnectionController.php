@@ -14,29 +14,15 @@ use App\Entity\UserCreditLog;
 use App\Entity\UserFile;
 use App\Form\FileUploadManager;
 use App\Pricing\CreditUpdates;
-use App\Model\Transcription;
-use App\Repository\TextGenerator;
 use App\Repository\WordBlockGenerator;
 use App\ScribeFormats\CtmTransformer;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 
 class ConnectionController extends AbstractController
 {
     const ERROR_NO_CREDITS = 'no_credits';
-
-    public function sendFileToScrybe(File $file)
-    {
-        $connector = new Connector();
-        $fileOperator = new FileUploadManager(null, null);
-        $request = new RequestModel($fileOperator->getBasePath() . $_ENV['AUDIO_FILES_UPLOAD_DIR'] . $file->getDir() . $file->getName());
-        $response = $connector->sendFile($request);
-
-        return $response;
-    }
 
     public function refreshStatus(string $userfileId, \Swift_Mailer $mailer)
     {
@@ -50,11 +36,7 @@ class ConnectionController extends AbstractController
         $responseStatus = $response->getResponseStatus();
 
         if ($responseStatus == ResponseModel::SUCCESS) {
-//            $this->showResults($jobId);
-            //saugome
-
             $this->sendEmail($userfileId, $mailer);
-
 
             return $this->forward('App\Controller\ConnectionController::saveResults', [
                 'userfileId' => $userfileId,
@@ -69,7 +51,7 @@ class ConnectionController extends AbstractController
         ]);
     }
 
-    public function sendEmail( string $userfileId, \Swift_Mailer $mailer): void
+    public function sendEmail(string $userfileId, \Swift_Mailer $mailer): void
     {
         $user = $this->getUser();
         $message = (new \Swift_Message('Scriber'))
@@ -90,45 +72,8 @@ class ConnectionController extends AbstractController
     {
         $entityManager = $this->getDoctrine()->getManager();
 
-        /** @var UserFile $userFile */
-        $userFile = $this->getDoctrine()->getRepository(UserFile::class)->findOneBy(['id'=>$userfileId, 'user'=>$this->getUser()]);
-        $originalFile = $userFile->getFile();
-        $connector = new Connector();
-
-        $jobStatus = $connector->checkJobStatus($originalFile->getJobId());
-
-        if($jobStatus->getResponseStatus() == ResponseModel::SUCCESS) {
-            $summary = $connector->getJobSummary($originalFile->getJobId());
-            $text = $connector->getScrybedTxt($originalFile->getJobId());
-            $ctm = $connector->getScrybedCtm($originalFile->getJobId());
-
-            if (empty($originalFile->getDefaultCtm())) {
-                $originalFile->setDefaultCtm($ctm->getRawCtm());
-                $originalFile->setPlainText($text);
-                $originalFile->setWordsCount($summary->getWords());
-                $originalFile->setConfidence($summary->getConfidence());
-                $entityManager->persist($originalFile);
-            }
-            if (empty($userFile->getText())) {
-                $ctmTransformer = new CtmTransformer();
-                $userFile->setText($ctmTransformer->getCtmJson($originalFile));
-                $userFile->setUpdated(new \DateTime());
-                $userFile->setScrybeStatus(UserFile::SCRYBE_STATUS_COMPLETED);
-                $entityManager->persist($userFile);
-
-                $creditUpdater = new CreditUpdates($entityManager);
-                $creditUpdater->chageUserCreditTotal($this->getUser(), $originalFile->getLength() * -1);
-                $creditUpdater->saveUserCreditChangeLog($this->getUser(), $originalFile->getLength() * -1, $originalFile);
-            }
-        }
-        elseif (in_array($jobStatus->getResponseStatus(), [ResponseModel::NO_SPEECH, ResponseModel::DECODING_ERROR, ResponseModel::ERROR, ResponseModel::TYPE_NOT_RECOGNIZED]) ) {
-            $userFile->setScrybeStatus(UserFile::SCRYBE_STATUS_SCRYBE_IMPOSIBLE);
-            $userFile->setUpdated(new \DateTime());
-            $userFile->setText([]);
-            $entityManager->persist($userFile);
-        }
-
-        $entityManager->flush();
+        $uploadManager = new FileUploadManager($this->getUser(), $entityManager);
+        $uploadManager->saveScrybeResults($userfileId);
 
         return $this->redirectToRoute('edit_scribed_text', ['userfileId' => $userfileId]);
 
@@ -136,40 +81,41 @@ class ConnectionController extends AbstractController
 
     public function processScrybeFile(string $userfileId, EntityManagerInterface $entityManager)
     {
-        /**
-         *  1. pasigetiname faila
-         * 2. patikriname ar jis jau turi vertima. jeigu taip, tuomet ji uzsetinkime vartotojo vertimui, Done.
-         * 3. jeigu neturi vertimo - siuskime ji i API
-         * 4. sumazinkime kreditus.
-         */
-
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
+
         /** @var User $user */
         $user = $this->getUser();
 
         /** @var UserFile $userFile */
-        $userFile = $entityManager->getRepository(UserFile::class)->find($userfileId);
-        $originalFile = $userFile->getFile();
+        $userFile = $entityManager->getRepository(UserFile::class)->findOneBy(['id'=>$userfileId, 'user'=>$user]);
 
-        if ($user->getCredits() < $originalFile->getLength()) {
-            return self::ERROR_NO_CREDITS;
+        $response = $this->render("home/errorPage.html.twig", [
+            "title" => "Scriber Editor",
+            "error" => "Klaida. Pasirinktas failas nerastas."
+        ]);
+
+        if ($userFile) {
+            $uploadManager = new FileUploadManager($this->getUser(), $entityManager);
+            $uploadStatus = $uploadManager->processScrybeFile($userFile);
+            if (empty($uploadStatus['error'])) {
+                $response = $this->redirectToRoute('check_scrybe_status', ['userfileId' => $userfileId]);
+            }
+            else {
+                $response = $this->render("home/errorPage.html.twig", [
+                    "title" => "Scriber Editor",
+                    "error" => $uploadStatus['error']
+                ]);
+            }
         }
 
-        if (empty($originalFile->getDefaultCtm())) {
-            $result = $this->sendFileToScrybe($originalFile);
-
-            $originalFile->setJobId($result->getRequestId());
-            $userFile->setScrybeStatus(UserFile::SCRYBE_STATUS_IN_PROGRESS);
-            $entityManager->flush();
-        }
-
-        return $this->redirectToRoute('check_scrybe_status', ['userfileId' => $userfileId]);
+        return $response;
     }
 
     public function checkTranscriptionStatus(string $userfileId)
     {
         /** @var UserFile $userFile */
-        $userFile = $this->getDoctrine()->getRepository(UserFile::class)->findOneBy(['id'=>$userfileId, 'user'=>$this->getUser()]);
+        $userFile = $this->getDoctrine()->getRepository(UserFile::class)->findOneBy(['id' => $userfileId, 'user' => $this->getUser()]);
 
         $originalFile = $userFile->getFile();
 
@@ -180,7 +126,7 @@ class ConnectionController extends AbstractController
         $responseMessage = $response->getResponseStatusText();
         $finished = in_array($responseStatus, [ResponseModel::SUCCESS, ResponseModel::NO_SPEECH, ResponseModel::DECODING_ERROR, ResponseModel::ERROR, ResponseModel::TYPE_NOT_RECOGNIZED]);
 
-        $response = new JsonResponse(['redirecting'=>$finished, 'message'=>$responseMessage]);
+        $response = new JsonResponse(['redirecting' => $finished, 'message' => $responseMessage]);
 
         return $response;
     }

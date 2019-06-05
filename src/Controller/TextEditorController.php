@@ -44,8 +44,9 @@ class TextEditorController extends AbstractController
             ]);
         }
 
-        return $this->render("home/userfileNotFound.html.twig", [
+        return $this->render("home/errorPage.html.twig", [
             "title" => "Scriber Editor",
+            "error" => "Pasirinktas failas nerastas."
         ]);
     }
 

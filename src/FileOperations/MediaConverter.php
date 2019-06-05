@@ -1,26 +1,23 @@
 <?php
 
 
-namespace App\Api;
+namespace App\FileOperations;
+
 
 
 use FFMpeg\Coordinate\Dimension;
 use FFMpeg\FFProbe;
 use FFMpeg\Filters\Video\ResizeFilter;
-use FFMpeg\Format\Audio\Flac;
 use FFMpeg\Format\Audio\Mp3;
 use FFMpeg\Format\Video\X264;
 use Symfony\Component\HttpFoundation\File\File;
 use FFMpeg\FFMpeg;
-use Symfony\Component\Validator\Constraints\Uuid;
 
 class MediaConverter
 {
 
-    public function ConvertFile(File $srcMedia): File
+    public function convertFile(File $srcMedia): File
     {
-        $convertResult = true;
-
         $ffmpeg = FFMpeg::create();
         $media = $ffmpeg->open($srcMedia->getPathname());
         $videoStreamCount = $media->getStreams()->videos();

@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\UserFile;
+use App\FileOperations\FileOperator;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
@@ -18,7 +19,9 @@ class MediaController extends AbstractController
         $response = new \Symfony\Component\HttpFoundation\Response('', 404);
         if ($userfile) {
             $mediaFile = $userfile->getFile();
-            $filePath = $_ENV['AUDIO_FILES_UPLOAD_DIR'] . $mediaFile->getFilePathName();
+
+            $fileOperator = new FileOperator();
+            $filePath = $fileOperator->getFileInternalPath($mediaFile);
             $response = new BinaryFileResponse($filePath);
         }
 

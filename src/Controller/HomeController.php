@@ -46,9 +46,11 @@ class HomeController extends AbstractController
             /** @var UploadedFile $uploadedFile */
             $uploadedFile = $request->files->get('uploadedFile');
             if ($uploadedFile->getError() === 0) {
-                if($fileOperator->processUploadFile($uploadedFile)) {
+                if ($fileOperator->processUploadFile($uploadedFile)) {
                     //upload sekmingas, keliaujame i dashboard
                     return $this->redirectToRoute('user_dashboard');
+                } else {
+                    $uploadError = true;
                 }
             } else {
                 $uploadError = $uploadedFile->getErrorMessage();
