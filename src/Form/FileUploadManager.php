@@ -78,8 +78,8 @@ class FileUploadManager
     {
         $result = false;
         if ($file) {
-            $mediaConverter = new MediaConverter();
-            $file = $mediaConverter->convertFile($file);
+//            $mediaConverter = new MediaConverter();
+//            $file = $mediaConverter->convertFile($file);
             $result = $file->move($newDir, $newName);
         }
         return $result;
