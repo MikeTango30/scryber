@@ -16,7 +16,6 @@ class UserDashboardController extends AbstractController
 
     public function showTranscriptions(Request $request, UserFileRepository $userFileRepository)
     {
-        phpinfo();
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         /** @var User $user */
         $user = $this->getUser();
@@ -25,6 +24,10 @@ class UserDashboardController extends AbstractController
         $pagesTotal = (int)ceil($userFileRepository->getUserfilesTotal($user) / self::ITEMS_PER_PAGE);
 
         $transcription_container = $userFileRepository->getUserfilesSorted($user, $currentPage, self::ITEMS_PER_PAGE);
+
+        if ($request->query->has('info')) {
+            phpinfo();
+        }
 
         return $this->render('userDashboard.html.twig', [
             "title" => "Mano Transkripcijos",
