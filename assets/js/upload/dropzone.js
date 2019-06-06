@@ -1302,7 +1302,7 @@ var Dropzone = function (_Emitter) {
 //         });
 
         this.on('queuecomplete', function (){
-            window.location.replace('/user_dashboard');
+            //window.location.replace('/user_dashboard');
         });
 ////////////////////////////////////////////////////////////////////////////////////////
       var noPropagation = function noPropagation(e) {

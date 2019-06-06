@@ -51,7 +51,7 @@ class FileUploadManager
         if (!$fileExistsInFileSystem) {
             $uploadedFile = new SymFile($this->uploadFileToServer(
                 $file,
-                $this->basePath . $_ENV['AUDIO_FILES_UPLOAD_DIR'] . $newFileDir,
+                $fileOperator->getFileInternalPathUsingString($newFileDir),
                 $newFileName
             ));
         } else {
