@@ -59,12 +59,12 @@
             state: link
         with_items: "{{ deployment.linked_directories + deployment.linked_files }}"
 
-      - name: "Keep ffprobe accesible"new version
+      - name: "Keep ffprobe accesible"
         shell: ln -s /usr/bin/ffprobe /home/scryber/current/public/ffprobe
         args:
             chdir: "{{ deploy_helper.new_release_path }}"
 
-      - name: "Keep ffpeg accesible"new version
+      - name: "Keep ffpeg accesible"
         shell: ln -s /usr/bin/ffmpeg /home/scryber/current/public/ffmpeg
         args:
             chdir: "{{ deploy_helper.new_release_path }}"
