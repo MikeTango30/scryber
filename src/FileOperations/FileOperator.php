@@ -17,6 +17,10 @@ class FileOperator
         $this->wwwMediaDir = $_ENV['AUDIO_FILES_UPLOAD_DIR'];
     }
 
+    /**
+     * @param File $file
+     * @return string
+     */
     public function getFileInternalPath(File $file) : string
     {
         $path = '';
@@ -28,6 +32,10 @@ class FileOperator
         return $path;
     }
 
+    /**
+     * @param string $path
+     * @return string
+     */
     public function getFileInternalPathUsingString(string $path) : string
     {
         return $this->internalMediaDir.$path;

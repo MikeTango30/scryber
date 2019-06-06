@@ -58,8 +58,9 @@ class FileUploadManager
             $uploadedFile = new SymFile($fileOperator->getFileInternalPathUsingString($newFileDir . $newFileName));
         }
         if (!$fileExistsInDb) {
-            $mediaConverter = new MediaConverter();
-            $fileDuration = $mediaConverter->getMediaDuration($uploadedFile);
+//            $mediaConverter = new MediaConverter();
+//            $fileDuration = $mediaConverter->getMediaDuration($uploadedFile);
+            $fileDuration = 11;
             $fileExistsInDb = $this->saveFileEntry($uploadedFile, $newFileDir, $fileMd5, $fileDuration);
         }
 
