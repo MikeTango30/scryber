@@ -27,3 +27,9 @@
     color: $color__royal-blue;
     text-decoration: none !important;
 }
+
+.list-group-item {
+    &.export {
+        color: $color__royal-blue;
+    }
+}

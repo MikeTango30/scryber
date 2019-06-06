@@ -45,13 +45,12 @@
       <p class="help muted">išjungti originalių <strong style="color: black">[žodžių]</strong> rodymą vietoje ištrinto žodžio</p>
     </div>
     <button class="button" id="downloadButton" role="button" data-toggle="tooltip" title="Parsiųsti redaktoriuje esančią teksto versiją">Parsisiųsti transkripciją</button>
+    <p class="help muted">Parsiųsti redaktoriuje esančią teksto versiją</p>
     <div class="pt-5 list-h">
-        <a class="list-group-item"
-           href="{{ url('export_txt', {'userfileId': userfileId} ) }}" role="link" data-toggle="tooltip" title="Parsisųsti kaip tekstą"><i class="fas fa-download"></i></a>
-&nbsp;
-        <a class="list-group-item"
-           href="{{ url('export_subtitles', {'userfileId': userfileId} ) }}" role="link" data-toggle="tooltip" title="Parsisųsti kaip subtitrus"><i class="fas fa-closed-captioning"></i></a>
-      &nbsp;
+        <a class="list-group-item export"
+           href="{{ url('export_txt', {'userfileId': userfileId} ) }}" role="link" data-toggle="tooltip" title="Parsisųsti pirminę teksto versiją kaip tekstą"><i class="fas fa-download"></i></a>
+        <a class="list-group-item export"
+           href="{{ url('export_subtitles', {'userfileId': userfileId} ) }}" role="link" data-toggle="tooltip" title="Parsisųsti pirminę teksto versiją kaip subtitrus"><i class="fas fa-closed-captioning"></i></a>
 {#
         <a class="list-group-item requires-confirm"
            href="{{ url('restore_file', {'userfileId': userfileId} ) }}" role="link" data-toggle="tooltip" title="Atstatyti pradinę transkripciją"><i class="fas fa-undo-alt"></i></a> #}

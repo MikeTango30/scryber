@@ -1,0 +1,12 @@
+.page-link {
+    color: $color__royal-blue;
+}
+
+.page-item {
+    &.active {
+        .page-link {
+            background-color: $color__royal-blue;
+            text-decoration-color: $color__white;
+        }
+    }
+}
