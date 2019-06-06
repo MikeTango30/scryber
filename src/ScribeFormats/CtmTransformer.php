@@ -11,25 +11,11 @@ use App\Model\TranscriptionLine;
 
 class CtmTransformer
 {
-
-    private $lastTime;
-    private $lastDuration;
-    private $lastUtterance;
-    private $lastUtteranceBegin;
-
-    public function __construct()
-    {
-        $this->lastTime = 0;
-        $this->lastDuration = 0;
-        $this->lastUtterance = null;
-        $this->lastUtteranceBegin = 0;
-    }
-
     /**
      * @param File $file
      * @return array
      */
-    public function getCtmJson(File $file) : array
+    public function getCtmJson(File $file): array
     {
         $ctm = new CtmModel($file->getDefaultCtm());
         $text = $file->getPlainText();
@@ -37,7 +23,7 @@ class CtmTransformer
         $words = explode(' ', $text);
         $wordsCount = $file->getWordsCount();
 
-        if(count($words)!==$wordsCount)
+        if (count($words) !== $wordsCount)
             return new \Exception("Unable to format JSON from CTM source", 1);
 
         $jsonObject = [];
@@ -46,7 +32,7 @@ class CtmTransformer
         $currentDec = 0;
         /** @var CtmLine $_ctm */
         foreach ($ctm->getCtm() as $_ctm) {
-            $beginTime = $this->getUpdatedTime($_ctm->getBeginTime(), $_ctm->getDuration(), $_ctm->getUtterance());
+            $beginTime = $this->getUpdatedTime($_ctm->getBeginTime(), $_ctm->getUtterance());
             $endTime = $beginTime + $_ctm->getDuration();
             $transcriptionLine = new TranscriptionLine(
                 $beginTime,
@@ -64,17 +50,29 @@ class CtmTransformer
         return $jsonObject;
     }
 
-    private function getUpdatedTime(float $currentTime, float $currentDuration, string $utterance) : float
+    /**
+     * @param float $currentTime
+     * @param string $utterance
+     * @return float
+     */
+    private function getUpdatedTime(float $currentTime, string $utterance): float
     {
         $updatedTime = 0.0;
-        if ($this->lastUtterance != $utterance) {
-            $this->lastUtterance = $utterance;
-            $this->lastUtteranceBegin += $this->lastTime + $this->lastDuration;
-        }
-        $updatedTime = $currentTime + $this->lastUtteranceBegin;
-        $this->lastTime = $currentTime + $currentDuration;
-        $this->lastDuration = $currentDuration;
+        $updatedTime = $currentTime + $this->extractBeginTimeFromUtterance($utterance);
 
         return $updatedTime;
+    }
+
+    /**
+     * @param string $utterance
+     * @return array|float|string
+     */
+    private function extractBeginTimeFromUtterance(string $utterance)
+    {
+        $beginTime = 0.0;
+        list($partNo, , $beginTime, $endTime) = preg_split("/[-_]/", $utterance);
+
+        return $beginTime;
+
     }
 }
