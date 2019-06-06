@@ -40,14 +40,14 @@ class MediaConverter
             $convertResult = true;
         }
 
-//        if ($convertResult) {
-//            $targetMediaName = 'file_'.time().'_'.rand(10, 1000).'.mp4';
-//            $targetMediaPathName = $srcMedia->getPath().DIRECTORY_SEPARATOR.$targetMediaName;
-//            $media->save($format, $targetMediaPathName);
-//
-//            $convertedFile = new File($targetMediaPathName);
-//            $srcMedia = $convertedFile;
-//        }
+        if ($convertResult) {
+            $targetMediaName = 'file_'.time().'_'.rand(10, 1000).'.mp4';
+            $targetMediaPathName = $srcMedia->getPath().DIRECTORY_SEPARATOR.$targetMediaName;
+            $media->save($format, $targetMediaPathName);
+
+            $convertedFile = new File($targetMediaPathName);
+            $srcMedia = $convertedFile;
+        }
 
         return $srcMedia;
     }
