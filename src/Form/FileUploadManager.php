@@ -13,28 +13,17 @@ use App\Entity\User;
 use App\Entity\UserFile;
 use App\Pricing\CreditUpdates;
 use App\ScribeFormats\CtmTransformer;
-use Doctrine\Common\Persistence\ObjectManager;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\File\File as SymFile;
 
 class FileUploadManager
 {
-    protected $basePath;
-
-    /**
-     * @return string
-     */
-    public function getBasePath(): string
-    {
-        return $this->basePath;
-    }
-
     protected $entityManager;
     private $user;
 
-    public function __construct(?User $user, ?ObjectManager $entityManager)
+    public function __construct(User $user, EntityManagerInterface $entityManager)
     {
         $this->basePath = getcwd() . DIRECTORY_SEPARATOR;
         $this->user = $user;
@@ -130,7 +119,7 @@ class FileUploadManager
     {
 
         $fileEntry = new File();
-        $fileEntry->setCreated(new \DateTime());
+        $fileEntry->setCreated(new DateTime());
         $fileEntry->setDir($dir);
         $fileEntry->setMd5($fileMd5);
         $fileEntry->setName($file->getFilename());
@@ -153,10 +142,10 @@ class FileUploadManager
     {
 
         $userFile = new UserFile();
-        $userFile->setCreated(new \DateTime());
+        $userFile->setCreated(new DateTime());
         $userFile->setFile($file);
         $userFile->setScrybeStatus(UserFile::SCRYBE_STATUS_NOT_SCRYBED);
-        $userFile->setUpdated(new \DateTime());
+        $userFile->setUpdated(new DateTime());
         $userFile->setUser($user);
         $userFile->setTitle($fileTitle);
 
@@ -210,7 +199,7 @@ class FileUploadManager
                 if ($userFile->getUser()->getId() == $this->user->getId() && empty($userFile->getText())) {
                     $ctmTransformer = new CtmTransformer();
                     $userFile->setText($ctmTransformer->getCtmJson($originalFile));
-                    $userFile->setUpdated(new \DateTime());
+                    $userFile->setUpdated(new DateTime());
                     $userFile->setScrybeStatus(UserFile::SCRYBE_STATUS_COMPLETED);
                     $this->entityManager->persist($userFile);
 
@@ -220,7 +209,7 @@ class FileUploadManager
                 }
             } elseif ($userFile->getUser()->getId() == $this->user->getId() && in_array($jobStatus->getResponseStatus(), [ResponseModel::NO_SPEECH, ResponseModel::DECODING_ERROR, ResponseModel::ERROR, ResponseModel::TYPE_NOT_RECOGNIZED])) {
                 $userFile->setScrybeStatus(UserFile::SCRYBE_STATUS_SCRYBE_IMPOSIBLE);
-                $userFile->setUpdated(new \DateTime());
+                $userFile->setUpdated(new DateTime());
                 $userFile->setText([]);
                 $this->entityManager->persist($userFile);
             }
