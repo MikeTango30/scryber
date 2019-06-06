@@ -4,12 +4,9 @@
 namespace App\Controller;
 
 
-use App\Entity\CreditLog;
-use App\Entity\File;
 use App\Entity\User;
 use App\Entity\UserFile;
 use App\Repository\UserFileRepository;
-use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -19,6 +16,7 @@ class UserDashboardController extends AbstractController
 
     public function showTranscriptions(Request $request, UserFileRepository $userFileRepository)
     {
+        phpinfo();
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         /** @var User $user */
         $user = $this->getUser();
