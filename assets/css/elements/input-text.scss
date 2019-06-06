@@ -25,22 +25,3 @@
         cursor: not-allowed;
     }
 }
-
-.control {
-    // Arrangement for having icons in input field
-    
-    $icon-sides: left, right;
-    @each $side in $icon-sides {
-        &--has-icon-#{$side} {
-            .input {
-                padding-#{$side}: 3rem;
-            }
-        }
-    }
-
-    &__icon {
-        position: absolute;
-        padding: .8rem;
-        color: $color__text-muted;
-    }
-}

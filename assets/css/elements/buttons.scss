@@ -1,28 +1,10 @@
 .button {
-    //namų darbas
-    // Arrangement for having icons in a button
-
-    $icon-sides: left, right;
-    @each $side in $icon-sides {
-        &--has-icon-#{$side} {
-            .button {
-                padding-#{$side}: 2.5rem;
-            }
-        }
-    }
-
-    &__icon {
-        position: absolute;
-        padding: .8rem;
-        color: $color__white;
-    }
-
     @include button-base();
     color: $color__white;
     background: $background__button;
     @include input-border();
     @include focusable();
-    
+
     &:hover {
         background: darken($background__button, 10%);
     }
