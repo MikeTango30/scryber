@@ -38,8 +38,14 @@ class HomeController extends AbstractController
         $uploadError = false;
         $entityManager = $this->getDoctrine()->getManager();
 
+
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $user = $this->getUser();
+
+        $response = $this->render('home/upload.html.twig', [
+            'title' => 'Įkelti failą',
+            'text' => !$user ? 'Please login first' : $uploadError
+        ]);
 
         if (!$user || $request->files->has('uploadedFile')) {
             $fileOperator = new FileUploadManager($user, $entityManager);
@@ -48,17 +54,24 @@ class HomeController extends AbstractController
             if ($uploadedFile->getError() === 0) {
                 if ($fileOperator->processUploadFile($uploadedFile)) {
                     //upload sekmingas, keliaujame i dashboard
-                    return $this->redirectToRoute('user_dashboard');
+                    $response = $this->redirectToRoute('user_dashboard');
                 } else {
-                    $uploadError = true;
+                    $uploadError = '';
+                    $response = $this->render('home/upload.html.twig', [
+                        'title' => 'Įkelti failą',
+                        'text' => !$user ? 'Please login first' : $uploadError
+                    ]);
                 }
             } else {
                 $uploadError = $uploadedFile->getErrorMessage();
+                $response = $this->render('home/upload.html.twig', [
+                    'title' => 'Įkelti failą',
+                    'text' => !$user ? 'Please login first' : $uploadError
+                ]);
             }
         }
-        return $this->render('home/upload.html.twig', [
-            'title' => 'Įkelti failą',
-            'text' => !$user ? 'Please login first' : $uploadError
-        ]);
+
+
+        return $response;
     }
 }
